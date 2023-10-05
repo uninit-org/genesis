@@ -19,7 +19,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "xyz.genesisapp.genesis.MainKt"
+        mainClass = "xyz.genesisapp.genesis.Application"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
