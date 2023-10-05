@@ -8,9 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/genesis-native" />
-            <option value="$PROJECT_DIR$/libdiscord" />
+            <option value="$PROJECT_DIR$/appAndroid" />
+            <option value="$PROJECT_DIR$/appDesktop" />
+            <option value="$PROJECT_DIR$/genesis" />
+            <option value="$PROJECT_DIR$/genesis/app" />
+            <option value="$PROJECT_DIR$/genesis/discord" />
           </set>
         </option>
       </GradleProjectSettings>

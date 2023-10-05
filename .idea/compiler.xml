@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7" />
+    <bytecodeTargetLevel target="17">
+      <module name="Genesis.app" target="17" />
+      <module name="Genesis.buildSrc" target="17" />
+      <module name="Genesis.buildSrc.main" target="17" />
+      <module name="Genesis.buildSrc.test" target="17" />
+      <module name="Genesis.cradle" target="17" />
+      <module name="Genesis.cradle.main" target="17" />
+      <module name="Genesis.cradle.test" target="17" />
+      <module name="Genesis.genesis-native" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
