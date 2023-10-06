@@ -3,7 +3,7 @@
 //  sharesheet
 //
 //  Created by Luna on 10/6/23.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 genesis. All rights reserved.
 //
 
 import UIKit

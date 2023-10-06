@@ -1,3 +1,11 @@
+//
+//  ContentView.swift
+//  genesis
+//
+//  Created by Luna on 10/6/23.
+//  Copyright © 2023 genesis. All rights reserved.
+//
+
 import UIKit
 import SwiftUI
 import genesisCore
