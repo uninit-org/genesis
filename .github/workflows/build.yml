@@ -8,7 +8,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -19,59 +19,39 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Build
+      - name: Build linux
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          ./gradlew --no-daemon build
+          ./gradlew --no-daemon appAndroid:build
           ./gradlew --no-daemon package
 
-      - name: Build iOS Release
-        if: matrix.os == 'macos-latest' && github.event_name == 'release'
-        run: |
-          cd appiOS
-          xcrun xcodebuild build
-          xcrun /usr/bin/xcodebuild -scheme iosApp -configuration Release clean archive -archivePath "build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-          cd build/genesis.xcarchive/Products/Applications/Genesis.app
-          zip -r ../../../../genesis.ipa .
-
-      - name: Build iOS
-        if: matrix.os == 'macos-latest' && github.event_name == 'push'
-        run: |
-          cd appiOS
-          xcrun xcodebuild build
-          xcrun /usr/bin/xcodebuild -scheme iosApp -configuration Debug clean archive -archivePath "build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-          cd build/genesis.xcarchive/Products/Applications/Genesis.app
-          zip -r ../../../../genesis.ipa .
-
-      - name: debug
-        run: |
-          ls /appDesktop/build/compose/binaries/main
-
-      # - name: Upload EXE
-      #   uses: actions/upload-artifact@v3
-      #   if: matrix.os == 'windows-latest'
-      #   with:
-      #     name: genesis.exe
-      #     path: appDesktop/build/
-
-      - name: Upload DMG
-        uses: actions/upload-artifact@v3
+      - name: Build macOS
         if: matrix.os == 'macos-latest'
-        with:
-          path: appDesktop/build/compose/binaries/main/dmg/*.dmg
+        run: |
+          ./gradlew --no-daemon :appDesktop:package
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-latest' && github.event_name == 'push'
-        with:
-          name: genesis.apk
-          path: appAndroid/build/outputs/apk/debug/appAndroid-debug.apk
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          ./gradlew --no-daemon :appDesktop:createDistributable
+          cd appDesktop/build/compose/binaries/main/
+          Compress-Archive -Path app -Destination genesis.zip
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-latest' && github.event_name == 'release'
-        with:
-          name: genesis.apk
-          path: appAndroid/build/outputs/apk/release/appAndroid-release-unsigned.apk
+      - name: Build iOS Release
+        if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
+        run: |
+          xcrun xcodebuild archive -project appiOS/iosApp.xcodeproj -scheme iosApp -configuration Release -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          cd appIos/build/genesis.xcarchive/Products
+          mv Applications Payload
+          zip -r ../../genesis.ipa Payload
+
+      - name: Build iOS Debug
+        if: matrix.os == 'macos-latest' && !startsWith(github.ref, 'refs/tags/')
+        run: |
+          xcrun xcodebuild archive -project appiOS/iosApp.xcodeproj -scheme iosApp -configuration Debug -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          cd appIos/build/genesis.xcarchive/Products
+          mv Applications Payload
+          zip -r ../../genesis.ipa Payload
 
       - name: Upload IPA
         uses: actions/upload-artifact@v3
@@ -79,3 +59,41 @@ jobs:
         with:
           name: genesis.ipa
           path: appIos/build/genesis.ipa
+
+      - name: Upload DEB
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: genesis.deb
+          path: appDesktop/build/compose/binaries/main/deb/*.deb
+
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'windows-latest'
+        with:
+          name: genesis.zip
+          path: appDesktop/build/compose/binaries/main/genesis.zip
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest' && !startsWith(github.ref, 'refs/tags/')
+        with:
+          name: genesis.apk
+          path: appAndroid/build/outputs/apk/release/appAndroid-release-unsigned.apk
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/')
+        with:
+          name: genesis.apk
+          path: appAndroid/build/outputs/apk/debug/appAndroid-debug.apk
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            appDesktop/build/compose/binaries/main/deb/*.deb
+            appDesktop/build/compose/binaries/main/genesis.zip
+            appAndroid/build/outputs/apk/release/appAndroid-release-unsigned.apk
+            appIos/build/genesis.ipa
