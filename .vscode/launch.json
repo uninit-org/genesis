@@ -1,0 +1,13 @@
+{
+  "configurations": [
+    {
+      "type": "kotlin",
+      "request": "attach",
+      "name": "Kotlin Attach",
+      "hostName": "localhost",
+      "projectRoot": "${workspaceFolder}/appDesktop",
+      "port": 5005,
+      "timeout": 30000
+    }
+  ]
+}

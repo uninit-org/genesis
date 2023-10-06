@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "./gradlew run appDesktop:run"
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "./gradlew build appDesktop:build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
