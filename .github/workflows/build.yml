@@ -35,7 +35,7 @@ jobs:
       - name: Build iOS Release
         if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
         run: |
-          xcrun xcodebuild archive -project appiOS/iosApp.xcodeproj -scheme iosApp -configuration Release -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          xcrun xcodebuild archive -project appiOS/genesis.xcodeproj -scheme genesis -configuration Release -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
           cd appIos/build/genesis.xcarchive/Products
           mv Applications Payload
           zip -r ../../genesis.ipa Payload
@@ -43,7 +43,7 @@ jobs:
       - name: Build iOS Debug
         if: matrix.os == 'macos-latest' && !startsWith(github.ref, 'refs/tags/')
         run: |
-          xcrun xcodebuild archive -project appiOS/iosApp.xcodeproj -scheme iosApp -configuration Debug -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          xcrun xcodebuild archive -project appiOS/genesis.xcodeproj -scheme genesis -configuration Debug -archivePath "appIos/build/genesis.xcarchive" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
           cd appIos/build/genesis.xcarchive/Products
           mv Applications Payload
           zip -r ../../genesis.ipa Payload
