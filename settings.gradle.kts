@@ -21,8 +21,10 @@ plugins {
 
 include(":appAndroid")
 include(":appDesktop")
-//include(":appIos") appIos is an xcode project, this is just here as a symbolic measure.
+//include(":appIos") this is an xcode proj, not gradle.
 include(":genesis:app")
-include(":genesis:discord")
+include(":genesis:discord:api")
+include(":genesis:discord:client")
+include(":genesis:common")
 // include(":genesis:nativeVoice") TODO: soon:tm:
 

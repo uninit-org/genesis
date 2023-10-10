@@ -12,7 +12,10 @@
             <option value="$PROJECT_DIR$/appDesktop" />
             <option value="$PROJECT_DIR$/genesis" />
             <option value="$PROJECT_DIR$/genesis/app" />
+            <option value="$PROJECT_DIR$/genesis/common" />
             <option value="$PROJECT_DIR$/genesis/discord" />
+            <option value="$PROJECT_DIR$/genesis/discord/api" />
+            <option value="$PROJECT_DIR$/genesis/discord/client" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -2,6 +2,8 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+//    id("dev.icerock.mobile.multiplatform-resources")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -25,9 +27,16 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
+                implementation(compose.material3)
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                api(libs.moko.resources.common)
+                api(libs.moko.resources.compose)
+
+                implementation(libs.serialization.json)
+
             }
 
         }
@@ -74,3 +83,9 @@ android {
         jvmToolchain(17)
     }
 }
+//multiplatformResources {
+//    multiplatformResourcesPackage = "xyz.genesisapp.discord"
+//    multiplatformResourcesClassName = "R"
+////    iosBaseLocaliazationRegion = "en"
+//
+//}

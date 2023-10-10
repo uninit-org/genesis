@@ -22,7 +22,13 @@ compose.desktop {
         mainClass = "xyz.genesisapp.genesis.Application"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(
+                TargetFormat.Deb,
+                TargetFormat.Rpm,
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Exe
+            )
             packageName = "Genesis"
             packageVersion = "1.0.0"
         }

@@ -1,11 +1,13 @@
 package xyz.genesisapp.genesis.core
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.Surface
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,27 +17,44 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import xyz.genesisapp.genesis.core.theme.Theme
+import xyz.genesisapp.genesis.core.theme.ThemeProvider
+import xyz.genesisapp.genesis.core.theme.builtin.Catppuccin
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    MaterialTheme {
+    ThemeProvider(Catppuccin.Mocha.Rosewater) {
         var greetingText by remember { mutableStateOf("Hello, World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {
-                greetingText = "Hello, ${getPlatformName()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
-            }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    contentDescription = "Compose Multiplatform icon"
-                )
+        var showOther by remember { mutableStateOf(false) }
+
+        Scaffold(
+            modifier = Modifier
+                .background(background)
+                .fillMaxSize()
+        ) { pv ->
+            Box(modifier = Modifier
+                .padding(pv)
+                .fillMaxSize(),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Button(onClick = {
+                        showOther = !showOther
+                    }) {
+                        Text("hiiii")
+                    }
+                    AnimatedVisibility(showOther) {
+                        Text("meowmeow >w<")
+                    }
+                }
             }
         }
+
     }
 }
 
