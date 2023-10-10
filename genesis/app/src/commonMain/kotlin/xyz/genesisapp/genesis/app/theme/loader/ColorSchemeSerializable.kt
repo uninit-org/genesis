@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.core.theme.loader
+package xyz.genesisapp.genesis.app.theme.loader
 
 import androidx.compose.ui.graphics.Color
 

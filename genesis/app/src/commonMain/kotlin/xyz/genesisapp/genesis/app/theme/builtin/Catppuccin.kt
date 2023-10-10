@@ -1,47 +1,55 @@
-package xyz.genesisapp.genesis.core.theme.builtin
+package xyz.genesisapp.genesis.app.theme.builtin
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import xyz.genesisapp.genesis.core.theme.Theme
-import kotlin.jvm.JvmStatic
+import xyz.genesisapp.genesis.app.theme.Theme
 
 object Catppuccin {
-    internal fun flavorToTheme(flavor: Flavor, primary: Color, secondary: Color, tertiary: Color, error: Color): Lazy<Theme> {
-        return lazy { object : Theme() {
-            @Composable
-            override fun getColors(): ColorScheme {
-            infix fun Color.tone(tone: Int): Color {
-                // TODO: see if this is just a gradient (#000 0% -> {color} 40% -> #fff 100%)
-                fun tonalize(color: Float, colorWeight: Float, tone: Float): Float {
-                    return maxOf(minOf(color * (tone / colorWeight), 1F), 0F)
+    internal fun flavorToTheme(
+        flavor: Flavor,
+        primary: Color,
+        secondary: Color,
+        tertiary: Color,
+        error: Color
+    ): Lazy<Theme> {
+        return lazy {
+            object : Theme() {
+                @Composable
+                override fun getColors(): ColorScheme {
+                    infix fun Color.tone(tone: Int): Color {
+                        // TODO: see if this is just a gradient (#000 0% -> {color} 40% -> #fff 100%)
+                        fun tonalize(color: Float, colorWeight: Float, tone: Float): Float {
+                            return maxOf(minOf(color * (tone / colorWeight), 1F), 0F)
+                        }
+                        return Color(
+                            tonalize(red, 0.4F, tone.toFloat() / 100),
+                            tonalize(green, 0.4F, tone.toFloat() / 100),
+                            tonalize(blue, 0.4F, tone.toFloat() / 100),
+                            alpha
+                        )
+                    }
+                    return darkColorScheme(
+                        primary = primary,
+                        secondary = secondary,
+
+                        tertiary = tertiary,
+
+                        background = flavor.Crust,
+                        onBackground = flavor.Base,
+                        surface = flavor.Base,
+                        onSurface = flavor.Text,
+                        surfaceVariant = flavor.Surface1,
+                        onSurfaceVariant = flavor.Surface2,
+                        surfaceTint = flavor.Overlay0,
+                        inverseSurface = flavor.Overlay1,
+                        inverseOnSurface = flavor.Overlay2,
+                        error = error,
+                    )
                 }
-                return Color(
-                    tonalize(red, 0.4F, tone.toFloat() / 100),
-                    tonalize(green, 0.4F, tone.toFloat() / 100),
-                    tonalize(blue, 0.4F, tone.toFloat() / 100),
-                    alpha
-                )
             }
-            return darkColorScheme(
-                primary = primary,
-                secondary = secondary,
-
-                tertiary = tertiary,
-
-                background = flavor.Crust,
-                onBackground = flavor.Base,
-                surface = flavor.Base,
-                onSurface = flavor.Text,
-                surfaceVariant = flavor.Surface1,
-                onSurfaceVariant = flavor.Surface2,
-                surfaceTint = flavor.Overlay0,
-                inverseSurface = flavor.Overlay1,
-                inverseOnSurface = flavor.Overlay2,
-                error = error,
-            )
-        }}}
+        }
     }
 
     sealed class Flavor(
@@ -77,6 +85,7 @@ object Catppuccin {
         val Flamingo: Color,
         val Rosewater: Color,
     )
+
     sealed class ThemePack(flavor: Flavor) {
         val Lavender by flavorToTheme(flavor, flavor.Lavender, flavor.Sapphire, flavor.Teal, flavor.Red)
         val Blue by flavorToTheme(flavor, flavor.Blue, flavor.Sky, flavor.Green, flavor.Maroon)
@@ -91,7 +100,7 @@ object Catppuccin {
         val Mauve by flavorToTheme(flavor, flavor.Mauve, flavor.Flamingo, flavor.Lavender, flavor.Red)
         val Pink by flavorToTheme(flavor, flavor.Pink, flavor.Rosewater, flavor.Blue, flavor.Maroon)
         val Flamingo by flavorToTheme(flavor, flavor.Flamingo, flavor.Lavender, flavor.Sapphire, flavor.Red)
-        val Rosewater  by flavorToTheme(flavor, flavor.Rosewater, flavor.Blue, flavor.Sky, flavor.Maroon)
+        val Rosewater by flavorToTheme(flavor, flavor.Rosewater, flavor.Blue, flavor.Sky, flavor.Maroon)
     }
 
     @PublishedApi
@@ -128,6 +137,7 @@ object Catppuccin {
         Flamingo = Color(0xFFdd7878),
         Rosewater = Color(0xFFdc8a78)
     )
+
     @PublishedApi
     internal data object FrappeFlavor : Flavor(
         Crust = Color(0xFF232634),
@@ -232,6 +242,7 @@ object Catppuccin {
         Flamingo = Color(0xFFf2cdcd),
         Rosewater = Color(0xFFf5e0dc)
     )
+
     object Latte : ThemePack(LatteFlavor)
     object Frappe : ThemePack(FrappeFlavor)
     object Macchiato : ThemePack(MacchiatoFlavor)

@@ -7,8 +7,9 @@ plugins {
 
 kotlin {
     jvm()
+    jvmToolchain(17)
     sourceSets {
-        val jvmMain by getting  {
+        val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":genesis:app"))

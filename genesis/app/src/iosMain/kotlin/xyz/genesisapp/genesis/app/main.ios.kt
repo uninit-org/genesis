@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.core
+package xyz.genesisapp.genesis.app
 
 import androidx.compose.ui.window.ComposeUIViewController
 

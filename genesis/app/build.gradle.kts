@@ -17,7 +17,8 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "genesisCore"
+            baseName = "genesisApp"
+            binaryOption("bundleId", "xyz.genesisapp.genesis.app")
             isStatic = true
         }
     }
@@ -66,7 +67,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "xyz.genesisapp.genesis.core"
+    namespace = "xyz.genesisapp.genesis.app"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

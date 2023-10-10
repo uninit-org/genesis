@@ -16,6 +16,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "genesisDiscordApi"
+            binaryOption("bundleId", "xyz.genesisapp.discord.api")
             isStatic = true
         }
     }

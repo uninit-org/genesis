@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftUI
-import genesisCore
+import genesisApp
 
 struct ComposeView: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UIViewController {

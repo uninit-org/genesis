@@ -16,6 +16,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "genesisCommon"
+            binaryOption("bundleId", "xyz.genesisapp.common")
             isStatic = true
         }
     }

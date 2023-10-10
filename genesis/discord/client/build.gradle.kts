@@ -15,7 +15,8 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "genesisDiscordApi"
+            baseName = "genesisDiscordClient"
+            binaryOption("bundleId", "xyz.genesisapp.discord.client")
             isStatic = true
         }
     }

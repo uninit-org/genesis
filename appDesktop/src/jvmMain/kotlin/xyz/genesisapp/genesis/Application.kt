@@ -2,7 +2,7 @@ package xyz.genesisapp.genesis
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import xyz.genesisapp.genesis.core.MainView
+import xyz.genesisapp.genesis.app.MainView
 
 class Application {
     companion object {
