@@ -19,6 +19,12 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install rpm-tools on Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+            sudo apt-get update
+            sudo apt-get install rpm
+
       - name: Build linux
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -61,6 +67,13 @@ jobs:
         with:
           name: genesis.deb
           path: appDesktop/build/compose/binaries/main/deb/*.deb
+
+      - name: Upload RPM
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: genesis.rpm
+          path: appDesktop/build/compose/binaries/main/rpm/*.rpm
 
       - name: Upload ZIP
         uses: actions/upload-artifact@v3

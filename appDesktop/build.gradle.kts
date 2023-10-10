@@ -26,7 +26,6 @@ compose.desktop {
                 TargetFormat.Deb,
                 TargetFormat.Rpm,
                 TargetFormat.Dmg,
-                TargetFormat.Msi,
                 TargetFormat.Exe
             )
             packageName = "Genesis"
