@@ -2,10 +2,15 @@ package xyz.genesisapp.genesis.app.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
 import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import xyz.genesisapp.genesis.app.theme.loader.ColorSchemeSerializable
+
+data class ThemeDataClass(
+    val name: String,
+    val theme: Theme,
+)
 
 abstract class Theme {
     @Composable
@@ -15,12 +20,14 @@ abstract class Theme {
     fun getTypography(): Typography {
         return MaterialTheme.typography
     }
+
     @Composable
     fun getShapes(): Shapes {
         return MaterialTheme.shapes
     }
+
     companion object {
-        fun fromCS(colors: ColorSchemeSerializable) : Theme {
+        fun fromCS(colors: ColorSchemeSerializable): Theme {
             return object : Theme() {
                 @Composable
                 override fun getColors(): ColorScheme {
