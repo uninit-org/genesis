@@ -8,6 +8,7 @@ import xyz.genesisapp.genesis.app.theme.Theme
 
 object Catppuccin {
     internal fun flavorToTheme(
+        name: String,
         flavor: Flavor,
         primary: Color,
         secondary: Color,
@@ -15,7 +16,8 @@ object Catppuccin {
         error: Color
     ): Lazy<Theme> {
         return lazy {
-            object : Theme() {
+            // replace mochaFlavor with mocha
+            object : Theme("Catppuccin $name") {
                 @Composable
                 override fun getColors(): ColorScheme {
                     infix fun Color.tone(tone: Int): Color {
@@ -86,21 +88,42 @@ object Catppuccin {
         val Rosewater: Color,
     )
 
-    sealed class ThemePack(flavor: Flavor) {
-        val Lavender by flavorToTheme(flavor, flavor.Lavender, flavor.Sapphire, flavor.Teal, flavor.Red)
-        val Blue by flavorToTheme(flavor, flavor.Blue, flavor.Sky, flavor.Green, flavor.Maroon)
-        val Sapphire by flavorToTheme(flavor, flavor.Sapphire, flavor.Teal, flavor.Yellow, flavor.Red)
-        val Sky by flavorToTheme(flavor, flavor.Sky, flavor.Green, flavor.Peach, flavor.Maroon)
-        val Teal by flavorToTheme(flavor, flavor.Teal, flavor.Yellow, flavor.Maroon, flavor.Red)
-        val Green by flavorToTheme(flavor, flavor.Green, flavor.Peach, flavor.Red, flavor.Maroon)
-        val Yellow by flavorToTheme(flavor, flavor.Yellow, flavor.Maroon, flavor.Mauve, flavor.Red)
-        val Peach by flavorToTheme(flavor, flavor.Peach, flavor.Red, flavor.Pink, flavor.Maroon)
-        val Maroon by flavorToTheme(flavor, flavor.Maroon, flavor.Mauve, flavor.Flamingo, flavor.Red)
-        val Red by flavorToTheme(flavor, flavor.Red, flavor.Pink, flavor.Rosewater, flavor.Maroon)
-        val Mauve by flavorToTheme(flavor, flavor.Mauve, flavor.Flamingo, flavor.Lavender, flavor.Red)
-        val Pink by flavorToTheme(flavor, flavor.Pink, flavor.Rosewater, flavor.Blue, flavor.Maroon)
-        val Flamingo by flavorToTheme(flavor, flavor.Flamingo, flavor.Lavender, flavor.Sapphire, flavor.Red)
-        val Rosewater by flavorToTheme(flavor, flavor.Rosewater, flavor.Blue, flavor.Sky, flavor.Maroon)
+    sealed class ThemePack(name: String, flavor: Flavor) {
+        val Lavender by flavorToTheme(
+            "$name Lavender",
+            flavor,
+            flavor.Lavender,
+            flavor.Sapphire,
+            flavor.Teal,
+            flavor.Red
+        )
+        val Blue by flavorToTheme("$name Blue", flavor, flavor.Blue, flavor.Sky, flavor.Green, flavor.Maroon)
+        val Sapphire by flavorToTheme("$name Sapphire", flavor, flavor.Sapphire, flavor.Teal, flavor.Yellow, flavor.Red)
+        val Sky by flavorToTheme("$name Sky", flavor, flavor.Sky, flavor.Green, flavor.Peach, flavor.Maroon)
+        val Teal by flavorToTheme("$name Teal", flavor, flavor.Teal, flavor.Yellow, flavor.Maroon, flavor.Red)
+        val Green by flavorToTheme("$name Green", flavor, flavor.Green, flavor.Peach, flavor.Red, flavor.Maroon)
+        val Yellow by flavorToTheme("$name Yellow", flavor, flavor.Yellow, flavor.Maroon, flavor.Mauve, flavor.Red)
+        val Peach by flavorToTheme("$name Peach", flavor, flavor.Peach, flavor.Red, flavor.Pink, flavor.Maroon)
+        val Maroon by flavorToTheme("$name Maroon", flavor, flavor.Maroon, flavor.Mauve, flavor.Flamingo, flavor.Red)
+        val Red by flavorToTheme("$name Red", flavor, flavor.Red, flavor.Pink, flavor.Rosewater, flavor.Maroon)
+        val Mauve by flavorToTheme("$name Mauve", flavor, flavor.Mauve, flavor.Flamingo, flavor.Lavender, flavor.Red)
+        val Pink by flavorToTheme("$name Pink", flavor, flavor.Pink, flavor.Rosewater, flavor.Blue, flavor.Maroon)
+        val Flamingo by flavorToTheme(
+            "$name Flamingo",
+            flavor,
+            flavor.Flamingo,
+            flavor.Lavender,
+            flavor.Sapphire,
+            flavor.Red
+        )
+        val Rosewater by flavorToTheme(
+            "$name Rosewater",
+            flavor,
+            flavor.Rosewater,
+            flavor.Blue,
+            flavor.Sky,
+            flavor.Maroon
+        )
     }
 
     @PublishedApi
@@ -243,10 +266,10 @@ object Catppuccin {
         Rosewater = Color(0xFFf5e0dc)
     )
 
-    object Latte : ThemePack(LatteFlavor)
-    object Frappe : ThemePack(FrappeFlavor)
-    object Macchiato : ThemePack(MacchiatoFlavor)
-    object Mocha : ThemePack(MochaFlavor)
+    object Latte : ThemePack("Latte", LatteFlavor)
+    object Frappe : ThemePack("Frappe", FrappeFlavor)
+    object Macchiato : ThemePack("Macchiato", MacchiatoFlavor)
+    object Mocha : ThemePack("Mocha", MochaFlavor)
 
     object Flavors {
         inline val Latte: Flavor

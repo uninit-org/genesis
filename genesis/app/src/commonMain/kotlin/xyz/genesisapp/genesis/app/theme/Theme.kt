@@ -7,12 +7,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import xyz.genesisapp.genesis.app.theme.loader.ColorSchemeSerializable
 
-data class ThemeDataClass(
-    val name: String,
-    val theme: Theme,
-)
-
-abstract class Theme {
+abstract class Theme(public val name: String) {
     @Composable
     abstract fun getColors(): ColorScheme
 
@@ -27,8 +22,8 @@ abstract class Theme {
     }
 
     companion object {
-        fun fromCS(colors: ColorSchemeSerializable): Theme {
-            return object : Theme() {
+        fun fromCS(name: String, colors: ColorSchemeSerializable): Theme {
+            return object : Theme(name) {
                 @Composable
                 override fun getColors(): ColorScheme {
                     return ColorScheme(
