@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -26,6 +27,7 @@ class LandingScreen : Screen {
 
         val registerScreen = rememberScreen(AuthSharedScreen.Login(false))
         val loginScreen = rememberScreen(AuthSharedScreen.Login(true))
+        val tokenScreen = rememberScreen(AuthSharedScreen.TokenLogin)
 
         Scaffold { pv ->
             Box(
@@ -44,7 +46,7 @@ class LandingScreen : Screen {
                     modifier = Modifier
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Bottom,
                 ) {
 
                     Text(
@@ -61,12 +63,22 @@ class LandingScreen : Screen {
 
                     Button(
                         onClick = {
+                            navigator.push(tokenScreen)
+                        }
+                    ) {
+                        Text("Login with token")
+                    }
+
+                    Button(
+                        onClick = {
                             navigator.push(registerScreen)
                         }
 
                     ) {
                         Text("Sign Up")
                     }
+                    
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
 
 

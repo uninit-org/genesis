@@ -10,6 +10,7 @@ import cafe.adriel.voyager.navigator.Navigator
 sealed class AuthSharedScreen : ScreenProvider {
     data object Landing : AuthSharedScreen()
     data class Login(val isLogin: Boolean) : AuthSharedScreen()
+    data object TokenLogin : AuthSharedScreen()
 }
 
 val AuthScreenModule = screenModule {
@@ -19,6 +20,7 @@ val AuthScreenModule = screenModule {
             isLogin = provider.isLogin
         )
     }
+    register<AuthSharedScreen.TokenLogin> { TokenLoginScreen() }
 }
 
 class AuthScreenView : Screen {
