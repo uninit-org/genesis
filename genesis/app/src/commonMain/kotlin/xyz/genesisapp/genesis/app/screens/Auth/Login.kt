@@ -1,6 +1,7 @@
 package xyz.genesisapp.genesis.app.screens.Auth
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -9,12 +10,18 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.coroutines.launch
 import xyz.genesisapp.genesis.app.Components.BackArrow
 import xyz.genesisapp.genesis.app.screens.RootSharedScreen
 
@@ -82,8 +89,7 @@ class LoginScreen(
 
                     Button(
                         onClick = {
-                            rootNavigator.push(loadingScreen)
-                            authNavigator.pop()
+
                         }
                     ) {
                         Text(
@@ -110,6 +116,9 @@ class TokenLoginScreen() : Screen {
         val loadingScreen = rememberScreen(RootSharedScreen.Loading)
 
         var token by remember { mutableStateOf("") }
+        var failed by remember { mutableStateOf(false) }
+
+        val scope = rememberCoroutineScope()
 
         Scaffold { pv ->
             Box(
@@ -127,6 +136,28 @@ class TokenLoginScreen() : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
+
+                    if (failed) {
+
+
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .width(200.dp)
+                                .clip(RoundedCornerShape(5.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "Invalid token",
+                                color = Color.Red
+                            )
+                        }
+
+
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+
+
                     Text("Enter your token")
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -147,8 +178,25 @@ class TokenLoginScreen() : Screen {
 
                     Button(
                         onClick = {
-                            rootNavigator.push(loadingScreen)
-                            authNavigator.pop()
+
+                            // TODO: Move this to api, this is for reference
+
+                            scope.launch {
+                                val client = HttpClient()
+                                val response: HttpResponse = client.get("https://discord.com/api/v9/users/@me") {
+                                    headers {
+                                        append("Authorization", token)
+                                    }
+                                }
+                                val responseText = response.bodyAsText()
+
+                                if (responseText.contains("Unauthorized")) {
+                                    failed = true
+                                } else {
+                                    rootNavigator.push(loadingScreen)
+                                }
+                            }
+
                         }
                     ) {
                         Text("Login")

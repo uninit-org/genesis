@@ -25,14 +25,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.serialization.json)
+                implementation(libs.ktor.client.core)
 
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             }
 
             resources.srcDirs("resources")
         }
         val androidMain by getting {
             dependencies {
-
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val iosX64Main by getting
@@ -43,10 +45,13 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
         }
         val desktopMain by getting {
             dependencies {
-
+                implementation(libs.ktor.client.okhttp)
             }
         }
     }

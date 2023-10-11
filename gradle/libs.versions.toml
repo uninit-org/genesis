@@ -7,6 +7,7 @@ moko-resources = "0.23.0"
 koin = "3.5.0"
 koin-compose = "1.1.0"
 voyager = "1.0.0-rc05"
+ktor = "2.3.5"
 
 [libraries]
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
@@ -27,6 +28,10 @@ voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", v
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-core = { module = "cafe.adriel.voyager:voyager-core", version.ref = "voyager" }
+
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android" }
