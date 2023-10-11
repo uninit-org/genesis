@@ -1,5 +1,8 @@
 package xyz.genesisapp.genesis
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import xyz.genesisapp.genesis.app.MainView
@@ -10,12 +13,15 @@ class Application {
         @JvmStatic
         fun main(args: Array<String>) {
             application {
-                Window(
-                    onCloseRequest = ::exitApplication,
-                ) {
-                    MainView()
-                }
+                content()
             }
         }
+    }
+}
+@Composable
+@Preview
+fun ApplicationScope.content() {
+    Window(onCloseRequest = ::exitApplication) {
+        MainView()
     }
 }

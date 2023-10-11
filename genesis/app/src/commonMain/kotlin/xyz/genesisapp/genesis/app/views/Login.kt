@@ -16,7 +16,7 @@ import xyz.genesisapp.genesis.app.GlobalState
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
+fun LoginScreen(pv: PaddingValues) {
     var isLogin by remember { mutableStateOf(false) }
     var isSplash by remember { mutableStateOf(true) }
     var username by remember { mutableStateOf("") }
@@ -27,9 +27,9 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
             modifier = Modifier
                 .padding(pv)
                 .fillMaxSize()
-                .paint(
-                    painterResource("images/img_landing_splash.png")
-                )
+//                .paint(
+//                    painterResource("images/img_landing_splash.png")
+//                )
 
         ) {
             Column(
@@ -40,7 +40,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
             ) {
                 Text(
                     text = "Welcome to Genesis",
-                    color = globalState.currentTheme.getColors().primary,
+//                    color = globalState.currentTheme.getColors().primary,
                 )
 
                 Button(
@@ -52,7 +52,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
                 ) {
                     Text(
                         text = "Login",
-                        color = globalState.currentTheme.getColors().primary,
+//                        color = globalState.currentTheme.getColors().primary,
                     )
                 }
 
@@ -66,7 +66,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
                 ) {
                     Text(
                         text = "Sign Up",
-                        color = globalState.currentTheme.getColors().primary,
+//                        color = globalState.currentTheme.getColors().primary,
                     )
                 }
             }
@@ -90,7 +90,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
             ) {
                 Text(
                     if (isLogin) "Login" else "Sign Up",
-                    color = globalState.currentTheme.getColors().primary,
+//                    color = globalState.currentTheme.getColors().primary,
                 )
 
                 TextField(
@@ -99,7 +99,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
                     label = {
                         Text(
                             text = "Username",
-                            color = globalState.currentTheme.getColors().primary,
+//                            color = globalState.currentTheme.getColors().primary,
                         )
                     }
                 )
@@ -110,7 +110,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
                     label = {
                         Text(
                             text = "Password",
-                            color = globalState.currentTheme.getColors().primary,
+//                            color = globalState.currentTheme.getColors().primary,
                         )
                     },
                     keyboardOptions = KeyboardOptions(
@@ -123,7 +123,7 @@ fun LoginScreen(globalState: GlobalState, pv: PaddingValues) {
                 ) {
                     Text(
                         if (isLogin) "Login" else "Sign Up",
-                        color = globalState.currentTheme.getColors().primary,
+//                        color = globalState.currentTheme.getColors().primary,
                     )
                 }
             }

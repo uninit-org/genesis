@@ -38,6 +38,14 @@ kotlin {
 
                 implementation(libs.serialization.json)
 
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.bottomSheetNavigator)
+                implementation(libs.voyager.tabNavigator)
+                implementation(libs.voyager.transitions)
+                implementation(libs.voyager.core)
+                implementation(libs.voyager.koin)
+
+                implementation(project(":genesis:common"))
             }
 
         }

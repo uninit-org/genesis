@@ -4,50 +4,77 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import xyz.genesisapp.common.LinearGradient
+import xyz.genesisapp.common.color
+import xyz.genesisapp.common.linearGradient
 import xyz.genesisapp.genesis.app.theme.Theme
 
 object Catppuccin {
     internal fun flavorToTheme(
         name: String,
         flavor: Flavor,
-        primary: Color,
-        secondary: Color,
-        tertiary: Color,
-        error: Color
+        primaryColor: Color,
+        secondaryColor: Color,
+        tertiaryColor: Color,
+        errorColor: Color
     ): Lazy<Theme> {
         return lazy {
-            // replace mochaFlavor with mocha
             object : Theme("Catppuccin $name") {
                 @Composable
                 override fun getColors(): ColorScheme {
-                    infix fun Color.tone(tone: Int): Color {
-                        // TODO: see if this is just a gradient (#000 0% -> {color} 40% -> #fff 100%)
-                        fun tonalize(color: Float, colorWeight: Float, tone: Float): Float {
-                            return maxOf(minOf(color * (tone / colorWeight), 1F), 0F)
-                        }
-                        return Color(
-                            tonalize(red, 0.4F, tone.toFloat() / 100),
-                            tonalize(green, 0.4F, tone.toFloat() / 100),
-                            tonalize(blue, 0.4F, tone.toFloat() / 100),
-                            alpha
+                    fun gradientFrom(color: Color): LinearGradient {
+                        return@gradientFrom linearGradient(
+                            color(LinearGradient.RGBA.BLACK, 0F),
+                            color(
+                                (color.red * 255f).toInt(),
+                                (color.green * 255f).toInt(),
+                                (color.blue * 255f).toInt(),
+                                (color.alpha * 255f).toInt(),
+                                40F
+                            ),
+                            color(LinearGradient.RGBA.WHITE, 100F)
                         )
                     }
+                    fun LinearGradient.RGBA.color(): Color {
+                        return@color Color(
+                            this.r.coerceIn(0..255),
+                            this.g.coerceIn(0..255),
+                            this.b.coerceIn(0..255),
+                            this.a.coerceIn(0..255)
+                        )
+                    }
+                    val primary = gradientFrom(primaryColor)
+                    val secondary = gradientFrom(secondaryColor)
+                    val tertiary = gradientFrom(tertiaryColor)
+                    val error = gradientFrom(errorColor)
+
+                    val neutral = gradientFrom(flavor.Surface0)
+                    val neutralVariant = gradientFrom(flavor.Surface1)
                     return darkColorScheme(
-                        primary = primary,
-                        secondary = secondary,
-
-                        tertiary = tertiary,
-
+                        primary = primary[40F].color(),
+                        onPrimary = primary[100F].color(),
+                        primaryContainer = primary[90F].color(),
+                        onPrimaryContainer = primary[10F].color(),
+                        secondary = secondary[40F].color(),
+                        onSecondary = secondary[100F].color(),
+                        secondaryContainer = secondary[90F].color(),
+                        onSecondaryContainer = secondary[10F].color(),
+                        tertiary = tertiary[40F].color(),
+                        onTertiary = tertiary[100F].color(),
+                        tertiaryContainer = tertiary[90F].color(),
+                        onTertiaryContainer = tertiary[10F].color(),
+                        error = error[40F].color(),
+                        onError = error[100F].color(),
+                        errorContainer = error[90F].color(),
+                        onErrorContainer = error[10F].color(),
+                        surface = neutral[40F].color(),
+                        onSurface = neutral[100F].color(),
+                        surfaceVariant = neutralVariant[40F].color(),
+                        onSurfaceVariant = neutralVariant[100F].color(),
                         background = flavor.Crust,
                         onBackground = flavor.Base,
-                        surface = flavor.Base,
-                        onSurface = flavor.Text,
-                        surfaceVariant = flavor.Surface1,
-                        onSurfaceVariant = flavor.Surface2,
-                        surfaceTint = flavor.Overlay0,
-                        inverseSurface = flavor.Overlay1,
-                        inverseOnSurface = flavor.Overlay2,
-                        error = error,
+                        surfaceTint = primary[40F].color(),
+
                     )
                 }
             }
