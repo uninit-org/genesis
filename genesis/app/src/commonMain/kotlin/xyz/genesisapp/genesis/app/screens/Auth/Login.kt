@@ -7,9 +7,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import xyz.genesisapp.genesis.app.screens.RootSharedScreen
 
 
 class LoginScreen(
@@ -19,7 +21,11 @@ class LoginScreen(
     @Composable
     override fun Content() {
 
-        val navigator = LocalNavigator.currentOrThrow
+        val authNavigator = LocalNavigator.currentOrThrow
+        val rootNavigator = authNavigator.parent!!
+
+        val loadingScreen = rememberScreen(RootSharedScreen.Loading)
+
 
         var username by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
@@ -42,7 +48,7 @@ class LoginScreen(
                 ) {
                     TextButton(
                         onClick = {
-                            navigator.pop()
+                            authNavigator.pop()
                         },
                     ) {
                         Text("<")
@@ -79,7 +85,9 @@ class LoginScreen(
                     )
 
                     Button(
-                        onClick = {}
+                        onClick = {
+                            rootNavigator.push(loadingScreen)
+                        }
                     ) {
                         Text(
                             if (isLogin) "Login" else "Sign Up",
