@@ -21,7 +21,7 @@ class TemplateScreen() : Screen {
         val navigator = LocalNavigator.currentOrThrow
 
         // Register any screens you intend to navigate to here
-        val landingScreen = rememberScreen(SharedScreen.Landing)
+        val loadingScreen = rememberScreen(RootSharedScreen.Loading)
 
         Scaffold { pv ->
             Box(
@@ -38,7 +38,7 @@ class TemplateScreen() : Screen {
                         // Go back
                         navigator.pop()
                         // Go to a specific screen
-                        navigator.push(landingScreen)
+                        navigator.push(loadingScreen)
                     },
                 ) {
                     Text("Template Button")

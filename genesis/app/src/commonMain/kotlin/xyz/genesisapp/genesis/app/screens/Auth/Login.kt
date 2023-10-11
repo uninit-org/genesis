@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.screens
+package xyz.genesisapp.genesis.app.screens.Auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions

@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.screens
+package xyz.genesisapp.genesis.app.screens.Auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -24,8 +24,8 @@ class LandingScreen : Screen {
 
         val navigator = LocalNavigator.currentOrThrow
 
-        val registerScreen = rememberScreen(SharedScreen.Login(false))
-        val loginScreen = rememberScreen(SharedScreen.Login(true))
+        val registerScreen = rememberScreen(AuthSharedScreen.Login(false))
+        val loginScreen = rememberScreen(AuthSharedScreen.Login(true))
 
         Scaffold { pv ->
             Box(

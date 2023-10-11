@@ -2,11 +2,9 @@ package xyz.genesisapp.genesis.app
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.FontFamily
-import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.navigator.Navigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import xyz.genesisapp.genesis.app.screens.LandingScreen
-import xyz.genesisapp.genesis.app.screens.ScreenModule
+import xyz.genesisapp.genesis.app.screens.RootScreenView
 import xyz.genesisapp.genesis.app.theme.ThemeProvider
 import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
 
@@ -20,12 +18,8 @@ val LocalAppState = compositionLocalOf { GlobalState() }
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    ScreenRegistry {
-        ScreenModule()
-    }
-
     ThemeProvider {
-        Navigator(LandingScreen())
+        Navigator(RootScreenView())
     }
 
 
