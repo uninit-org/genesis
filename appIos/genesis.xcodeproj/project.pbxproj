@@ -436,7 +436,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					genesisCore,
+					genesisApp,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.genesisapp.genesis;
 				PRODUCT_NAME = Genesis;
@@ -471,7 +471,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					genesisCore,
+					genesisApp,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.genesisapp.genesis;
 				PRODUCT_NAME = Genesis;
