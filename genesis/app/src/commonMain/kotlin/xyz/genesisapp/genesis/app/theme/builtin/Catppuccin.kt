@@ -51,8 +51,8 @@ object Catppuccin {
                     val neutral = gradientFrom(flavor.Surface0)
                     val neutralVariant = gradientFrom(flavor.Surface1)
                     return darkColorScheme(
-                        primary = primary[40F].color(),
-                        onPrimary = primary[100F].color(),
+                        primary = flavor.Surface0,
+                        onPrimary = flavor.Text,
                         primaryContainer = primary[90F].color(),
                         onPrimaryContainer = primary[10F].color(),
                         secondary = secondary[40F].color(),

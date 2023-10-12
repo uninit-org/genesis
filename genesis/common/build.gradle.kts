@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose")
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -16,8 +17,8 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "genesisCommon"
-            binaryOption("bundleId", "xyz.genesisapp.common")
-            isStatic = true
+//            binaryOption("bundleId", "xyz.genesisapp.common")
+//            isStatic = true
         }
     }
 
@@ -25,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.serialization.json)
+                compileOnly(compose.runtime)
 
             }
 
@@ -43,10 +45,14 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
+            languageSettings {
+
+            }
         }
         val desktopMain by getting {
             dependencies {
-
+                implementation(libs.jvm.gson)
             }
         }
     }

@@ -45,12 +45,16 @@ kotlin {
                 implementation(libs.voyager.core)
                 implementation(libs.voyager.koin)
 
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+
                 implementation(libs.ktor.client.core)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
 
                 implementation(project(":genesis:common"))
+
             }
 
         }

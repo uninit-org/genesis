@@ -1,4 +1,8 @@
+<<<<<<<< Updated upstream:genesis/app/src/commonMain/kotlin/xyz/genesisapp/genesis/app/_screens/Auth/Landing.kt
 package xyz.genesisapp.genesis.app.screens.Auth
+========
+package xyz.genesisapp.genesis.app._screens
+>>>>>>>> Stashed changes:genesis/app/src/commonMain/kotlin/xyz/genesisapp/genesis/app/_screens/Landing.kt
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button

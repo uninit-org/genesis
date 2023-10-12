@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.screens
+package xyz.genesisapp.genesis.app._screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
