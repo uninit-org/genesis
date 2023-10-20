@@ -1,21 +1,21 @@
 package xyz.genesisapp.genesis.app
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
+import cafe.adriel.voyager.core.registry.ScreenRegistry
+import cafe.adriel.voyager.navigator.Navigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
+import org.koin.dsl.module
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.genesis.app.di.initKoin
+import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.genesis.app.di.preferencesModule
 import xyz.genesisapp.genesis.app.theme.ThemeProvider
 import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
-import xyz.genesisapp.genesis.app.theme.builtin.Catppuccin
+import xyz.genesisapp.genesis.app.ui.screens.LoadingScreen
+import xyz.genesisapp.genesis.app.ui.screens.RootScreenModule
 
 class GlobalState {
     var currentTheme by mutableStateOf(AllThemes[0])
@@ -35,51 +35,23 @@ fun App() {
 //    ThemeProvider {
 //        Navigator(LandingScreen())
 //    }
-    val module = initKoin()
+    val preferencesModule = preferencesModule()
+    val genesisClientModule = module {
+        single { GenesisClient() }
+    }
     KoinApplication(application = {
-        modules(module)
+        modules(preferencesModule, genesisClientModule)
     }) {
-        val koin = getKoin()
-//        var theme by remember { koin.get<MutableState<Theme>>() }
+        val prefs = getKoin().get<PreferencesManager>()
+
+        val themeName by remember { prefs.preference("ui.theme", "Catppuccin Mocha Rosewater") }
         ThemeProvider(
-            Catppuccin.Mocha.Rosewater
+            themeName = themeName,
         ) {
-            Scaffold {
-                Box(
-                    modifier = Modifier
-                        .padding(it)
-                        .fillMaxSize()
-                ) {
-                    val prefs = koin.get<PreferencesManager>()
-                    var count by remember { prefs.preference("test.count", 0) }
-                    var count2 by remember { mutableStateOf(0) }
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-
-                        Button(
-                            onClick = {
-                                count++
-                            },
-                        ) {
-                            Text("Count: $count")
-                        }
-
-                        Button(
-                            onClick = {
-                                count2++
-                            },
-                        ) {
-                            Text("Count2: $count2")
-                        }
-
-                    }
-                }
+            ScreenRegistry {
+                RootScreenModule()
             }
+            Navigator(LoadingScreen())
         }
     }
 

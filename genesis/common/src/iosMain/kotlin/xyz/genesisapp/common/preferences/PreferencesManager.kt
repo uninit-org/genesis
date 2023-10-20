@@ -40,7 +40,7 @@ actual class PreferencesManager : CommonMultiplatformPreferencesManager() {
 
     override fun preference(key: String, defaultValue: Boolean): Preference<Boolean> {
         return Preference(key, defaultValue, { key, defaultValue ->
-            NSUserDefaults.standardUserDefaults.boolForKey(key).toBoolean() ?: defaultValue
+            NSUserDefaults.standardUserDefaults.boolForKey(key) ?: defaultValue
         }, { value ->
             NSUserDefaults.standardUserDefaults.setBool(value, key)
         })
@@ -48,7 +48,8 @@ actual class PreferencesManager : CommonMultiplatformPreferencesManager() {
 
     override fun preference(key: String, defaultValue: Set<String>): Preference<Set<String>> {
         return Preference(key, defaultValue, { key, defaultValue ->
-            NSUserDefaults.standardUserDefaults.stringArrayForKey(key)?.toSet() ?: defaultValue
+            (NSUserDefaults.standardUserDefaults.stringArrayForKey(key) as List<String>)?.toSet()
+                ?: defaultValue
         }, { value ->
             NSUserDefaults.standardUserDefaults.setObject(value, key)
         })

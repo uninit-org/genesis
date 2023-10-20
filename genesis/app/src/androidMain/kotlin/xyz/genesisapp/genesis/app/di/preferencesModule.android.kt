@@ -8,9 +8,10 @@ import xyz.genesisapp.genesis.app.platform.android.LocalApplicationContext
 
 @Composable
 actual fun preferencesModule(): Module {
+    val context = LocalApplicationContext.current
     return module {
         single<PreferencesManager> {
-            LocalApplicationContext.current?.let {
+            context?.let {
                 return@single PreferencesManager(it.getSharedPreferences("genesis", 0))
             }
             throw IllegalStateException("Application context is not initialized")
