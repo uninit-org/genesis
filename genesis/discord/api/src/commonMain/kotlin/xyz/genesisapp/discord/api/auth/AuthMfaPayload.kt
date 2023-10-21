@@ -14,6 +14,7 @@ import kotlinx.serialization.Serializable
  * This will return one of the following:
  *
  * - [ApiError] If the code is invalid
+ * - [AuthMfaSuccess] If the code is valid
  */
 @Serializable
 data class AuthMfaPayload(

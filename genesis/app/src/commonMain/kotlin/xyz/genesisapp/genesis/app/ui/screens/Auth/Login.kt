@@ -39,7 +39,7 @@ import xyz.genesisapp.discord.api.domain.login.ApiLoginResponse
 import xyz.genesisapp.discord.api.domain.user.ApiUser
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.api.ApiOptions
-import xyz.genesisapp.genesis.app.ui.Components.BackArrow
+import xyz.genesisapp.genesis.app.ui.components.BackArrow
 import xyz.genesisapp.genesis.app.ui.screens.RootSharedScreen
 
 

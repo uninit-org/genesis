@@ -1,17 +1,16 @@
 package xyz.genesisapp.discord.client
 
-import io.ktor.client.HttpClient
+import org.koin.core.Koin
 import xyz.genesisapp.discord.api.annotations.ExperimentalDiscordApi
 import xyz.genesisapp.discord.api.domain.user.PremiumType
-import xyz.genesisapp.discord.client.api.Api
 import xyz.genesisapp.discord.client.entities.user.User
+import xyz.genesisapp.discord.client.rest.RestClient
 
 @OptIn(ExperimentalDiscordApi::class)
-class GenesisClient {
+class GenesisClient(private val koin: Koin) {
     var user: ClientUser = ClientUser()
-    val httpClient: HttpClient = HttpClient()
 
-    val api: Api = Api(httpClient)
+    val rest: RestClient = RestClient(koin)
 
     class ClientUser(
         var token: String = "",

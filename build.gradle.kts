@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -29,6 +31,11 @@ buildscript {
 //        classpath(libs.moko.resources.generator)
     }
 }
-
-
+allprojects {
+    tasks.withType(KotlinCompile::class).all {
+        kotlinOptions {
+            freeCompilerArgs += "-Xexpect-actual-classes"
+        }
+    }
+}
 true // Needed to make the Suppress annotation work for the plugins block

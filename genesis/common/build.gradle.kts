@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -6,6 +8,7 @@ plugins {
 }
 
 kotlin {
+
     androidTarget()
 
     jvm("desktop")
@@ -77,3 +80,5 @@ android {
         jvmToolchain(17)
     }
 }
+
+

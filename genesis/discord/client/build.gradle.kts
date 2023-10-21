@@ -30,6 +30,7 @@ kotlin {
                 implementation(libs.ktor.client.negotiation)
                 implementation(libs.ktor.serialization.json)
                 compileOnly(compose.runtime)
+                compileOnly(libs.koin.core) // using di in lib :3
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation(project(":genesis:discord:api"))

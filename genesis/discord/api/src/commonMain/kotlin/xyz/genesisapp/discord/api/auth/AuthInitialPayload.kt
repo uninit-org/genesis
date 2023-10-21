@@ -18,6 +18,7 @@ import xyz.genesisapp.discord.api.ApiErrorPack
  * - [ApiErrorPack], typically it'll be either a bad password or a new location detected.
  * - [AuthStartMfaFlow] If MFA is required
  * - [ApiCaptchaRequirement] If a captcha is required
+ * - [AuthSfaSuccess] If the login was successful
  */
 
 @Serializable
