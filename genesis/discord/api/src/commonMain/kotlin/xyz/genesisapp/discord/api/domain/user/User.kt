@@ -1,8 +1,6 @@
-package xyz.genesisapp.discord.api.types.user
+package xyz.genesisapp.discord.api.domain.user
 
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.types.user.PremiumType
-import xyz.genesisapp.discord.api.types.user.UserFlags
 
 @Serializable
 data class ApiUser(

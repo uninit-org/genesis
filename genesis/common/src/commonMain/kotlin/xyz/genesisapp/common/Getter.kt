@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.types
+package xyz.genesisapp.common
 
 class Getter<T>(val get: () -> T) {
     operator fun getValue(thisRef: Any?, property: Any?): T {

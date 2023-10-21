@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.api.types.user.ApiClientUser
+import xyz.genesisapp.discord.api.domain.user.ApiClientUser
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.api.ApiOptions
 

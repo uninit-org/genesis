@@ -1,8 +1,7 @@
-package xyz.genesisapp.discord.api.types.user
+package xyz.genesisapp.discord.api.domain.user
 
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.types.ExperimentalDiscordApi
-import kotlin.jvm.JvmInline
+import xyz.genesisapp.discord.api.annotations.ExperimentalDiscordApi
 
 @Serializable
 @JvmInline

@@ -1,7 +1,7 @@
 package xyz.genesisapp.discord.client.entities.user
 
-import xyz.genesisapp.discord.api.types.user.PremiumType
-import xyz.genesisapp.discord.api.types.user.UserFlags
+import xyz.genesisapp.discord.api.domain.user.PremiumType
+import xyz.genesisapp.discord.api.domain.user.UserFlags
 
 open class User(
     var id: String = "",

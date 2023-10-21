@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.types.user
+package xyz.genesisapp.discord.api.domain.user
 
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline

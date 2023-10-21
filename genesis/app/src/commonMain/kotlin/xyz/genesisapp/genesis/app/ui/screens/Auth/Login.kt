@@ -34,9 +34,9 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.launch
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.api.types.login.ApiLoginPayload
-import xyz.genesisapp.discord.api.types.login.ApiLoginResponse
-import xyz.genesisapp.discord.api.types.user.ApiUser
+import xyz.genesisapp.discord.api.domain.login.ApiLoginPayload
+import xyz.genesisapp.discord.api.domain.login.ApiLoginResponse
+import xyz.genesisapp.discord.api.domain.user.ApiUser
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.api.ApiOptions
 import xyz.genesisapp.genesis.app.ui.Components.BackArrow

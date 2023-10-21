@@ -30,6 +30,12 @@ kotlin {
 
             resources.srcDirs("resources")
         }
+        val commonTest by getting {
+            dependencies {
+//                dependsOn(commonMain)
+                implementation(kotlin("test"))
+            }
+        }
         val androidMain by getting {
             dependencies {
 

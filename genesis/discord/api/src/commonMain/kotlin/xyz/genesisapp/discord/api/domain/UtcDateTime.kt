@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.types
+package xyz.genesisapp.discord.api.domain
 
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
