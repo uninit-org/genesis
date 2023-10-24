@@ -1,10 +1,6 @@
 package xyz.genesisapp.common.fytix
 
 sealed class Result<T, E> {
-
-    class Ok<T, E>(val value: T) : Result<T, E>()
-    class Err<T, E>(val error: E) : Result<T, E>()
-
     fun <R> map(transform: (T) -> R): Result<R, E> {
         return when (this) {
             is Ok -> Ok(transform(value))
@@ -61,5 +57,7 @@ sealed class Result<T, E> {
         }
     }
 }
-fun <T, E> Ok(value: T): Result<T, E> = Result.Ok(value)
-fun <T, E> Err(error: E): Result<T, E> = Result.Err(error)
+class Ok<T, E>(val value: T) : Result<T, E>()
+class Err<T, E>(val error: E) : Result<T, E>()
+
+

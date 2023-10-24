@@ -72,7 +72,7 @@ object Catppuccin {
                         surfaceVariant = neutralVariant[40F].color(),
                         onSurfaceVariant = neutralVariant[100F].color(),
                         background = flavor.Crust,
-                        onBackground = flavor.Base,
+                        onBackground = Color.White,
                         surfaceTint = primary[40F].color(),
 
                     )

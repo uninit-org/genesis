@@ -10,17 +10,17 @@ kotlin {
 
     jvm("desktop")
 
-//    listOf(
-//        iosX64(),
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach { iosTarget ->
-//        iosTarget.binaries.framework {
-//            baseName = "genesisDiscordClient"
-//            binaryOption("bundleId", "xyz.genesisapp.discord.client")
-//            isStatic = true
-//        }
-//    }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "genesisDiscordClient"
+            binaryOption("bundleId", "xyz.genesisapp.discord.client")
+            isStatic = true
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -45,18 +45,18 @@ kotlin {
                 implementation(libs.ktor.client.okhttp)
             }
         }
-//        val iosX64Main by getting
-//        val iosArm64Main by getting
-//        val iosSimulatorArm64Main by getting
-//        val iosMain by creating {
-//            dependsOn(commonMain)
-//            iosX64Main.dependsOn(this)
-//            iosArm64Main.dependsOn(this)
-//            iosSimulatorArm64Main.dependsOn(this)
-//            dependencies {
-//                implementation(libs.ktor.client.darwin)
-//            }
-//        }
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
+        }
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)

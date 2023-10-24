@@ -4,7 +4,6 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
 import xyz.genesisapp.genesis.app.theme.builtin.Catppuccin
 
@@ -15,7 +14,6 @@ fun ThemeProvider(
     colorScheme: ColorScheme = theme.getColors(), content: @Composable (ColorScheme.() -> Unit)
 ) {
     var computedTheme = theme
-    val LocalContextColors = compositionLocalOf { colorScheme }
     if (themeName != null) {
         computedTheme = AllThemes.find { it.name == themeName } ?: computedTheme
     }

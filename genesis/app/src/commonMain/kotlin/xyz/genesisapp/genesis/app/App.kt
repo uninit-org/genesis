@@ -1,21 +1,26 @@
 package xyz.genesisapp.genesis.app
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
-import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
-import org.koin.dsl.module
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.genesis.app.di.httpModule
 import xyz.genesisapp.genesis.app.di.preferencesModule
+import xyz.genesisapp.genesis.app.theme.LocalContextColors
 import xyz.genesisapp.genesis.app.theme.ThemeProvider
 import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
-import xyz.genesisapp.genesis.app.ui.screens.LoadingScreen
-import xyz.genesisapp.genesis.app.ui.screens.RootScreenModule
+import xyz.genesisapp.genesis.app.ui.screens.GenericLoadingScreen
+import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
 
 class GlobalState {
     var currentTheme by mutableStateOf(AllThemes[0])
@@ -27,20 +32,9 @@ val LocalAppState = compositionLocalOf { GlobalState() }
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-
-//    ScreenRegistry {
-//        ScreenModule()
-//    }
-//
-//    ThemeProvider {
-//        Navigator(LandingScreen())
-//    }
     val preferencesModule = preferencesModule()
-    val genesisClientModule = module {
-        single { GenesisClient() }
-    }
     KoinApplication(application = {
-        modules(preferencesModule, genesisClientModule)
+        modules(preferencesModule, httpModule())
     }) {
         val prefs = getKoin().get<PreferencesManager>()
 
@@ -48,10 +42,16 @@ fun App() {
         ThemeProvider(
             themeName = themeName,
         ) {
-            ScreenRegistry {
-                RootScreenModule()
+            Scaffold(
+                modifier = Modifier.fillMaxSize().background(LocalContextColors.currentOrThrow.background),
+            ) {
+                Box(Modifier.padding(it)) {
+                    Navigator(GenericLoadingScreen(":3") {
+                        LoginScreen()
+                    })
+//                    LoginScreen().Content()
+                }
             }
-            Navigator(LoadingScreen())
         }
     }
 
