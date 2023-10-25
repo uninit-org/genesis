@@ -1,24 +1,18 @@
 package xyz.genesisapp.genesis.app.ui.screens
 
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.api.ApiError
+import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
 import xyz.genesisapp.genesisApi.GenesisApiClient
 import xyz.genesisapp.genesisApi.types.update.UpdateRequest
-import xyz.genesisapp.genesisApi.types.update.UpdateResponse
 
 
 class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { koin ->
     val prefs = koin.get<PreferencesManager>()
     val genesisApi = koin.get<GenesisApiClient>()
+    val genesisClient = koin.get<GenesisClient>()
     var apiUUID by prefs.preference("api.uuid", "")
-    val response = genesisApi.post<UpdateRequest, UpdateResponse, ApiError>(
-        "update", UpdateRequest(
-            uuid = apiUUID,
-            version = "0.0.1",
-            plugins = mapOf()
-        )
-    )
+    val response = genesisApi.getUpdate(UpdateRequest(apiUUID, "0.0.0", emptyMap()))
     val data = response.getOrNull()
     if (data != null) {
         apiUUID = data.uuid
@@ -29,7 +23,23 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
             println("${data.pluginUpdates.size} plugin updates available")
         }
     }
-    LoginScreen()
+
+
+    val token by prefs.preference("auth.token", "")
+
+    if (token.isNotEmpty()) {
+        genesisClient.rest.token = token
+        val authResponse = genesisClient.rest.getDomainMe()
+        if (authResponse.isOk()) {
+            val authData = authResponse.getOrNull()!!
+            println("Logged in as ${authData.username}")
+            LoginScreen()
+        } else {
+            LoginScreen()
+        }
+    } else {
+        LoginScreen()
+    }
 }) {
 
 }

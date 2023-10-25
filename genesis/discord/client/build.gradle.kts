@@ -28,6 +28,7 @@ kotlin {
                 implementation(libs.serialization.json)
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.negotiation)
+                implementation(libs.ktor.client.websockets)
                 implementation(libs.ktor.serialization.json)
                 compileOnly(compose.runtime)
                 compileOnly(libs.koin.core) // using di in lib :3

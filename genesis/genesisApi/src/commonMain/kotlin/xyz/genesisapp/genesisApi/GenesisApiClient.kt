@@ -70,7 +70,7 @@ class GenesisApiClient(
     }
 
     suspend fun getUpdate(body: UpdateRequest): Result<UpdateResponse, Error> = post(
-        "/update",
+        "update",
         body
     )
 }

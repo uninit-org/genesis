@@ -77,10 +77,10 @@ class RestClient(
         }
     }
 
-    suspend fun getDomainMe(): Result<DomainMe, ApiError> = get("/users/@me")
+    suspend fun getDomainMe(): Result<DomainMe, ApiError> = get("users/@me")
     suspend fun getDomainUser(
         userId: String,
         withMutualGuilds: Boolean = true
     ): Result<DomainUserProfile, ApiError> =
-        get("/users/$userId/profile?with_mutual_guilds=$withMutualGuilds&with_mutual_friends_count=false")
+        get("users/$userId/profile?with_mutual_guilds=$withMutualGuilds&with_mutual_friends_count=false")
 }
