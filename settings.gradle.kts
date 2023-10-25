@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.4.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.4.0")
 }
 
 include(":appAndroid")
@@ -26,5 +26,6 @@ include(":genesis:app")
 include(":genesis:discord:api")
 include(":genesis:discord:client")
 include(":genesis:common")
+include(":genesis:genesisApi")
 // include(":genesis:nativeVoice") TODO: soon:tm:
 

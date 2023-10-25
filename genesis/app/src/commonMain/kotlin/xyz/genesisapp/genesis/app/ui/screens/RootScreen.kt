@@ -1,46 +1,34 @@
 package xyz.genesisapp.genesis.app.ui.screens
 
-import kotlinx.serialization.Serializable
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.api.ApiError
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
+import xyz.genesisapp.genesisApi.GenesisApiClient
+import xyz.genesisapp.genesisApi.types.update.UpdateRequest
+import xyz.genesisapp.genesisApi.types.update.UpdateResponse
 
-@Serializable
-data class Plugin(
-    val version: String,
-    val enabled: Boolean,
-    val proxied: Boolean
-)
-
-@Serializable
-data class apiUpdateRequest(
-    val uuid: String,
-    val version: String,
-    val plugins: Map<String, Plugin>
-)
-
-@Serializable
-data class apiUpdateResponse(
-    val uuid: String,
-    val updateAvailable: Boolean,
-    val disabledPlugins: List<String>,
-    val deletedPlugins: List<String>,
-    val pluginUpdates: Map<String, String>
-)
 
 class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { koin ->
     val prefs = koin.get<PreferencesManager>()
-    val genesisClient = koin.get<GenesisClient>()
+    val genesisApi = koin.get<GenesisApiClient>()
     var apiUUID by prefs.preference("api.uuid", "")
-    val response = genesisClient.rest.post<apiUpdateRequest, apiUpdateResponse, ApiError>(
-        "http://localhost:8080/api/v1/update", apiUpdateRequest(
+    val response = genesisApi.post<UpdateRequest, UpdateResponse, ApiError>(
+        "update", UpdateRequest(
             uuid = apiUUID,
             version = "0.0.1",
             plugins = mapOf()
         )
     )
-    println(response)
+    val data = response.getOrNull()
+    if (data != null) {
+        apiUUID = data.uuid
+        if (data.updateAvailable) {
+            println("Update available")
+        }
+        if (data.pluginUpdates.isNotEmpty()) {
+            println("${data.pluginUpdates.size} plugin updates available")
+        }
+    }
     LoginScreen()
 }) {
 

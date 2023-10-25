@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/genesis/discord" />
             <option value="$PROJECT_DIR$/genesis/discord/api" />
             <option value="$PROJECT_DIR$/genesis/discord/client" />
+            <option value="$PROJECT_DIR$/genesis/genesisApi" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -14,6 +14,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
 import xyz.genesisapp.genesis.app.di.httpModule
 import xyz.genesisapp.genesis.app.di.preferencesModule
@@ -34,7 +35,7 @@ val LocalAppState = compositionLocalOf { GlobalState() }
 fun App() {
     val preferencesModule = preferencesModule()
     KoinApplication(application = {
-        modules(preferencesModule, httpModule(), genesisClientModule())
+        modules(preferencesModule, httpModule(), genesisClientModule(), genesisApiModule())
     }) {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()

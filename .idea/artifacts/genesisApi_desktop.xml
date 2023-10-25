@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="genesisApi-desktop">
+    <output-path>$PROJECT_DIR$/genesis/genesisApi/build/libs</output-path>
+    <root id="archive" name="genesisApi-desktop.jar">
+      <element id="module-output" name="Genesis.genesis.genesisApi.desktopMain" />
+    </root>
+  </artifact>
+</component>
