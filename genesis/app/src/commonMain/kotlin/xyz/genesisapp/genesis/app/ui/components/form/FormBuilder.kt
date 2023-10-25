@@ -63,6 +63,7 @@ open class FormBuilder() {
         val field = FormItem.Separator(id, label)
         fields.add(field)
     }
+
     open fun build(): Form {
         return Form(fields, onSubmitV, submitText)
     }
@@ -73,7 +74,7 @@ open class FormBuilder() {
         onSubmitV = onSubmit
     }
 
-    fun setSubmitText(
+    fun assignSubmitText(
         submitText: String,
     ) {
         this.submitText = submitText
@@ -85,6 +86,7 @@ open class FormBuilder() {
 
     }
 }
+
 fun buildForm(
     builder: FormBuilder.() -> Unit,
 ): Form {
@@ -92,6 +94,7 @@ fun buildForm(
     formBuilder.builder()
     return formBuilder.build()
 }
+
 @Composable
 fun composeForm(
     builder: FormBuilder.() -> Unit

@@ -10,19 +10,21 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.getKoin
+import org.koin.core.Koin
 import xyz.genesisapp.genesis.app.ui.components.Centered
 
-open class GenericLoadingScreen (
+open class GenericLoadingScreen(
     val loadingText: String,
-    val loadingProcedure: suspend () -> Screen
-    ) : Screen {
+    val loadingProcedure: suspend (koin: Koin) -> Screen
+) : Screen {
     @OptIn(ExperimentalResourceApi::class)
     @Composable
     override fun Content() {
+        val koin = getKoin()
         Centered {
             Image(
                 painterResource("images/img_logo.png"),
@@ -34,8 +36,8 @@ open class GenericLoadingScreen (
         val nav = LocalNavigator.currentOrThrow
 
         rememberCoroutineScope().launch {
-            delay(100)
-            nav.replace(loadingProcedure())
+            val screen = loadingProcedure(koin)
+            nav.replace(screen)
         }
     }
 }

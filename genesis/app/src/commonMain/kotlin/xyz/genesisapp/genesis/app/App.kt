@@ -14,13 +14,13 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.genesis.app.di.genesisClientModule
 import xyz.genesisapp.genesis.app.di.httpModule
 import xyz.genesisapp.genesis.app.di.preferencesModule
 import xyz.genesisapp.genesis.app.theme.LocalContextColors
 import xyz.genesisapp.genesis.app.theme.ThemeProvider
 import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
-import xyz.genesisapp.genesis.app.ui.screens.GenericLoadingScreen
-import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
+import xyz.genesisapp.genesis.app.ui.screens.RootScreen
 
 class GlobalState {
     var currentTheme by mutableStateOf(AllThemes[0])
@@ -34,22 +34,22 @@ val LocalAppState = compositionLocalOf { GlobalState() }
 fun App() {
     val preferencesModule = preferencesModule()
     KoinApplication(application = {
-        modules(preferencesModule, httpModule())
+        modules(preferencesModule, httpModule(), genesisClientModule())
     }) {
-        val prefs = getKoin().get<PreferencesManager>()
+        val koin = getKoin()
+        val prefs = koin.get<PreferencesManager>()
+
 
         val themeName by remember { prefs.preference("ui.theme", "Catppuccin Mocha Rosewater") }
         ThemeProvider(
             themeName = themeName,
         ) {
             Scaffold(
-                modifier = Modifier.fillMaxSize().background(LocalContextColors.currentOrThrow.background),
+                modifier = Modifier.fillMaxSize()
+                    .background(LocalContextColors.currentOrThrow.background),
             ) {
                 Box(Modifier.padding(it)) {
-                    Navigator(GenericLoadingScreen(":3") {
-                        LoginScreen()
-                    })
-//                    LoginScreen().Content()
+                    Navigator(RootScreen())
                 }
             }
         }

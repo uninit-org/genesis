@@ -13,6 +13,7 @@ class LoginScreen(
 ) : Screen {
 
     override val key: ScreenKey = uniqueScreenKey
+
     @Composable
     override fun Content() {
         LifecycleEffect(
@@ -46,7 +47,7 @@ class LoginScreen(
                 switch("use-token", "Use token")
                 separator("separator", "")
                 switch("remember", "Remember me")
-                setSubmitText("Login")
+                assignSubmitText("Login")
                 onSubmit {
 
                 }
