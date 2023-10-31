@@ -6,10 +6,11 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import xyz.genesisapp.common.fytix.Err
@@ -18,10 +19,12 @@ import xyz.genesisapp.common.fytix.Result
 import xyz.genesisapp.discord.api.ApiError
 import xyz.genesisapp.discord.api.domain.user.DomainMe
 import xyz.genesisapp.discord.api.domain.user.DomainUserProfile
+import xyz.genesisapp.discord.api.domain.user.UserSettings
+import xyz.genesisapp.discord.entities.guild.Guild
 
 class RestClient(
     engineFactory: HttpClientEngineFactory<*>,
-    baseUrl: String = "https://discord.com/api/v9"
+    baseUrl: String = "https://discord.com/api/v9/"
 ) {
     val http = HttpClient(engineFactory) {
         defaultRequest {
@@ -36,18 +39,14 @@ class RestClient(
         }
     }
 
-    var token: String
-        get() = ""
-        set(value) {
-            http.config {
-                headers {
-                    set("Authentication", value)
-                }
-            }
-        }
+    var token: String? = null
 
     internal suspend inline fun <reified T, reified E> get(endpoint: String): Result<T, E> {
-        val res = http.get(endpoint)
+        val res = http.get(endpoint) {
+            headers {
+                if (token !== null) header("Authorization", token)
+            }
+        }
         return when (res.status) {
             HttpStatusCode.OK -> {
                 Ok(res.body())
@@ -83,4 +82,7 @@ class RestClient(
         withMutualGuilds: Boolean = true
     ): Result<DomainUserProfile, ApiError> =
         get("users/$userId/profile?with_mutual_guilds=$withMutualGuilds&with_mutual_friends_count=false")
+
+    suspend fun getGuild(guildId: String): Result<Guild, ApiError> = get("guilds/$guildId")
+    suspend fun getUserSettings(): Result<UserSettings, ApiError> = get("users/@me/settings")
 }

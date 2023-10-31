@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -30,6 +28,8 @@ kotlin {
             dependencies {
                 implementation(libs.serialization.json)
                 compileOnly(compose.runtime)
+
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
             }
 

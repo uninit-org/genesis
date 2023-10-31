@@ -1,5 +1,7 @@
 package xyz.genesisapp.common.fytix
 
+import kotlinx.coroutines.delay
+
 open class EventEmitter {
     val listeners: MutableMap<String, MutableList<Listener<*>>> = mutableMapOf()
 
@@ -34,12 +36,40 @@ open class EventEmitter {
         }
     }
 
+    suspend fun <T> suspendOnce(event: String): T {
+        var response: T? = null
+        val listener: Listener<T> = object : Listener<T> {
+            override val isOnce: Boolean = true
+            override val callback: (T) -> Unit = { data ->
+                println("callback")
+                response = data
+            }
+        }
+        if (listeners.containsKey(event)) {
+            listeners[event]!!.add(listener)
+        } else {
+            listeners[event] = mutableListOf(listener)
+        }
+
+        while (response == null) {
+            delay(1)
+        }
+        return response!!
+
+    }
+
+
     @Suppress("UNCHECKED_CAST")
     fun <T> emit(event: String, data: T) {
         if (listeners.containsKey(event)) {
             listeners[event]!!.forEach {
                 val listener = it as Listener<T>
-                listener.callback(data)
+                try {
+                    listener.callback(data)
+                } catch (e: Exception) {
+                    println("Error in event listener for event $event")
+                    e.printStackTrace()
+                }
                 if (listener.isOnce) {
                     listeners[event]!!.remove(listener)
                 }

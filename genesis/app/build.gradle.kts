@@ -53,6 +53,8 @@ kotlin {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
+                implementation("media.kamel:kamel-image:0.8.2")
+
 
                 implementation(project(":genesis:common"))
                 implementation(project(":genesis:discord:api"))

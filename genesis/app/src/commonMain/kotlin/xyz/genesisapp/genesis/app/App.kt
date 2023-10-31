@@ -13,7 +13,6 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
 import xyz.genesisapp.genesis.app.di.httpModule
@@ -31,11 +30,6 @@ fun App() {
     }) {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()
-        val genesisClient = koin.get<GenesisClient>()
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            genesisClient.gateway.test()
-//        }
 
 
         val themeName by remember { prefs.preference("ui.theme", "Catppuccin Mocha Rosewater") }
