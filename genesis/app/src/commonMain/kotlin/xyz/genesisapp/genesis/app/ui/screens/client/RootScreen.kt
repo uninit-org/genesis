@@ -16,13 +16,11 @@ class ClientRootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis"
 
     genesisClient.gateway.connect(token, GatewayIntents.ALL.value)
 
-    genesisClient.events.on<String>("READY") {
-        println("ready")
-    }
-
     var isReady = false
 
     genesisClient.events.suspendOnce<String>("READY")
+
+
 
     GuildsScreen()
 })

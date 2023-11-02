@@ -2,6 +2,7 @@ package xyz.genesisapp.discord.entities.guild
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import xyz.genesisapp.discord.api.types.Snowflake
 
 //name	string	guild name
 //region	?string	guild voice region id (deprecated)
@@ -26,7 +27,7 @@ import kotlinx.serialization.Serializable
 //safety_alerts_channel_id
 @Serializable
 class Guild(
-    val id: String,
+    val id: Snowflake,
     val unavailable: Boolean = false,
     var name: String,
     var region: String? = null,
@@ -63,6 +64,7 @@ class Guild(
     var premiumProgressBarEnabled: Boolean,
     @SerialName("safety_alerts_channel_id")
     var safetyAlertsChannelId: String? = null,
+    var channels: List<Channel>? = null,
 ) {
 }
 

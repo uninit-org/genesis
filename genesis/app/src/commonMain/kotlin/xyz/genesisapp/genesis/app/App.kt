@@ -13,6 +13,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.genesis.app.di.dataStoreModule
 import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
 import xyz.genesisapp.genesis.app.di.httpModule
@@ -26,7 +27,13 @@ import xyz.genesisapp.genesis.app.ui.screens.RootScreen
 fun App() {
     val preferencesModule = preferencesModule()
     KoinApplication(application = {
-        modules(preferencesModule, httpModule(), genesisClientModule(), genesisApiModule())
+        modules(
+            preferencesModule,
+            httpModule(),
+            genesisClientModule(),
+            genesisApiModule(),
+            dataStoreModule()
+        )
     }) {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()
