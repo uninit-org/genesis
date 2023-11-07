@@ -3,7 +3,7 @@ package xyz.genesisapp.discord.client.gateway.types.events
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import xyz.genesisapp.discord.api.domain.user.UserSettings
-import xyz.genesisapp.discord.entities.guild.Guild
+import xyz.genesisapp.discord.entities.guild.ApiGuild
 
 @Serializable
 data class Ready(
@@ -15,5 +15,5 @@ data class Ready(
     val shard: List<Int>? = null,
     @SerialName("user_settings")
     val userSettings: UserSettings? = null,
-    val guilds: List<Guild>,
+    val guilds: List<ApiGuild>,
 )

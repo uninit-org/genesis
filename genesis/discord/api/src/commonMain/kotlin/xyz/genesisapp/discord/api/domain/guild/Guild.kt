@@ -2,6 +2,7 @@ package xyz.genesisapp.discord.entities.guild
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 
 //name	string	guild name
@@ -26,7 +27,7 @@ import xyz.genesisapp.discord.api.types.Snowflake
 //premium_progress_bar_enabled	boolean	whether the guild's boost progress bar should be enabled
 //safety_alerts_channel_id
 @Serializable
-class Guild(
+class ApiGuild(
     val id: Snowflake,
     val unavailable: Boolean = false,
     var name: String,
@@ -41,13 +42,13 @@ class Guild(
     var afkChannelId: String? = null,
     @SerialName("afk_timeout")
     var afkTimeout: Int? = null,
-    var icon: String? = null,
+    var icon: Asset? = null,
     @SerialName("owner_id")
     var ownerId: String? = null,
-    var splash: String? = null,
+    var splash: Asset? = null,
     @SerialName("discovery_splash")
-    var discoverySplash: String? = null,
-    var banner: String? = null,
+    var discoverySplash: Asset? = null,
+    var banner: Asset? = null,
     @SerialName("system_channel_id")
     var systemChannelId: String? = null,
     @SerialName("system_channel_flags")
@@ -64,7 +65,8 @@ class Guild(
     var premiumProgressBarEnabled: Boolean,
     @SerialName("safety_alerts_channel_id")
     var safetyAlertsChannelId: String? = null,
-    var channels: List<Channel>? = null,
+    var channels: List<ApiChannel>? = null,
+    var roles: List<ApiRole>? = null,
 ) {
 }
 

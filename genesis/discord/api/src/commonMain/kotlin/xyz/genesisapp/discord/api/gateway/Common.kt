@@ -1,1 +1,0 @@
-package xyz.genesisapp.discord.api.gateway

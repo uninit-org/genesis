@@ -60,7 +60,7 @@ enum class ChannelType {
 }
 
 @Serializable
-class Channel(
+class ApiChannel(
     val id: Snowflake,
     @SerialName("guild_id")
     val guildId: Snowflake? = null,

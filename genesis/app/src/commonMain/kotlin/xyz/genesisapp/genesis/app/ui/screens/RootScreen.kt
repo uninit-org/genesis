@@ -3,7 +3,7 @@ package xyz.genesisapp.genesis.app.ui.screens
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
-import xyz.genesisapp.genesis.app.ui.screens.client.ClientRootScreen
+import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
 import xyz.genesisapp.genesisApi.GenesisApiClient
 import xyz.genesisapp.genesisApi.types.update.UpdateRequest
 
@@ -35,7 +35,7 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
             val authData = authResponse.getOrNull()!!
             println("Logged in as ${authData.username}")
 
-            ClientRootScreen()
+            GatewayLoadScreen()
         } else {
             LoginScreen()
         }

@@ -2,7 +2,6 @@ package xyz.genesisapp.genesis.app.ui.screens.auth
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
@@ -15,7 +14,7 @@ import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.ui.components.Centered
 import xyz.genesisapp.genesis.app.ui.components.form.composeForm
-import xyz.genesisapp.genesis.app.ui.screens.client.ClientRootScreen
+import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
 
 class LoginScreen(
 
@@ -35,10 +34,10 @@ class LoginScreen(
 
         var tokenPref by prefs.preference("auth.token", "")
 
-        LifecycleEffect(
-            onStarted = { println("Navigator: Start screen #$key") },
-            onDisposed = { println("Navigator: Dispose screen #$key") }
-        )
+//        LifecycleEffect(
+//            onStarted = { println("Navigator: Start screen #$key") },
+//            onDisposed = { println("Navigator: Dispose screen #$key") }
+//        )
 
         Centered {
             composeForm {
@@ -77,7 +76,7 @@ class LoginScreen(
                             if (res.isOk()) {
                                 tokenPref = token
                                 println("Logged in as ${res.getOrNull()!!.username}")
-                                navigator.replace(ClientRootScreen())
+                                navigator.replace(GatewayLoadScreen())
                             } else {
                                 genesisClient.rest.token = ""
                                 println("Invalid token")

@@ -31,6 +31,10 @@ compose.desktop {
             )
             packageName = "Genesis"
             packageVersion = "1.0.0"
+
+            macOS {
+                bundleID = "xyz.genesisapp.genesis"
+            }
         }
     }
 }

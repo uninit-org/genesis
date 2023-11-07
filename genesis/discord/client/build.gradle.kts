@@ -29,9 +29,12 @@ kotlin {
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.negotiation)
                 implementation(libs.ktor.client.websockets)
+                implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.json)
                 compileOnly(compose.runtime)
                 compileOnly(libs.koin.core) // using di in lib :3
+
+                implementation(libs.napier)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation(project(":genesis:discord:api"))
@@ -44,6 +47,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.jvm.logback)
             }
         }
         val iosX64Main by getting
@@ -61,6 +65,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
+                implementation(libs.jvm.logback)
             }
         }
     }

@@ -3,6 +3,7 @@ package xyz.genesisapp.discord.api.domain.user
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import xyz.genesisapp.discord.api.types.Asset
 
 @Serializable
 data class DomainUserPart(
@@ -12,7 +13,7 @@ data class DomainUserPart(
     @SerialName("global_name")
     val globalName: String,
 
-    val avatar: String,
+    val avatar: Asset,
 
     @SerialName("avatar_decoration_data")
     val avatarDecorationData: JsonElement? = null,
@@ -23,7 +24,7 @@ data class DomainUserPart(
     val publicFlags: Long,
 
     val flags: Long,
-    val banner: String,
+    val banner: Asset,
 
     @SerialName("banner_color")
     val bannerColor: String? = null,

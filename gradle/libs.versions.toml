@@ -8,6 +8,7 @@ koin = "3.5.0"
 koin-compose = "1.1.0"
 voyager = "1.0.0-rc05"
 ktor = "2.3.5"
+napier = "2.6.1"
 
 [libraries]
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
@@ -30,13 +31,17 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 voyager-core = { module = "cafe.adriel.voyager:voyager-core", version.ref = "voyager" }
 
 jvm-gson = { group = "com.google.code.gson", name = "gson", version = "2.10.1" }
+jvm-logback = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.9" }
 
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-client-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-websockets = { group = "io.ktor", name = "ktor-client-websockets", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android" }

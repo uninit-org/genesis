@@ -5,8 +5,10 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import xyz.genesisapp.discord.api.domain.ApiMessage
 import xyz.genesisapp.discord.client.gateway.types.EmptyGatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
+import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
 import xyz.genesisapp.discord.client.gateway.types.events.Ready
 import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayHello
 import xyz.genesisapp.discord.client.gateway.types.iGatewayEvent
@@ -25,6 +27,8 @@ object Opcode0Serializer : JsonContentPolymorphicSerializer<iGatewayEvent>(iGate
     override fun selectDeserializer(element: JsonElement) =
         when (element.jsonObject["t"]!!.jsonPrimitive.toString().replace("\"", "")) {
             "READY" -> GatewayEvent.serializer(Ready.serializer())
+            "MESSAGE_CREATE" -> GatewayEvent.serializer(ApiMessage.serializer())
+            "LAST_MESSAGES" -> GatewayEvent.serializer(LastMessages.serializer())
             else -> error("Unknown event: ${element.jsonObject["t"]!!.jsonPrimitive}")
         }
 }

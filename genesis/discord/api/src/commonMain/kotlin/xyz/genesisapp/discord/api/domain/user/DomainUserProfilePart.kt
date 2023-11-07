@@ -3,6 +3,7 @@ package xyz.genesisapp.discord.api.domain.user
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
+import xyz.genesisapp.discord.api.types.Asset
 
 @Serializable
 data class DomainUserProfilePart(
@@ -16,7 +17,7 @@ data class DomainUserProfilePart(
     @SerialName("profile_effect")
     val profileEffect: JsonElement? = null,
 
-    val banner: String,
+    val banner: Asset,
 
     @SerialName("theme_colors")
     val themeColors: List<Long>,

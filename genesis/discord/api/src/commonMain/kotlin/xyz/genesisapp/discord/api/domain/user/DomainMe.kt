@@ -3,7 +3,8 @@ package xyz.genesisapp.discord.api.domain.user
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import xyz.genesisapp.discord.api.types.Asset
 
 @Serializable
 data class DomainMe(
@@ -11,10 +12,10 @@ data class DomainMe(
     val accentColor: Int?,
     @SerialName("authenticator_types")
     val authenticatorTypes: List<Int>,
-    val avatar: String?,
+    val avatar: Asset?,
     @SerialName("avatar_decoration_data")
-    val avatarDecorationData: JsonElement? = null,
-    val banner: String? = null,
+    val avatarDecorationData: JsonObject? = null,
+    val banner: Asset? = null,
     @SerialName("banner_color")
     val bannerColor: String? = null,
     val bio: String? = null,

@@ -13,6 +13,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.di.dataStoreModule
 import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
@@ -37,6 +39,11 @@ fun App() {
     }) {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()
+        val genesisClient = koin.get<GenesisClient>()
+
+        val logLevel by prefs.preference("debug.logLevel", LogLevel.INFO.name)
+
+        genesisClient.logLevel = LogLevel.fromName(logLevel)
 
 
         val themeName by remember { prefs.preference("ui.theme", "Catppuccin Mocha Rosewater") }
