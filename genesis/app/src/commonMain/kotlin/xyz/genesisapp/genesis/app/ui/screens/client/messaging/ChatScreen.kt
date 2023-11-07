@@ -4,6 +4,7 @@ package xyz.genesisapp.genesis.app.ui.screens.client.messaging
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.onClick
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -190,7 +190,7 @@ class ChatScreen(
                                     .fillMaxWidth()
                                     .height(48.dp)
                                     .padding(top = 48.dp)
-                                    .onClick {
+                                    .clickable {
                                         numNewMessages = 0
                                         scrollToBottom(true)
                                     }

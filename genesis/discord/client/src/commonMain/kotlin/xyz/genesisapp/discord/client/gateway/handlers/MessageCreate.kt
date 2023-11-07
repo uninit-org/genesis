@@ -10,7 +10,6 @@ fun gatewayMessageCreateHandler(genesisClient: GenesisClient, gateway: GatewayCl
         if (!genesisClient.channels.containsKey(msg.channelId)) return@on
         val channel = genesisClient.channels[msg.channelId]!!
         if (!genesisClient.guilds.containsKey(channel.guildId)) return@on
-        val guild = genesisClient.guilds[channel.guildId]!!
         val message = Message.fromApiMessage(msg, genesisClient)
         channel.messages.add(message)
         channel.sort()

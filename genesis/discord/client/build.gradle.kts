@@ -47,7 +47,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
-                implementation(libs.jvm.logback)
             }
         }
         val iosX64Main by getting
@@ -65,7 +64,6 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
-                implementation(libs.jvm.logback)
             }
         }
     }
@@ -73,7 +71,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "xyz.genesisapp.discord.api"
+    namespace = "xyz.genesisapp.discord.client"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

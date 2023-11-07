@@ -46,7 +46,7 @@ fun Channel(channel: Channel, select: (Channel) -> Unit) {
     }
 
     Text(
-        channel.name!!, modifier =
+        channel.name, modifier =
         modifier
     )
 
