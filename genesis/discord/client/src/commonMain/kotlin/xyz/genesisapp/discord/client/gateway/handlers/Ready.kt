@@ -16,7 +16,6 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
     val scope = CoroutineScope(Dispatchers.IO)
     gateway.on<Ready>("READY") { ready ->
         Napier.d("Ready event received", null, "Gateway")
-        gateway.sessionId = ready.sessionId
         genesisClient.userSettings = ready.userSettings
         val guilds = ready.guilds.map<ApiGuild, Guild> { Guild.fromApiGuild(it, genesisClient) }
         genesisClient.guilds = guilds.associateBy { it.id }.toMutableMap()

@@ -105,6 +105,7 @@ class ChatScreen(
         var numNewMessages by remember { mutableStateOf(0) }
 
         fun scrollToBottom(animated: Boolean = false) {
+            if (channel.messages.isEmpty()) return
             scope.launch {
                 if (animated) listState.animateScrollToItem(channel.messages.size - 1)
                 else listState.scrollToItem(channel.messages.size - 1)

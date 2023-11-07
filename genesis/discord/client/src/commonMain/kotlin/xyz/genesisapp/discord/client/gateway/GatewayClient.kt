@@ -28,8 +28,10 @@ import xyz.genesisapp.discord.client.gateway.handlers.initGatewayHandlers
 import xyz.genesisapp.discord.client.gateway.serializers.GatewaySerializer
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
+import xyz.genesisapp.discord.client.gateway.types.events.Ready
 import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayIdentify
 import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayRequestMessages
+import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayResume
 
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,
@@ -58,7 +60,6 @@ class GatewayClient(
 
     var websocket: DefaultClientWebSocketSession? = null
 
-    var sessionId: String? = null
 
     @PublishedApi
     internal val JsonClient = Json {
@@ -88,47 +89,82 @@ class GatewayClient(
 
     fun parseMessage(message: String) = JsonClient.decodeFromString(GatewaySerializer, message)
 
+    private var isDisconnecting = false
+
     fun connect(token: String, os: String = "genesis") {
         if (websocket?.isActive == true) return
-        scope.launch {
-            http.webSocket("wss://gateway.discord.gg/?v=9&encoding=json") {
-                websocket = this
-                val identifyPacket = GatewayEvent(
-                    2, null, null, GatewayIdentify(
-                        token = token,
-                    )
+        var resumePacket: GatewayEvent<GatewayResume>? = null
+        var gatewayUrl = "wss://gateway.discord.gg/?v=9&encoding=json"
+        var seq: Int? = null
+        once<Ready>("READY") { ready ->
+            resumePacket = GatewayEvent(
+                6,
+                null,
+                null,
+                GatewayResume(
+                    token = token,
+                    sessionId = ready.sessionId,
+                    seq = seq!!
                 )
-                send(identifyPacket)
-                while (true) {
-                    val othersMessage = incoming.receive() as? Frame.Text ?: continue
-                    val text = othersMessage.readText()
-                    emit("raw", text)
-                    try {
-                        val json = parseMessage(text) as GatewayEvent<*>
+            )
+            gatewayUrl = ready.resumeGatewayUrl
+        }
+        scope.launch {
+            while (!isDisconnecting) {
+                try {
+                    http.webSocket(gatewayUrl) {
+                        websocket = this
+                        if (resumePacket === null) {
+                            val identifyPacket = GatewayEvent(
+                                2, null, null, GatewayIdentify(
+                                    token = token,
+                                )
+                            )
+                            send(identifyPacket)
+                        } else {
+                            println("RESUMING")
+                            send(resumePacket)
+                        }
+                        while (true) {
+                            val othersMessage = incoming.receive() as? Frame.Text ?: continue
+                            val text = othersMessage.readText()
+                            emit("raw", text)
+                            try {
+                                val json = parseMessage(text) as GatewayEvent<*>
 
-                        val event = json.t ?: json.op.toString()
+                                seq = json.s
 
-                        emit(event, json.d)
-                        emit("${event}Raw", text)
-                    } catch (e: Exception) {
-                        val blacklist = listOf(
-                            "Unknown opcode",
-                            "Unknown event",
-                            "Channel was closed"
-                        )
-                        var isBlacklisted = false
-                        for (blacklisted in blacklist) {
-                            if (e.message?.contains(blacklisted) == true) {
-                                if (e.message !== null) Napier.v(e.message!!, null, "Gateway")
-                                isBlacklisted = true
-                                break
+                                val event = json.t ?: json.op.toString()
+
+                                emit(event, json.d)
+                                emit("${event}Raw", text)
+                            } catch (e: Exception) {
+                                val blacklist = listOf(
+                                    "Unknown opcode",
+                                    "Unknown event",
+                                    "Channel was closed"
+                                )
+                                var isBlacklisted = false
+                                for (blacklisted in blacklist) {
+                                    if (e.message?.contains(blacklisted) == true) {
+                                        if (e.message !== null) Napier.v(
+                                            e.message!!,
+                                            null,
+                                            "Gateway"
+                                        )
+                                        isBlacklisted = true
+                                        break
+                                    }
+                                }
+                                if (!isBlacklisted)
+                                    Napier.e("Error parsing message", e, "Gateway")
                             }
                         }
-                        if (!isBlacklisted)
-                            Napier.e("Error parsing message", e, "Gateway")
                     }
+                } catch (_: Exception) {
                 }
             }
+            isDisconnecting = false
         }
     }
 
@@ -137,6 +173,7 @@ class GatewayClient(
     }
 
     fun disconnect() {
+        isDisconnecting = true
         scope.launch {
             websocket?.close()
         }

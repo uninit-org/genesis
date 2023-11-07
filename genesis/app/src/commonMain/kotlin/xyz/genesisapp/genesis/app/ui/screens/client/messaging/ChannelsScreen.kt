@@ -81,7 +81,7 @@ class ChannelsScreen(
 
         var currentChannel by prefs.preference(
             "client.currentChannel",
-            guild.channels.first().id
+            guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id,
         )
 
         val events = mutableListOf<Int>()

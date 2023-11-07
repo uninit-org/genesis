@@ -53,7 +53,7 @@ open class EventEmitter {
             while (iterator2.hasNext()) {
                 val listener = iterator2.next()
                 if (listener.uuid == uuid) {
-                    event.value.remove(listener)
+                    listeners[event.key]!!.remove(listener)
                 }
             }
         }
