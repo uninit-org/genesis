@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,8 +33,11 @@ import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import xyz.genesisapp.genesis.app.ui.components.icons.icons.Textchannel
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Channel(channel: Channel, select: (Channel) -> Unit) {
     var modifier = Modifier
@@ -41,15 +45,24 @@ fun Channel(channel: Channel, select: (Channel) -> Unit) {
             select(channel)
         }
 
-    if (channel.parentId != null) {
-        modifier = modifier.padding(start = 16.dp)
+    val icon = when (channel.type) {
+        ChannelType.GUILD_TEXT -> Icons.Textchannel
+        else -> null
     }
 
-    Text(
-        channel.name, modifier =
-        modifier
-    )
-
+    Row {
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = modifier.padding(start = 8.dp, end = 4.dp)
+            )
+        } else modifier = modifier.padding(start = 12.dp)
+        Text(
+            channel.name, modifier =
+            modifier
+        )
+    }
 }
 
 
@@ -58,11 +71,16 @@ fun Category(
     category: Channel?, children: List<Channel>, select: (Channel) -> Unit
 ) {
     if (category != null) {
-        Text(category.name)
+        Text(category.name,
+            modifier = Modifier.clickable {
+                category.isCollapsed.value = !category.isCollapsed.value
+            })
     }
-    children.forEach { channel ->
-        Channel(channel) {
-            select(it)
+    if (category?.isCollapsed?.value != true) {
+        children.forEach { channel ->
+            Channel(channel) {
+                select(it)
+            }
         }
     }
 }
@@ -100,7 +118,7 @@ class ChannelsScreen(
                 LazyColumn(
                     modifier = Modifier
                         .width(
-                            128.dp
+                            200.dp
                         )
                 ) {
 

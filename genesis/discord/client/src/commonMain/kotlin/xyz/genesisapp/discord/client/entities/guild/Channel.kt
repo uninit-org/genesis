@@ -1,6 +1,8 @@
 package xyz.genesisapp.discord.client.entities.guild
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
 import xyz.genesisapp.common.fytix.Err
 import xyz.genesisapp.common.fytix.EventEmitter
@@ -22,7 +24,8 @@ class Channel(
     var nsfw: Boolean,
     var parentId: Snowflake? = null,
     var type: ChannelType,
-    var children: MutableList<Snowflake> = mutableListOf()
+    var children: MutableList<Snowflake> = mutableListOf(),
+    var isCollapsed: MutableState<Boolean> = mutableStateOf(false)
 ) : EventEmitter() {
     val messages = mutableStateListOf<Message>()
 

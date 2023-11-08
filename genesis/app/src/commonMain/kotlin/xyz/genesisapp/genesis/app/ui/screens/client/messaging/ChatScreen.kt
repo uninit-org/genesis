@@ -3,6 +3,7 @@ package xyz.genesisapp.genesis.app.ui.screens.client.messaging
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
@@ -53,6 +56,7 @@ import xyz.genesisapp.discord.client.entities.guild.Message
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun message(message: Message) {
     Row(
@@ -75,6 +79,11 @@ fun message(message: Message) {
                             128
                         )
                     ),
+                    contentDescription = "Avatar",
+                )
+            } else {
+                Image(
+                    painter = painterResource("images/default/default_avatar_${message.author.id % 5}.png"),
                     contentDescription = "Avatar",
                 )
             }
