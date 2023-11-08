@@ -12,48 +12,81 @@ open class EventEmitter {
     interface Listener<T> {
         val isOnce: Boolean
         val callback: (T) -> Unit
-        val uuid: Int
+        var uuid: Int
     }
 
-    fun <T> on(event: String, callback: (T) -> Unit): Int {
+    fun <T> on(event: String, callback: (T) -> Unit): () -> Unit {
         latestUuid++
         val listener: Listener<T> = object : Listener<T> {
             override val isOnce: Boolean = false
             override val callback: (T) -> Unit = callback
-            override val uuid: Int = latestUuid
+            override var uuid: Int = latestUuid
         }
         if (listeners.containsKey(event)) {
             listeners[event]!!.add(listener)
         } else {
             listeners[event] = mutableListOf(listener)
         }
-        return latestUuid
+        return {
+            off(listener.uuid)
+        }
     }
 
-    fun <T> once(event: String, callback: (T) -> Unit): Int {
+    class quietResponse(
+        val event: String,
+        val listener: Listener<*>,
+        val eventEmitter: EventEmitter
+    )
+
+    fun <T : Any> quietRegister(event: String, callback: (T) -> Unit) =
+        quietResponse(event, object : Listener<T> {
+            override val isOnce: Boolean = false
+            override val callback: (T) -> Unit = callback
+            override var uuid: Int = -1
+        }, this)
+
+
+    fun quietOn(listener: quietResponse): () -> Unit {
+        latestUuid++
+        listener.listener.uuid = latestUuid
+        if (listeners.containsKey(listener.event)) {
+            listeners[listener.event]!!.add(listener.listener)
+        } else {
+            listeners[listener.event] = mutableListOf(listener.listener)
+        }
+        return {
+            off(listener.listener.uuid)
+        }
+    }
+
+    fun <T> once(event: String, callback: (T) -> Unit): () -> Unit {
         latestUuid++
         val listener: Listener<T> = object : Listener<T> {
             override val isOnce: Boolean = true
             override val callback: (T) -> Unit = callback
-            override val uuid: Int = latestUuid
+            override var uuid: Int = latestUuid
         }
         if (listeners.containsKey(event)) {
             listeners[event]!!.add(listener)
         } else {
             listeners[event] = mutableListOf(listener)
         }
-        return latestUuid
+        return {
+            off(listener.uuid)
+        }
     }
 
     fun off(uuid: Int) {
         val iterator = listeners.iterator()
         while (iterator.hasNext()) {
             val event = iterator.next()
-            val iterator2 = event.value.iterator()
-            while (iterator2.hasNext()) {
-                val listener = iterator2.next()
-                if (listener.uuid == uuid) {
-                    listeners[event.key]!!.remove(listener)
+            if (event.value.find { it.uuid == uuid } != null) {
+                val iterator2 = event.value.iterator()
+                while (iterator2.hasNext()) {
+                    val listener = iterator2.next()
+                    if (listener.uuid == uuid) {
+                        iterator2.remove()
+                    }
                 }
             }
         }
@@ -66,7 +99,7 @@ open class EventEmitter {
             override val callback: (T) -> Unit = { data ->
                 response = data
             }
-            override val uuid: Int = -1
+            override var uuid: Int = -1
         }
         if (listeners.containsKey(event)) {
             listeners[event]!!.add(listener)

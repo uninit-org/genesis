@@ -1,9 +1,13 @@
 package xyz.genesisapp.discord.client.entities.guild
 
+import androidx.compose.runtime.mutableStateListOf
+import kotlinx.coroutines.delay
 import xyz.genesisapp.common.fytix.Err
 import xyz.genesisapp.common.fytix.EventEmitter
 import xyz.genesisapp.common.fytix.Ok
+import xyz.genesisapp.common.getTimeInMillis
 import xyz.genesisapp.discord.api.domain.ApiMessage
+import xyz.genesisapp.discord.api.domain.UtcDateTime
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.entities.guild.ApiChannel
@@ -20,18 +24,38 @@ class Channel(
     var type: ChannelType,
     var children: MutableList<Snowflake> = mutableListOf()
 ) : EventEmitter() {
-    val messages = mutableListOf<Message>()
+    val messages = mutableStateListOf<Message>()
 
-    fun addMessage(apiMessage: ApiMessage) {
-        val message = Message.fromApiMessage(apiMessage, genesisClient)
+    private fun addMessage(message: Message, isBulk: Boolean = false): Message {
         if (messages.find { it.id == message.id } == null) {
             messages.add(message)
             sort()
-            emit("MESSAGE_CREATE", message)
+            if (!isBulk) emit("MESSAGE_CREATE", message)
         }
+        return message
     }
 
-    fun addMessages(messages: List<ApiMessage>) = messages.forEach { addMessage(it) }
+    fun addApiMessages(apiMessages: List<ApiMessage>): List<Message> =
+        addMessages(apiMessages.map { Message.fromApiMessage(it, genesisClient) })
+
+    fun addMessages(messages: List<Message>): List<Message> {
+        val added = mutableListOf<Message>()
+        messages.forEach { added.add(addMessage(it, true)) }
+        emit("MESSAGE_CREATE_BULK", added)
+        return added
+    }
+
+    fun deleteMessage(message: Message) = deleteMessage(message.id)
+
+    fun deleteMessage(apiMessage: ApiMessage) = deleteMessage(apiMessage.id!!)
+
+    fun deleteMessage(id: Snowflake) {
+        val message = messages.find { it.id == id }
+        if (message != null) {
+            messages.remove(message)
+            emit("MESSAGE_DELETE", message.id)
+        }
+    }
 
     val guild: Guild
         get() = genesisClient.guilds[guildId]!!
@@ -43,11 +67,7 @@ class Channel(
     suspend fun fetchMessages(limit: Int = 50, after: Snowflake? = null): List<Message>? {
         return when (val res = genesisClient.rest.getMessages(id, limit, after)) {
             is Ok -> {
-                val newMessages = res.value.map { Message.fromApiMessage(it, genesisClient) }
-                messages.addAll(newMessages)
-                sort()
-                emit("MESSAGE_CREATE_BULK", newMessages)
-                newMessages
+                return addApiMessages(res.value)
             }
 
             is Err -> {
@@ -57,10 +77,25 @@ class Channel(
     }
 
     suspend fun sendMessage(content: String): Message? {
-        val res = genesisClient.rest.sendMessage(id, ApiMessage(content = content))
-        return when (res) {
+        val apiMessage = ApiMessage(
+            content = content,
+            channelId = id,
+            author = genesisClient.normalUser,
+            nonce = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000
+        )
+        println(apiMessage.nonce)
+        println(messages.last().id)
+        println(apiMessage.nonce!! > messages.last().id)
+        var message = Message.fromApiMessage(apiMessage, genesisClient)
+        message.isSent = false
+        addMessage(message)
+        delay(3000L)
+        return when (val res = genesisClient.rest.sendMessage(id, apiMessage)) {
             is Ok -> {
-                Message.fromApiMessage(res.value, genesisClient)
+                messages.remove(message)
+                message = Message.fromApiMessage(res.value, genesisClient)
+                addMessage(message)
+                message
             }
 
             is Err -> {

@@ -15,8 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -34,6 +32,7 @@ import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 
 @Composable
 fun Channel(channel: Channel, select: (Channel) -> Unit) {
@@ -70,7 +69,7 @@ fun Category(
 
 class ChannelsScreen(
     private var guild: Guild
-) : Screen {
+) : EventScreen() {
     @OptIn(ExperimentalResourceApi::class, ExperimentalKamelApi::class)
     @Composable
     override fun Content() {
@@ -85,17 +84,9 @@ class ChannelsScreen(
             guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id,
         )
 
-        val events = mutableListOf<Int>()
-        LifecycleEffect(
-            onStarted = {
-                events.add(dataStore.events.on<Snowflake>("GUILD_SELECT") {
-                    navigator.push(ChannelsScreen(genesisClient.guilds[it]!!))
-                })
-            },
-            onDisposed = {
-                events.forEach {
-                    dataStore.events.off(it)
-                }
+        Events(
+            dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
+                navigator.push(ChannelsScreen(genesisClient.guilds[it]!!))
             }
         )
 

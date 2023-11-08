@@ -25,6 +25,7 @@ import xyz.genesisapp.discord.api.ApiError
 import xyz.genesisapp.discord.api.domain.ApiMessage
 import xyz.genesisapp.discord.api.domain.user.DomainMe
 import xyz.genesisapp.discord.api.domain.user.DomainUserProfile
+import xyz.genesisapp.discord.api.domain.user.User
 import xyz.genesisapp.discord.api.domain.user.UserSettings
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
@@ -113,13 +114,14 @@ class RestClient(
     }
 
     suspend fun getDomainMe(): Result<DomainMe, ApiError> = get("users/@me")
+    suspend fun getUser(userId: Snowflake): Result<User, ApiError> = get("users/$userId")
     suspend fun getDomainUser(
-        userId: String,
+        userId: Snowflake,
         withMutualGuilds: Boolean = true
     ): Result<DomainUserProfile, ApiError> =
         get("users/$userId/profile?with_mutual_guilds=$withMutualGuilds&with_mutual_friends_count=false")
 
-    suspend fun getGuild(guildId: String): Result<ApiGuild, ApiError> = get("guilds/$guildId")
+    suspend fun getGuild(guildId: Snowflake): Result<ApiGuild, ApiError> = get("guilds/$guildId")
     suspend fun getUserSettings(): Result<UserSettings, ApiError> = get("users/@me/settings")
 
     suspend fun getMessages(

@@ -6,7 +6,6 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import xyz.genesisapp.discord.api.domain.ApiMessage
-import xyz.genesisapp.discord.client.gateway.types.BooleanGatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.EmptyGatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
@@ -19,7 +18,7 @@ object GatewaySerializer : JsonContentPolymorphicSerializer<iGatewayEvent>(iGate
         when (element.jsonObject["op"]!!.jsonPrimitive.int) {
             0 -> Opcode0Serializer
             1 -> EmptyGatewayEvent.serializer()
-            9 -> BooleanGatewayEvent.serializer()
+//            9 -> BooleanGatewayEvent.serializer() kotlin doesnt like this :(
             10 -> GatewayEvent.serializer(GatewayHello.serializer())
             else -> error("Unknown opcode: ${element.jsonObject["op"]!!.jsonPrimitive.int}")
         }

@@ -2,7 +2,6 @@ package xyz.genesisapp.genesis.app.ui.screens
 
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
 import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
 import xyz.genesisapp.genesisApi.GenesisApiClient
@@ -14,16 +13,20 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
     val genesisApi = koin.get<GenesisApiClient>()
     val genesisClient = koin.get<GenesisClient>()
     var apiUUID by prefs.preference("api.uuid", "")
-    val response = genesisApi.getUpdate(UpdateRequest(apiUUID, "0.0.0b", emptyMap()))
-    val data = response.getOrNull()
-    if (data != null) {
-        apiUUID = data.uuid
-        if (data.updateAvailable) {
-            println("Update available")
+    try {
+        val response = genesisApi.getUpdate(UpdateRequest(apiUUID, "0.0.0b", emptyMap()))
+        val data = response.getOrNull()
+        if (data != null) {
+            apiUUID = data.uuid
+            if (data.updateAvailable) {
+                println("Update available")
+            }
+            if (data.pluginUpdates.isNotEmpty()) {
+                println("${data.pluginUpdates.size} plugin updates available")
+            }
         }
-        if (data.pluginUpdates.isNotEmpty()) {
-            println("${data.pluginUpdates.size} plugin updates available")
-        }
+    } catch (e: Exception) {
+        println("Error checking for updates: ${e.message}")
     }
 
 

@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import xyz.genesisapp.discord.api.types.Asset
+import xyz.genesisapp.discord.api.types.Snowflake
 
 @Serializable
 data class DomainMe(
@@ -24,7 +25,7 @@ data class DomainMe(
     val flags: UserFlags,
     @SerialName("global_name")
     val globalName: String,
-    val id: String,
+    val id: Snowflake,
     @SerialName("linked_users")
     val linkedUsers: JsonArray,
     val locale: String,

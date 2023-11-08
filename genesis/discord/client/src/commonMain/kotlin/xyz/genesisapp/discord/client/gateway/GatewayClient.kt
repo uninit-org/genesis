@@ -98,6 +98,7 @@ class GatewayClient(
         var resumePacket: GatewayEvent<GatewayResume>? = null
         var gatewayUrl = "wss://gateway.discord.gg/?v=9&encoding=json"
         var seq: Int? = null
+        var retries = 0
         once<Ready>("READY") { ready ->
             resumePacket = GatewayEvent(
                 6,
@@ -113,6 +114,10 @@ class GatewayClient(
         }
         scope.launch {
             while (!isDisconnecting) {
+                if (retries > 10) {
+                    Napier.e("Gateway failed to connect", null, "Gateway")
+                    break
+                }
                 try {
                     http.webSocket(gatewayUrl) {
                         websocket = this
@@ -124,6 +129,7 @@ class GatewayClient(
                             )
                             send(identifyPacket)
                         } else {
+                            retries++
                             println("RESUMING")
                             send(resumePacket)
                         }
@@ -167,6 +173,7 @@ class GatewayClient(
                 }
             }
             isDisconnecting = false
+            emit("GATEWAY_DISCONNECT", true)
         }
     }
 
@@ -194,7 +201,7 @@ class GatewayClient(
         while (true) {
             val msg = suspendOnce<LastMessages>("LAST_MESSAGES")
             if (msg.guildId == channel.guildId) {
-                channel.addMessages(msg.messages)
+                channel.addApiMessages(msg.messages)
                 break
             }
         }

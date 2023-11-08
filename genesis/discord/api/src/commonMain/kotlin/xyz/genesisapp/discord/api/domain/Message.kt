@@ -15,4 +15,6 @@ data class ApiMessage(
     var channelId: Snowflake? = null,
 
     var author: User? = null,
-)
+    val nonce: Long? = null,
+) {
+}

@@ -15,6 +15,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import org.koin.core.Koin
+import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.genesis.app.ui.components.Centered
 
 open class GenericLoadingScreen(
@@ -25,10 +26,12 @@ open class GenericLoadingScreen(
     @Composable
     override fun Content() {
         val koin = getKoin()
+        val prefs = koin.get<PreferencesManager>()
+        val useDiscordIcon by prefs.preference("ui.discordIcon", false)
         Centered {
             Image(
-                painterResource("images/img_logo.png"),
-                contentDescription = "Genesis Logo",
+                painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
+                contentDescription = "${if (useDiscordIcon) "Discord" else "Genesis"} Logo",
                 modifier = Modifier.size(100.dp)
             )
             Text(loadingText)
