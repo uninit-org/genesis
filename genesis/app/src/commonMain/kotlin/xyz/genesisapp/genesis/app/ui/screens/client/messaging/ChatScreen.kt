@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.key.Key
@@ -173,6 +174,16 @@ class ChatScreen(
                                 .height(48.dp)
                                 .background(color = MaterialTheme.colorScheme.primary)
                         ) {
+                            if (dataStore.mobileUi) {
+                                Button(
+                                    onClick = {
+                                        dataStore.showGuilds = !dataStore.showGuilds
+                                    },
+                                    modifier = Modifier.align(alignment = Alignment.CenterStart)
+                                ) {
+                                    Text("Show Guilds")
+                                }
+                            }
                             Text(channel.name)
                             Button(
                                 onClick = {

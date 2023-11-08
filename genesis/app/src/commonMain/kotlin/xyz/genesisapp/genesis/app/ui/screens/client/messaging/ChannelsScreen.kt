@@ -1,6 +1,7 @@
 package xyz.genesisapp.genesis.app.ui.screens.client.messaging
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -103,89 +104,91 @@ class ChannelsScreen(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
+            AnimatedVisibility(visible = dataStore.showGuilds || !dataStore.mobileUi) {
 
-            LazyColumn(
-                modifier = Modifier
-                    .width(
-                        128.dp
-                    )
-            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .width(
+                            128.dp
+                        )
+                ) {
 
-                val uncategorized = mutableMapOf<Snowflake, Channel>()
-                val categories = mutableMapOf<Snowflake, Channel>()
+                    val uncategorized = mutableMapOf<Snowflake, Channel>()
+                    val categories = mutableMapOf<Snowflake, Channel>()
 
-                guild.channels.forEach {
-                    if (it.type == ChannelType.GUILD_CATEGORY) {
-                        categories[it.id] = it
-                    }
-                }
-                guild.channels.forEach {
-                    if (it.type != ChannelType.GUILD_CATEGORY) {
-                        if (it.parentId != null) {
-                            if (categories[it.parentId!!]?.children?.contains(it.id) == true) {
-                                return@forEach
-                            }
-                            categories[it.parentId!!]!!.children.add(it.id)
-                        } else {
-                            uncategorized[it.id] = it
+                    guild.channels.forEach {
+                        if (it.type == ChannelType.GUILD_CATEGORY) {
+                            categories[it.id] = it
                         }
                     }
-                }
+                    guild.channels.forEach {
+                        if (it.type != ChannelType.GUILD_CATEGORY) {
+                            if (it.parentId != null) {
+                                if (categories[it.parentId!!]?.children?.contains(it.id) == true) {
+                                    return@forEach
+                                }
+                                categories[it.parentId!!]!!.children.add(it.id)
+                            } else {
+                                uncategorized[it.id] = it
+                            }
+                        }
+                    }
 
-                val sortedCategories = categories.values.sortedBy { it.position }
-                val sortedUncategorized = uncategorized.values.sortedBy { it.position }
-                val iterator = sortedCategories.iterator()
-                while (iterator.hasNext()) {
-                    val category = iterator.next()
-                    category.children =
-                        category.children.sortedBy { guild.channels.find { it2 -> it2.id == it }!!.position }
-                            .toMutableList()
-                }
+                    val sortedCategories = categories.values.sortedBy { it.position }
+                    val sortedUncategorized = uncategorized.values.sortedBy { it.position }
+                    val iterator = sortedCategories.iterator()
+                    while (iterator.hasNext()) {
+                        val category = iterator.next()
+                        category.children =
+                            category.children.sortedBy { guild.channels.find { it2 -> it2.id == it }!!.position }
+                                .toMutableList()
+                    }
 
 
-                item {
-                    val modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                    if (guild.banner != null) {
-                        KamelImageBox(
-                            resource = asyncPainterResource(
-                                guild.banner!!.toUrl(AssetType.Banner, guild.id, 480),
-                            ),
-                            modifier = modifier,
-                            onFailure = {
+                    item {
+                        val modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                        if (guild.banner != null) {
+                            KamelImageBox(
+                                resource = asyncPainterResource(
+                                    guild.banner!!.toUrl(AssetType.Banner, guild.id, 480),
+                                ),
+                                modifier = modifier,
+                                onFailure = {
+                                    Text(guild.name)
+                                }
+                            )
+                            {
                                 Text(guild.name)
                             }
-                        )
-                        {
-                            Text(guild.name)
                         }
                     }
-                }
 
 
 
-                if (sortedUncategorized.isNotEmpty())
-                    item {
-                        Category(null, sortedUncategorized) {
+                    if (sortedUncategorized.isNotEmpty())
+                        item {
+                            Category(null, sortedUncategorized) {
+                                currentChannel = it.id
+                                dataStore.events.emit("CHANNEL_SELECT", it.id)
+                            }
+                        }
+
+                    items(
+                        items = sortedCategories,
+                        key = { it.id }
+                    ) { category ->
+                        val children = category.children.map { channelId ->
+                            guild.channels.find { it2 -> it2.id == channelId }!!
+                        }
+                        Category(category, children) {
                             currentChannel = it.id
                             dataStore.events.emit("CHANNEL_SELECT", it.id)
                         }
                     }
 
-                items(
-                    items = sortedCategories,
-                    key = { it.id }
-                ) { category ->
-                    val children = category.children.map { channelId ->
-                        guild.channels.find { it2 -> it2.id == channelId }!!
-                    }
-                    Category(category, children) {
-                        currentChannel = it.id
-                        dataStore.events.emit("CHANNEL_SELECT", it.id)
-                    }
                 }
-
             }
             Navigator(ChatScreen(genesisClient.channels[currentChannel]!!))
         }

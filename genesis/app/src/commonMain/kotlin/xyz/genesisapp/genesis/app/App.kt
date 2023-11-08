@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.Layout
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -15,6 +16,7 @@ import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.enum.LogLevel
+import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.di.dataStoreModule
 import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
@@ -31,7 +33,7 @@ fun App() {
     KoinApplication(application = {
         modules(
             preferencesModule,
-            httpModule(),
+             httpModule(),
             genesisClientModule(),
             genesisApiModule(),
             dataStoreModule()
@@ -40,6 +42,7 @@ fun App() {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()
         val genesisClient = koin.get<GenesisClient>()
+        val dataStore = koin.get<DataStore>()
 
         val logLevel by prefs.preference("debug.logLevel", LogLevel.INFO.name)
 
@@ -54,9 +57,28 @@ fun App() {
                 modifier = Modifier.fillMaxSize()
                     .background(LocalContextColors.currentOrThrow.background),
             ) {
-                Box(Modifier.padding(it)) {
-                    Navigator(RootScreen())
-                }
+                Layout(
+                    measurePolicy = { measurables, constraints ->
+                        if (constraints.maxHeight > constraints.maxWidth && !dataStore.mobileUi) dataStore.mobileUi = true
+                        if (constraints.maxHeight < constraints.maxWidth && dataStore.mobileUi) dataStore.mobileUi = false
+                        val placeables = measurables.map { measurable ->
+                            measurable.measure(constraints)
+                        }
+
+                        layout(constraints.maxWidth, constraints.maxHeight) {
+                            var yPosition = 0
+                            placeables.forEach { placeable ->
+                                placeable.placeRelative(x = 0, y = yPosition)
+                                yPosition += placeable.height
+                            }
+                        }
+                    },
+                    content = {
+                        Box(Modifier.padding(it)) {
+                            Navigator(RootScreen())
+                        }
+                    }
+                )
             }
         }
     }

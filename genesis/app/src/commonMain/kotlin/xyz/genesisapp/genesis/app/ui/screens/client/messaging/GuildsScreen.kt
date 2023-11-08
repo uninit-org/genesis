@@ -1,6 +1,7 @@
 package xyz.genesisapp.genesis.app.ui.screens.client.messaging
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -62,49 +63,20 @@ class GuildsScreen : Screen {
                 rerenderBool = false
             }
             if (rerenderBool) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(64.dp)
-                ) {
-                    items(
-                        items = genesisClient.userSettings!!.guildFolders,
-                        key = { it.id ?: it.guildIds.first() }
-                    ) { sortedFolder ->
-                        if (sortedFolder.guildIds.isEmpty()) return@items
-                        if (sortedFolder.guildIds.size == 1) {
-                            sortedFolder.collapsed = false
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .size(
-                                        48.dp,
-                                        48.dp
-                                    )
-                                    .clickable {
-                                        sortedFolder.collapsed = !sortedFolder.collapsed
-                                        rerender()
-                                    }
-                            ) {
-                                Image(
-                                    painter = painterResource("images/folder.png"),
-                                    contentDescription = sortedFolder.name,
-                                    colorFilter = ColorFilter.tint(
-                                        Color(
-                                            sortedFolder.color ?: 0x5865f2
-                                        ).copy(alpha = 0.5f)
-                                    ),
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
-
-                        }
-                        if (!sortedFolder.collapsed) {
-                            sortedFolder.guildIds.forEach forEach2@{ guildId ->
-                                val guild = genesisClient.guilds[guildId.toLong()]
-                                if (guild === null) return@forEach2
+                AnimatedVisibility(visible = dataStore.showGuilds || !dataStore.mobileUi) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(64.dp)
+                    ) {
+                        items(
+                            items = genesisClient.userSettings!!.guildFolders,
+                            key = { it.id ?: it.guildIds.first() }
+                        ) { sortedFolder ->
+                            if (sortedFolder.guildIds.isEmpty()) return@items
+                            if (sortedFolder.guildIds.size == 1) {
+                                sortedFolder.collapsed = false
+                            } else {
                                 Box(
                                     modifier = Modifier
                                         .size(
@@ -112,28 +84,59 @@ class GuildsScreen : Screen {
                                             48.dp
                                         )
                                         .clickable {
-                                            currentGuild = guildId.toLong()
-                                            dataStore.events.emit(
-                                                "GUILD_SELECT",
-                                                guildId.toLong()
-                                            )
+                                            sortedFolder.collapsed = !sortedFolder.collapsed
+                                            rerender()
                                         }
                                 ) {
-                                    if (guild.icon !== null) KamelImage(
-                                        resource = asyncPainterResource(
-                                            guild.icon!!.toUrl(
-                                                AssetType.Icon, guild.id,
-                                                128
-                                            )
+                                    Image(
+                                        painter = painterResource("images/folder.png"),
+                                        contentDescription = sortedFolder.name,
+                                        colorFilter = ColorFilter.tint(
+                                            Color(
+                                                sortedFolder.color ?: 0x5865f2
+                                            ).copy(alpha = 0.5f)
                                         ),
-                                        contentDescription = guild.name
-                                    ) else {
-                                        var str = ""
-                                        guild.name.split(" ").forEach { word ->
-                                            str += word[0]
-                                        }
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .align(Alignment.Center)
+                                    )
+                                }
 
-                                        Text(str)
+                            }
+                            if (!sortedFolder.collapsed) {
+                                sortedFolder.guildIds.forEach forEach2@{ guildId ->
+                                    val guild = genesisClient.guilds[guildId.toLong()]
+                                    if (guild === null) return@forEach2
+                                    Box(
+                                        modifier = Modifier
+                                            .size(
+                                                48.dp,
+                                                48.dp
+                                            )
+                                            .clickable {
+                                                currentGuild = guildId.toLong()
+                                                dataStore.events.emit(
+                                                    "GUILD_SELECT",
+                                                    guildId.toLong()
+                                                )
+                                            }
+                                    ) {
+                                        if (guild.icon !== null) KamelImage(
+                                            resource = asyncPainterResource(
+                                                guild.icon!!.toUrl(
+                                                    AssetType.Icon, guild.id,
+                                                    128
+                                                )
+                                            ),
+                                            contentDescription = guild.name
+                                        ) else {
+                                            var str = ""
+                                            guild.name.split(" ").forEach { word ->
+                                                str += word[0]
+                                            }
+
+                                            Text(str)
+                                        }
                                     }
                                 }
                             }
