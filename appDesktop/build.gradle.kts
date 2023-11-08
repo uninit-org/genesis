@@ -32,8 +32,16 @@ compose.desktop {
             packageName = "Genesis"
             packageVersion = "1.0.0"
 
+            val iconsRoot = project.file("../genesis/app/src/commonMain/resources/icons")
             macOS {
                 bundleID = "xyz.genesisapp.genesis"
+                iconFile.set(iconsRoot.resolve("genesis.icns"))
+            }
+            windows {
+                iconFile.set(iconsRoot.resolve("genesis.ico"))
+            }
+            linux {
+                iconFile.set(iconsRoot.resolve("genesis.png"))
             }
         }
     }

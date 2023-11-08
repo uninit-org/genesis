@@ -40,7 +40,7 @@ data class DomainMe(
     @SerialName("public_flags")
     val publicFlags: UserFlags,
     @SerialName("purchased_flags")
-    val purchasedFlags: Int, // todo: figure out what these are
+    val purchasedFlags: Int? = null, // todo: figure out what these are
     val username: String,
     val verified: Boolean,
 )

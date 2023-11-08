@@ -82,6 +82,13 @@ jobs:
           name: genesis.zip
           path: appDesktop/build/compose/binaries/main/genesis.zip
 
+      - name: Upload EXE
+        uses: actions/upload-artifact@v3
+        if: matrix.os == 'windows-latest'
+        with:
+          name: genesis.exe
+          path: appDesktop/build/compose/binaries/main/exe/*.exe
+
       - name: Upload Release APK
         uses: actions/upload-artifact@v3
         if: matrix.os == 'ubuntu-latest' && startsWith(github.ref, 'refs/tags/')
