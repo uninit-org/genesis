@@ -91,7 +91,9 @@ class GatewayClient(
 
     private var isDisconnecting = false
 
-    fun connect(token: String) {
+    var token: String = ""
+
+    fun connect() {
         if (websocket?.isActive == true) return
         var resumePacket: GatewayEvent<GatewayResume>? = null
         var gatewayUrl = "wss://gateway.discord.gg/?v=9&encoding=json"

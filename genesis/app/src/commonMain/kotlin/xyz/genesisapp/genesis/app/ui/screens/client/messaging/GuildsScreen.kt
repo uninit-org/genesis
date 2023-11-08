@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,10 @@ import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.data.DataStore
+
+enum class GuildIconType {
+    DM, GUILD, FOLDER
+}
 
 class GuildsScreen : Screen {
     @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
@@ -69,6 +76,37 @@ class GuildsScreen : Screen {
                             .fillMaxHeight()
                             .width(64.dp)
                     ) {
+                        item(key = "DMS") {
+                            val modifier = Modifier
+                                .size(
+                                    48.dp,
+                                    48.dp
+                                )
+                                .clickable {
+                                    currentGuild = 0
+                                    dataStore.events.emit(
+                                        "GUILD_SELECT",
+                                        0
+                                    )
+                                }
+
+                            Box(
+                                modifier = if (currentGuild.toInt() ==0) {
+                                    modifier.clip(RoundedCornerShape(2.dp))
+                                } else {
+                                    modifier.clip(CircleShape)
+                                }
+                            ) {
+                                Image(
+                                    painter = painterResource("icons/genesis.png"),
+                                    contentDescription = "DMs",
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .align(Alignment.Center)
+                                )
+                            }
+                        }
+
                         items(
                             items = genesisClient.userSettings!!.guildFolders,
                             key = { it.id ?: it.guildIds.first() }
@@ -107,19 +145,25 @@ class GuildsScreen : Screen {
                                 sortedFolder.guildIds.forEach forEach2@{ guildId ->
                                     val guild = genesisClient.guilds[guildId.toLong()]
                                     if (guild === null) return@forEach2
-                                    Box(
-                                        modifier = Modifier
-                                            .size(
-                                                48.dp,
-                                                48.dp
+                                    val modifier = Modifier
+                                        .size(
+                                            48.dp,
+                                            48.dp
+                                        )
+                                        .clickable {
+                                            currentGuild = guildId.toLong()
+                                            dataStore.events.emit(
+                                                "GUILD_SELECT",
+                                                guildId.toLong()
                                             )
-                                            .clickable {
-                                                currentGuild = guildId.toLong()
-                                                dataStore.events.emit(
-                                                    "GUILD_SELECT",
-                                                    guildId.toLong()
-                                                )
-                                            }
+                                        }
+
+                                    Box(
+                                        modifier = if (currentGuild == guildId.toLong()) {
+                                            modifier.clip(RoundedCornerShape(2.dp))
+                                        } else {
+                                            modifier.clip(CircleShape)
+                                        }
                                     ) {
                                         if (guild.icon !== null) KamelImage(
                                             resource = asyncPainterResource(

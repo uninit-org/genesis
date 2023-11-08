@@ -13,7 +13,8 @@ class GatewayLoadScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis
 
 
     println("Gateway Connecting")
-    genesisClient.gateway.connect(token)
+    genesisClient.gateway.token = token
+    genesisClient.gateway.connect()
 
     genesisClient.events.suspendOnce<String>("READY")
 

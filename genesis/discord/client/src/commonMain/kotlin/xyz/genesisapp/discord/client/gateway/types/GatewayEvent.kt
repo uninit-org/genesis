@@ -22,3 +22,11 @@ data class EmptyGatewayEvent(
     override val s: Int? = null,
     override val t: String? = null,
 ) : iGatewayEvent
+
+@Serializable
+data class BooleanGatewayEvent(
+    override val op: Int,
+    override val s: Int? = null,
+    override val t: String? = null,
+    val d: Boolean,
+) : iGatewayEvent
