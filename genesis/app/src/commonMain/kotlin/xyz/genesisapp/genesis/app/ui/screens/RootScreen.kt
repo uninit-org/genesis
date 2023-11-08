@@ -2,6 +2,7 @@ package xyz.genesisapp.genesis.app.ui.screens
 
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
 import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
 import xyz.genesisapp.genesisApi.GenesisApiClient
