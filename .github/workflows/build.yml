@@ -15,22 +15,49 @@ jobs:
           java-version: "17"
           distribution: "temurin"
           cache: "gradle"
-      - name: Cache Build outputs
+
+      # holy shit thats alot of caching
+      - name: Cache AppAndroid
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/cache@v3
         with:
-          path: |
-            appAndroid/build
-            appDesktop/build
-            genesis/app/build
-            genesis/build
-            genesis/common/build
-            genesis/discord/api/build
-            genesis/discord/build
-            genesis/discord/client/build
-            genesis/genesisApi/build
-          key: ${{ runner.os }}-build
+          path: appAndroid/build
+          key: ${{ runner.os }}-appAndroid-${{ hashFiles('appAndroid/**') }}
+      - name: Cache AppDesktop
+        uses: actions/cache@v3
+        with:
+          path: appDesktop/build
+          key: ${{ runner.os }}-appDesktop-${{ hashFiles('appDesktop/**') }}
+      - name: Cache genesisApp
+        uses: actions/cache@v3
+        with:
+          path: genesis/app/build
+          key: ${{ runner.os }}-genesis-app-${{ hashFiles('genesis/app/**') }}
+      - name: Cache genesisCommon
+        uses: actions/cache@v3
+        with:
+          path: genesis/common/build
+          key: ${{ runner.os }}-genesis-common-${{ hashFiles('genesis/common/**') }}
+      - name: Cache genesisDiscordApi
+        uses: actions/cache@v3
+        with:
+          path: genesis/discord/api/build
+          key: ${{ runner.os }}-genesis-discord-api-${{ hashFiles('genesis/discord/api/**') }}
+      - name: Cache genesisDiscordClient
+        uses: actions/cache@v3
+        with:
+          path: genesis/discord/client/build
+          key: ${{ runner.os }}-genesis-discord-client-${{ hashFiles('genesis/discord/client/**') }}
+      - name: Cache genesisApi
+        uses: actions/cache@v3
+        with:
+          path: genesis/genesisApi/build
+          key: ${{ runner.os }}-genesis-genesisApi-${{ hashFiles('genesis/genesisApi/**') }}
+
+  
 
       - name: Setup Android SDK
+        if: matrix.os == 'ubuntu-latest'
         uses: android-actions/setup-android@v3
 
       - name: Install rpm-tools on Linux
