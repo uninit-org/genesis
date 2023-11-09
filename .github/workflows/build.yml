@@ -30,6 +30,17 @@ jobs:
             genesis/genesisApi/build
           key: ${{ runner.os }}-build
 
+      - name: Clean up windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          Remove-Item -Path appDesktop/build/compose/binaries -Recurse -Force
+
+      - name: Clean up linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          rm -rf appDesktop/build/compose/binaries
+          rm -rf appAndroid/build/outputs
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
@@ -127,3 +138,14 @@ jobs:
             appDesktop/build/compose/binaries/main/genesis.zip
             appAndroid/build/outputs/apk/release/appAndroid-release-unsigned.apk
             appIos/build/genesis.ipa
+
+      - name: Clean up windows
+        if: matrix.os == 'windows-latest'
+        run: |
+          Remove-Item -Path appDesktop/build/compose/binaries -Recurse -Force
+
+      - name: Clean up linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          rm -rf appDesktop/build/compose/binaries
+          rm -rf appAndroid/build/outputs
