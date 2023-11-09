@@ -9,13 +9,15 @@ import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
 import xyz.genesisapp.discord.client.entities.guild.User
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.discord.client.gateway.GatewayClient
 import xyz.genesisapp.discord.client.gateway.types.events.Ready
 
 fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
     val scope = CoroutineScope(Dispatchers.IO)
     gateway.on<Ready>("READY") { ready ->
-        Napier.d("Ready event received", null, "Gateway")
+        if (genesisClient.logLevel >= LogLevel.DEBUG)
+            Napier.d("Ready event received", null, "Gateway")
         genesisClient.userSettings = ready.userSettings
         genesisClient.guilds.clear()
         ready.guilds.forEach {
@@ -29,11 +31,19 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
         scope.launch {
             val me = genesisClient.rest.getDomainMe()
             if (me.isOk()) genesisClient.user = me.getOrNull()!!
-            else Napier.e("Error getting user: ${me.errorOrNull()}", null, "Gateway")
+            else if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Error getting user: ${me.errorOrNull()}",
+                null,
+                "Gateway"
+            )
             val user = genesisClient.rest.getUser(me.getOrNull()!!.id)
             if (user.isOk()) genesisClient.normalUser =
                 User.fromApiUser(user.getOrNull()!!, genesisClient)
-            else Napier.e("Error getting user: ${user.errorOrNull()}", null, "Gateway")
+            else if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Error getting user: ${user.errorOrNull()}",
+                null,
+                "Gateway"
+            )
             val dmsGuild = Guild(
                 id = 0L,
                 name = "Direct Messages",
@@ -53,8 +63,13 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
                         Channel.fromApiChannel(channel, 0L, genesisClient)
                 }
                 genesisClient.guilds[0L] = dmsGuild
-            } else Napier.e("Error getting DMs: ${dms.errorOrNull()}", null, "Gateway")
-            Napier.d("Gateway Ready", null, "Gateway")
+            } else if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Error getting DMs: ${dms.errorOrNull()}",
+                null,
+                "Gateway"
+            )
+            if (genesisClient.logLevel >= LogLevel.DEBUG)
+                Napier.d("Gateway Ready", null, "Gateway")
             genesisClient.events.emit("READY", "")
         }
     }

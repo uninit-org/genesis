@@ -5,9 +5,10 @@ enum class LogLevel(val level: Int, val str: String) {
     ERROR(1, "ERROR"),
     WARN(2, "WARN"),
     INFO(3, "INFO"),
-    DEBUG(4, "DEBUG"),
+    VERBOSE(4, "VERBOSE"),
+    DEBUG(5, "DEBUG"),
     TRACE(6, "TRACE"),
-    NETWORK(5, "NETWORK");
+    NETWORK(7, "NETWORK");
 
     companion object {
         fun fromValue(level: Int): LogLevel = values().first { it.level == level }

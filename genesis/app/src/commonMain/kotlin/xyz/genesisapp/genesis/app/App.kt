@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
@@ -29,11 +31,12 @@ import xyz.genesisapp.genesis.app.ui.screens.RootScreen
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
+    Napier.base(DebugAntilog())
     val preferencesModule = preferencesModule()
     KoinApplication(application = {
         modules(
             preferencesModule,
-             httpModule(),
+            httpModule(),
             genesisClientModule(),
             genesisApiModule(),
             dataStoreModule()
@@ -59,8 +62,10 @@ fun App() {
             ) {
                 Layout(
                     measurePolicy = { measurables, constraints ->
-                        if (constraints.maxHeight > constraints.maxWidth && !dataStore.mobileUi) dataStore.mobileUi = true
-                        if (constraints.maxHeight < constraints.maxWidth && dataStore.mobileUi) dataStore.mobileUi = false
+                        if (constraints.maxHeight > constraints.maxWidth && !dataStore.mobileUi) dataStore.mobileUi =
+                            true
+                        if (constraints.maxHeight < constraints.maxWidth && dataStore.mobileUi) dataStore.mobileUi =
+                            false
                         val placeables = measurables.map { measurable ->
                             measurable.measure(constraints)
                         }

@@ -60,7 +60,6 @@ object GuildsTab : Tab {
     @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
-        println("guild")
         val koin = getKoin()
         val genesisClient = koin.get<GenesisClient>()
 

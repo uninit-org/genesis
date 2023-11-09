@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.Napier
 import io.kamel.core.ExperimentalKamelApi
 import io.kamel.image.KamelImage
 import io.kamel.image.KamelImageBox
@@ -49,6 +50,7 @@ import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.User.Avatar
@@ -146,7 +148,11 @@ class ChannelsScreen(
         val navigator = LocalNavigator.currentOrThrow
 
         if (_guild == null) {
-            println("Invalid guild")
+            if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Invalid guild",
+                null,
+                "Channels Screen"
+            )
             navigator.replace(ChannelsScreen(genesisClient.guilds[lastGuild]!!, lastGuild))
             return
         }
@@ -172,7 +178,6 @@ class ChannelsScreen(
 
         Events(
             dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
-                println("guild select $it")
                 navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
             }
         )
@@ -204,7 +209,11 @@ class ChannelsScreen(
                             ) {
                                 val modifier = Modifier.align(Alignment.CenterVertically)
                                 Avatar(genesisClient.normalUser, modifier = modifier)
-                                Text(genesisClient.normalUser.displayName, modifier = modifier)
+                                Text(
+                                    genesisClient.normalUser.displayName,
+                                    modifier = modifier.width(100.dp),
+                                    fontSize = MaterialTheme.typography.labelMedium.fontSize
+                                )
                                 Button(
                                     onClick = {
                                         dataStore.events.emit(

@@ -28,9 +28,13 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.AccountSettings
+import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.DevSettings
+import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.GenesisSettings
 
 enum class SettingPage(val tab: Tab) {
     ACCOUNT(AccountSettings),
+    GENESIS(GenesisSettings),
+    DEV(DevSettings)
 }
 
 object SettingsTab : Tab {
@@ -50,9 +54,13 @@ object SettingsTab : Tab {
         var isSettingOpen by remember { mutableStateOf(false) }
         Scaffold(
             topBar = {
-                if (!dataStore.mobileUi) {
+                if (!dataStore.mobileUi || isSettingOpen) {
                     Button(onClick = {
-                        dataStore.events.emit("CLIENT_TAB_BACK", true)
+                        if (dataStore.mobileUi) {
+                            isSettingOpen = false
+                        } else {
+                            dataStore.events.emit("CLIENT_TAB_BACK", true)
+                        }
                     }) {
                         Text("Back")
                     }
@@ -67,16 +75,13 @@ object SettingsTab : Tab {
                             LazyColumn(
                                 modifier = Modifier
                                     .padding(16.dp)
-                                    .clickable {
-                                        isSettingOpen = true
-                                    }
                             ) {
                                 items(items = SettingPage.values().map { it.tab }) {
                                     Row(
                                         modifier = Modifier
                                             .clickable {
                                                 tabNavigator.current = it
-                                                isSettingOpen = true
+                                                if (dataStore.mobileUi) isSettingOpen = true
                                             }
                                     ) {
                                         it.options.icon?.let { it1 ->
@@ -96,15 +101,6 @@ object SettingsTab : Tab {
                                     CurrentTab()
                                 },
                                 modifier = Modifier.background(MaterialTheme.colorScheme.onSurface),
-                                topBar = {
-                                    if (dataStore.mobileUi) {
-                                        Button(onClick = {
-                                            isSettingOpen = false
-                                        }) {
-                                            Text("Back")
-                                        }
-                                    }
-                                }
                             )
                         }
                     }

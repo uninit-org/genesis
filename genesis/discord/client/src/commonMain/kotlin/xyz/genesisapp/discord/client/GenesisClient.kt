@@ -1,8 +1,6 @@
 package xyz.genesisapp.discord.client
 
 import androidx.compose.runtime.mutableStateMapOf
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
 import io.ktor.client.engine.*
 import xyz.genesisapp.common.fytix.EventEmitter
 import xyz.genesisapp.discord.api.annotations.ExperimentalDiscordApi
@@ -43,8 +41,8 @@ class GenesisClient(
 //        var nsfwAllowed: Boolean = true,
 //    ) : User()
 
-    init {
+//    init {
 //        var packs = PremiumType.NITRO.ALLOWED_EMOJI_PACKS
-        Napier.base(DebugAntilog())
-    }
+
+//    }
 }

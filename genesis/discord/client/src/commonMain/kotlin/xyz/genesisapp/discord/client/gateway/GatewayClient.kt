@@ -80,10 +80,18 @@ class GatewayClient(
                     websocket!!.send(frame)
                 }
             } else {
-                Napier.e("Websocket is not active", null, "Gateway")
+                if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                    "Websocket is not active",
+                    null,
+                    "Gateway"
+                )
             }
         } catch (e: Exception) {
-            Napier.e("Error sending data", e, "Gateway")
+            if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Error sending data",
+                e,
+                "Gateway"
+            )
         }
     }
 
@@ -115,7 +123,11 @@ class GatewayClient(
         scope.launch {
             while (!isDisconnecting) {
                 if (retries > 10) {
-                    Napier.e("Gateway failed to connect", null, "Gateway")
+                    if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                        "Gateway failed to connect",
+                        null,
+                        "Gateway"
+                    )
                     break
                 }
                 try {
@@ -130,7 +142,8 @@ class GatewayClient(
                             send(identifyPacket)
                         } else {
                             retries++
-                            println("RESUMING")
+                            if (genesisClient.logLevel >= LogLevel.DEBUG)
+                                Napier.d("Resuming connection", null, "Gateway")
                             send(resumePacket)
                         }
                         while (true) {
@@ -144,6 +157,9 @@ class GatewayClient(
 
                                 val event = json.t ?: json.op.toString()
 
+                                if (genesisClient.logLevel >= LogLevel.NETWORK)
+                                    Napier.d("Received event $event", null, "Gateway")
+
                                 emit(event, json.d)
                                 emit("${event}Raw", text)
                             } catch (e: Exception) {
@@ -155,17 +171,18 @@ class GatewayClient(
                                 var isBlacklisted = false
                                 for (blacklisted in blacklist) {
                                     if (e.message?.contains(blacklisted) == true) {
-                                        if (e.message !== null) Napier.v(
-                                            e.message!!,
-                                            null,
-                                            "Gateway"
-                                        )
                                         isBlacklisted = true
+                                        if (genesisClient.logLevel >= LogLevel.NETWORK)
+                                            Napier.d("Error parsing message", e, "Gateway")
                                         break
                                     }
                                 }
                                 if (!isBlacklisted)
-                                    Napier.e("Error parsing message", e, "Gateway")
+                                    if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                                        "Error parsing message",
+                                        e,
+                                        "Gateway"
+                                    )
                             }
                         }
                     }

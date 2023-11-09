@@ -123,9 +123,7 @@ open class EventEmitter {
                 val listener = iterator.next() as Listener<T>
                 try {
                     listener.callback(data)
-                } catch (e: Exception) {
-                    println("Error in event listener for event $event")
-                    e.printStackTrace()
+                } catch (_: Exception) {
                 }
                 if (listener.isOnce) {
                     iterator.remove()

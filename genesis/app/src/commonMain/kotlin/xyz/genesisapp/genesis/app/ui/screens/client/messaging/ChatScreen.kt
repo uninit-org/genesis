@@ -37,6 +37,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.getKoin
@@ -44,6 +45,7 @@ import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Message
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.User.Avatar
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
@@ -83,7 +85,11 @@ class ChatScreen(
         val scope = rememberCoroutineScope()
 
         if (_channel == null) {
-            println("Invalid channel")
+            if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                "Invalid channel",
+                null,
+                "Chat Screen"
+            )
             navigator.replace(ChatScreen(genesisClient.channels[lastChannel]!!, lastChannel))
             return
         }
@@ -110,7 +116,6 @@ class ChatScreen(
         var showMemberList by remember { mutableStateOf(false) }
 
         fun newMessage(isBulk: Boolean = false) {
-            println("new message")
             val isAtBottom = !listState.canScrollForward
             if (isAtBottom) scrollToBottom()
             else if (!isBulk) numNewMessages++

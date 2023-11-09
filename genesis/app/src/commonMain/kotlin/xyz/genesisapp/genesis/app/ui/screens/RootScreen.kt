@@ -1,7 +1,9 @@
 package xyz.genesisapp.genesis.app.ui.screens
 
+import io.github.aakira.napier.Napier
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
 import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
 import xyz.genesisapp.genesisApi.GenesisApiClient
@@ -19,14 +21,26 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
         if (data != null) {
             apiUUID = data.uuid
             if (data.updateAvailable) {
-                println("Update available")
+                if (genesisClient.logLevel >= LogLevel.INFO) Napier.i(
+                    "Update available",
+                    null,
+                    "Genesis Api"
+                )
             }
             if (data.pluginUpdates.isNotEmpty()) {
-                println("${data.pluginUpdates.size} plugin updates available")
+                if (genesisClient.logLevel >= LogLevel.INFO) Napier.i(
+                    "${data.pluginUpdates.size} plugin updates available",
+                    null,
+                    "Genesis Api"
+                )
             }
         }
     } catch (e: Exception) {
-        println("Error checking for updates: ${e.message}")
+        if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+            "Error checking for updates",
+            e,
+            "Genesis Api"
+        )
     }
 
 
@@ -37,7 +51,11 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
         val authResponse = genesisClient.rest.getDomainMe()
         if (authResponse.isOk()) {
             val authData = authResponse.getOrNull()!!
-            println("Logged in as ${authData.username}")
+            if (genesisClient.logLevel >= LogLevel.INFO) Napier.i(
+                "Logged in as ${authData.username}",
+                null,
+                "Initialization"
+            )
 
             GatewayLoadScreen()
         } else {

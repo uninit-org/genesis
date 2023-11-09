@@ -7,11 +7,13 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.ui.components.Centered
 import xyz.genesisapp.genesis.app.ui.components.form.composeForm
 import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
@@ -33,11 +35,6 @@ class LoginScreen(
         val scope = rememberCoroutineScope()
 
         var tokenPref by prefs.preference("auth.token", "")
-
-//        LifecycleEffect(
-//            onStarted = { println("Navigator: Start screen #$key") },
-//            onDisposed = { println("Navigator: Dispose screen #$key") }
-//        )
 
         Centered {
             composeForm {
@@ -75,12 +72,19 @@ class LoginScreen(
                             val res = genesisClient.rest.getDomainMe()
                             if (res.isOk()) {
                                 tokenPref = token
-                                println("Logged in as ${res.getOrNull()!!.username}")
+                                if (genesisClient.logLevel >= LogLevel.INFO) Napier.i(
+                                    "Logged in as ${res.getOrNull()!!.username}",
+                                    null,
+                                    "Login"
+                                )
                                 navigator.replace(GatewayLoadScreen())
                             } else {
                                 genesisClient.rest.token = ""
-                                println("Invalid token")
-                                println(res.errorOrNull())
+                                if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                                    "Invalid token",
+                                    Throwable(res.errorOrNull()?.message),
+                                    "Login"
+                                )
                             }
                         }
                     }

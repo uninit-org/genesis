@@ -3,6 +3,7 @@ package xyz.genesisapp.discord.client.entities.guild
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import xyz.genesisapp.common.fytix.Err
 import xyz.genesisapp.common.fytix.EventEmitter
@@ -13,6 +14,7 @@ import xyz.genesisapp.discord.api.domain.UtcDateTime
 import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.discord.entities.guild.ApiChannel
 import xyz.genesisapp.discord.entities.guild.ChannelType
 
@@ -89,9 +91,6 @@ class Channel(
             channelId = id,
             nonce = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000
         )
-        println(apiMessage.nonce)
-        println(messages.last().id)
-        println(apiMessage.nonce!! > messages.last().id)
         var message = Message.fromApiMessage(apiMessage, genesisClient)
         message.isSent = false
         message.author = genesisClient.normalUser
@@ -106,7 +105,11 @@ class Channel(
             }
 
             is Err -> {
-                println(res.error)
+                if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                    "Error sending message",
+                    Throwable(res.errorOrNull()?.message),
+                    "Channel"
+                )
                 null
             }
         }

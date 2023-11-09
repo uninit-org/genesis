@@ -16,6 +16,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import org.koin.core.Koin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.Centered
 
 open class GenericLoadingScreen(
@@ -27,14 +28,24 @@ open class GenericLoadingScreen(
     override fun Content() {
         val koin = getKoin()
         val prefs = koin.get<PreferencesManager>()
+        val dataStore = koin.get<DataStore>()
         val useDiscordIcon by prefs.preference("ui.discordIcon", false)
         Centered {
-            Image(
-                painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
-                contentDescription = "${if (useDiscordIcon) "Discord" else "Genesis"} Logo",
-                modifier = Modifier.size(100.dp)
-            )
-            Text(loadingText)
+            if (dataStore.shiggyEasterEgg) {
+                Image(
+                    painterResource("images/shiggy.gif"), // TODO: gif support :(
+                    contentDescription = "Shiggy",
+                    modifier = Modifier.size(100.dp)
+                )
+                Text("Shiggy")
+            } else {
+                Image(
+                    painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
+                    contentDescription = "${if (useDiscordIcon) "Discord" else "Genesis"} Logo",
+                    modifier = Modifier.size(100.dp)
+                )
+                Text(loadingText)
+            }
         }
         val nav = LocalNavigator.currentOrThrow
 
