@@ -1,4 +1,7 @@
-on: [ push, release ]
+on:
+  push:
+  release:
+    types: [ created ]
 name: Build
 permissions:
   contents: write
