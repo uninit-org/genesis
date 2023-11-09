@@ -27,8 +27,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabOptions
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -47,7 +48,15 @@ enum class GuildIconType {
     DM, GUILD, FOLDER
 }
 
-class GuildsScreen : Screen {
+object GuildsTab : Tab {
+
+    override val options: TabOptions
+        @Composable
+        get() = TabOptions(
+            index = 0u,
+            title = "Chat"
+        )
+
     @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
@@ -74,7 +83,7 @@ class GuildsScreen : Screen {
             val guild = genesisClient.guilds[id]!!
             dataStore.events.emit(
                 "CHANNEL_SELECT",
-                when(id) {
+                when (id) {
                     0L -> guild.channels.first().id
                     else -> guild.channels.first { it.type == ChannelType.GUILD_TEXT }.id
                 }
@@ -108,7 +117,7 @@ class GuildsScreen : Screen {
                                 }
 
                             Box(
-                                modifier = if (currentGuild.toInt() ==0) {
+                                modifier = if (currentGuild.toInt() == 0) {
                                     modifier.clip(RoundedCornerShape(2.dp))
                                 } else {
                                     modifier.clip(CircleShape)
@@ -138,7 +147,7 @@ class GuildsScreen : Screen {
                                     id = null,
                                     name = "Other",
                                     color = null,
-                                    guildIds = notHitGuilds.map { it.toString()  },
+                                    guildIds = notHitGuilds.map { it.toString() },
                                     collapsed = false
                                 )
                             )

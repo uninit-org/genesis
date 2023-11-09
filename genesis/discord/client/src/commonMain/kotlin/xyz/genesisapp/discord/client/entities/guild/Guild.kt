@@ -53,7 +53,11 @@ class Guild(
 
     val channels: List<Channel>
         get() {
-            return genesisClient.channels.values.filter { it.guildId == id }.toList()
+            val channels = genesisClient.channels.values.filter { it.guildId == id }.toList()
+            return when (id) {
+                0L -> channels.sortedBy { it.lastMessageId }
+                else -> channels
+            }
         }
 
     companion object {

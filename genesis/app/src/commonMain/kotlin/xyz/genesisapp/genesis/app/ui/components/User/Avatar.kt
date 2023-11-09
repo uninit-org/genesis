@@ -13,15 +13,15 @@ import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import xyz.genesisapp.discord.api.domain.user.User
 import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.toUrl
+import xyz.genesisapp.discord.client.entities.guild.User
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Avatar(author: User) {
+fun Avatar(author: User, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(32.dp)
             .height(32.dp)
             .clip(shape = CircleShape)

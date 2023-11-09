@@ -7,7 +7,7 @@ import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 
 @Serializable
-data class User(
+data class ApiUser(
     @SerialName("accent_color")
     val accentColor: Int? = null,
     val avatar: Asset? = null,

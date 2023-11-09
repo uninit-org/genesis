@@ -10,7 +10,6 @@ import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.getTimeInMillis
 import xyz.genesisapp.discord.api.domain.ApiMessage
 import xyz.genesisapp.discord.api.domain.UtcDateTime
-import xyz.genesisapp.discord.api.domain.user.User
 import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
@@ -30,6 +29,7 @@ class Channel(
     var isCollapsed: MutableState<Boolean> = mutableStateOf(false),
     val recipients: MutableList<User> = mutableListOf(),
     val icon: Asset? = null,
+    val lastMessageId: Snowflake? = null,
 ) : EventEmitter() {
     val messages = mutableStateListOf<Message>()
 
@@ -87,7 +87,6 @@ class Channel(
         val apiMessage = ApiMessage(
             content = content,
             channelId = id,
-            author = genesisClient.normalUser,
             nonce = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000
         )
         println(apiMessage.nonce)
@@ -95,6 +94,7 @@ class Channel(
         println(apiMessage.nonce!! > messages.last().id)
         var message = Message.fromApiMessage(apiMessage, genesisClient)
         message.isSent = false
+        message.author = genesisClient.normalUser
         addMessage(message)
         delay(3000L)
         return when (val res = genesisClient.rest.sendMessage(id, apiMessage)) {
@@ -126,8 +126,10 @@ class Channel(
             nsfw = apiChannel.nsfw ?: false,
             parentId = apiChannel.parentId,
             type = apiChannel.type!!,
-            recipients = apiChannel.recipients?.toMutableList()?: mutableListOf(),
-            icon = apiChannel.icon
+            recipients = apiChannel.recipients?.map { User.fromApiUser(it, genesisClient) }
+                ?.toMutableList() ?: mutableListOf(),
+            icon = apiChannel.icon,
+            lastMessageId = apiChannel.lastMessageId
         )
     }
 }

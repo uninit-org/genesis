@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
+import xyz.genesisapp.discord.client.entities.guild.User
 import xyz.genesisapp.discord.client.gateway.GatewayClient
 import xyz.genesisapp.discord.client.gateway.types.events.Ready
 
@@ -30,7 +31,8 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
             if (me.isOk()) genesisClient.user = me.getOrNull()!!
             else Napier.e("Error getting user: ${me.errorOrNull()}", null, "Gateway")
             val user = genesisClient.rest.getUser(me.getOrNull()!!.id)
-            if (user.isOk()) genesisClient.normalUser = user.getOrNull()!!
+            if (user.isOk()) genesisClient.normalUser =
+                User.fromApiUser(user.getOrNull()!!, genesisClient)
             else Napier.e("Error getting user: ${user.errorOrNull()}", null, "Gateway")
             val dmsGuild = Guild(
                 id = 0L,
@@ -47,7 +49,8 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
                     channel.position = position
                     if (channel.name == null) channel.name =
                         channel.recipients!!.joinToString(", ") { it.globalName ?: it.username }
-                    genesisClient.channels[channel.id] = Channel.fromApiChannel(channel, 0L, genesisClient)
+                    genesisClient.channels[channel.id] =
+                        Channel.fromApiChannel(channel, 0L, genesisClient)
                 }
                 genesisClient.guilds[0L] = dmsGuild
             } else Napier.e("Error getting DMs: ${dms.errorOrNull()}", null, "Gateway")
