@@ -162,7 +162,7 @@ jobs:
       - name: Notify Release
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          curl -X POST -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" https://genesis-api.loveh.art/api/v0/release
+          curl -X POST -H "Authorization: ${{ secrets.PRESHARED_KEY }}" https://genesisapi.loveh.art/api/v0/release
 
       - name: Clean up windows
         if: matrix.os == 'windows-latest'
