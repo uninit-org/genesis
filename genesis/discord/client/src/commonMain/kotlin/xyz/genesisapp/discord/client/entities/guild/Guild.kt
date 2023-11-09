@@ -58,7 +58,7 @@ class Guild(
 
     companion object {
         fun fromApiGuild(apiGuild: ApiGuild, genesisClient: GenesisClient) = Guild(
-            id = apiGuild.id,
+            id = if (apiGuild.id === "@me") 0L else apiGuild.id.toLong(),
             name = apiGuild.name,
             region = apiGuild.region,
 

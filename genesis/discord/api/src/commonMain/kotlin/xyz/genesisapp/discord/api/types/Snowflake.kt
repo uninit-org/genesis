@@ -1,9 +1,11 @@
 package xyz.genesisapp.discord.api.types
 
+import xyz.genesisapp.discord.api.domain.UtcDateTime
+
 typealias Snowflake = Long
 
 val Snowflake.timestamp: Long
-    get() = (this shr 22) + 1420070400000L
+    get() = (this shr 22) + UtcDateTime.DISCORD_EPOCH
 
 val Snowflake.workerId: Int
     get() = ((this and 0x3E0000) shr 17).toInt()

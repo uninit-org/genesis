@@ -16,7 +16,7 @@ data class GuildFolder(
 @Serializable
 class UserSettings(
     @SerialName("guild_folders")
-    var guildFolders: List<GuildFolder>,
+    var guildFolders: MutableList<GuildFolder>,
 ) {
 
 }

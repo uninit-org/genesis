@@ -2,37 +2,51 @@ package xyz.genesisapp.genesis.app.ui.screens.client.messaging
 
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.kamel.core.ExperimentalKamelApi
+import io.kamel.image.KamelImage
 import io.kamel.image.KamelImageBox
 import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.discord.api.domain.UtcDateTime
 import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
+import xyz.genesisapp.discord.api.types.timestamp
 import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.components.User.Avatar
 import xyz.genesisapp.genesis.app.ui.components.icons.Icons
 import xyz.genesisapp.genesis.app.ui.components.icons.icons.Textchannel
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
@@ -57,7 +71,35 @@ fun Channel(channel: Channel, select: (Channel) -> Unit) {
                 contentDescription = null,
                 modifier = modifier.padding(start = 8.dp, end = 4.dp)
             )
-        } else modifier = modifier.padding(start = 12.dp)
+        } else if (channel.type== ChannelType.DM) {
+            Avatar(channel.recipients.first())
+        } else if (channel.type == ChannelType.GROUP_DM) {
+            Box(
+                modifier = Modifier
+                    .width(32.dp)
+                    .height(32.dp)
+                    .clip(shape = CircleShape)
+            ) {
+                if (channel.icon != null) {
+                    KamelImage(
+                        resource = asyncPainterResource(
+                            channel.icon!!.toUrl(
+                                AssetType.Avatar,
+                                channel.id,
+                                128
+                            )
+                        ),
+                        contentDescription = channel.name,
+                    )
+                } else {
+                    Image(
+                        painter = painterResource("images/defaults/group_dm_icon_${channel.id.timestamp % 8}.png"),
+                        contentDescription = channel.name,
+                    )
+                }
+            }
+        }
+        else modifier = modifier.padding(start = 12.dp)
         Text(
             channel.name, modifier =
             modifier
@@ -86,7 +128,8 @@ fun Category(
 }
 
 class ChannelsScreen(
-    private var guild: Guild
+    private var _guild: Guild?,
+    private val lastGuild: Snowflake
 ) : EventScreen() {
     @OptIn(ExperimentalResourceApi::class, ExperimentalKamelApi::class)
     @Composable
@@ -97,14 +140,37 @@ class ChannelsScreen(
         val dataStore = koin.get<DataStore>()
         val navigator = LocalNavigator.currentOrThrow
 
+        if (_guild == null) {
+            println("Invalid guild")
+            navigator.replace(ChannelsScreen(genesisClient.guilds[lastGuild]!!, lastGuild))
+            return
+        }
+
+        val guild = _guild!!
+
+        val firstChannel = when(guild.id) {
+            0L -> guild.channels.first().id
+            else -> guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id
+        }
+
         var currentChannel by prefs.preference(
             "client.currentChannel",
-            guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id,
+            firstChannel
         )
+
+        if (guild.channels.find {it.id == currentChannel} == null) currentChannel = firstChannel
+
+
+        var lastChannel by remember { mutableStateOf(when(guild.id) {
+            0L -> guild.channels.first().id
+            else -> guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id
+
+        }) }
 
         Events(
             dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
-                navigator.push(ChannelsScreen(genesisClient.guilds[it]!!))
+                println("guild select $it")
+                navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
             }
         )
 
@@ -179,6 +245,7 @@ class ChannelsScreen(
                     if (sortedUncategorized.isNotEmpty())
                         item {
                             Category(null, sortedUncategorized) {
+                                lastChannel = currentChannel
                                 currentChannel = it.id
                                 dataStore.events.emit("CHANNEL_SELECT", it.id)
                             }
@@ -192,6 +259,7 @@ class ChannelsScreen(
                             guild.channels.find { it2 -> it2.id == channelId }!!
                         }
                         Category(category, children) {
+                            lastChannel = currentChannel
                             currentChannel = it.id
                             dataStore.events.emit("CHANNEL_SELECT", it.id)
                         }
@@ -199,7 +267,7 @@ class ChannelsScreen(
 
                 }
             }
-            Navigator(ChatScreen(genesisClient.channels[currentChannel]!!))
+            Navigator(ChatScreen(genesisClient.channels[currentChannel], lastChannel))
         }
 
     }

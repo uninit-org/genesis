@@ -28,7 +28,7 @@ import xyz.genesisapp.discord.api.types.Snowflake
 //safety_alerts_channel_id
 @Serializable
 class ApiGuild(
-    val id: Snowflake,
+    val id: String,
     val unavailable: Boolean = false,
     var name: String,
     var region: String? = null,
@@ -67,12 +67,5 @@ class ApiGuild(
     var safetyAlertsChannelId: String? = null,
     var channels: List<ApiChannel>? = null,
     var roles: List<ApiRole>? = null,
-) {
-}
-
-@Serializable
-class GuildUnavailable(
-    val id: String,
-    val unavailable: Boolean = true,
 ) {
 }

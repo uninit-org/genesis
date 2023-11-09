@@ -35,9 +35,12 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
+import xyz.genesisapp.discord.api.domain.user.GuildFolder
 import xyz.genesisapp.discord.api.types.AssetType
+import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
 
 enum class GuildIconType {
@@ -58,7 +61,25 @@ class GuildsScreen : Screen {
             "client.currentGuild",
             genesisClient.guilds.values.first()!!.id
         )
+        var lastGuild by remember { mutableStateOf(genesisClient.guilds.values.find { it?.id != 0L }!!.id) }
         val dataStore = koin.get<DataStore>()
+
+        fun chooseGuild(id: Snowflake) {
+            lastGuild = currentGuild
+            currentGuild = id
+            dataStore.events.emit(
+                "GUILD_SELECT",
+                id
+            )
+            val guild = genesisClient.guilds[id]!!
+            dataStore.events.emit(
+                "CHANNEL_SELECT",
+                when(id) {
+                    0L -> guild.channels.first().id
+                    else -> guild.channels.first { it.type == ChannelType.GUILD_TEXT }.id
+                }
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -83,11 +104,7 @@ class GuildsScreen : Screen {
                                     48.dp
                                 )
                                 .clickable {
-                                    currentGuild = 0
-                                    dataStore.events.emit(
-                                        "GUILD_SELECT",
-                                        0
-                                    )
+                                    chooseGuild(0L)
                                 }
 
                             Box(
@@ -106,6 +123,28 @@ class GuildsScreen : Screen {
                                 )
                             }
                         }
+
+                        val notHitGuilds = genesisClient.guilds.keys.toMutableList()
+                        notHitGuilds.remove(0L)
+                        genesisClient.userSettings!!.guildFolders.forEach { folder ->
+                            folder.guildIds.forEach { guildId ->
+                                notHitGuilds.remove(guildId.toLong())
+                            }
+                        }
+
+                        if (notHitGuilds.size > 0) {
+                            genesisClient.userSettings!!.guildFolders.add(
+                                GuildFolder(
+                                    id = null,
+                                    name = "Other",
+                                    color = null,
+                                    guildIds = notHitGuilds.map { it.toString()  },
+                                    collapsed = false
+                                )
+                            )
+                        }
+
+
 
                         items(
                             items = genesisClient.userSettings!!.guildFolders,
@@ -151,11 +190,7 @@ class GuildsScreen : Screen {
                                             48.dp
                                         )
                                         .clickable {
-                                            currentGuild = guildId.toLong()
-                                            dataStore.events.emit(
-                                                "GUILD_SELECT",
-                                                guildId.toLong()
-                                            )
+                                            chooseGuild(guildId.toLong())
                                         }
 
                                     Box(
@@ -189,7 +224,7 @@ class GuildsScreen : Screen {
                 }
             } else rerenderBool = true
 
-            Navigator(ChannelsScreen(genesisClient.guilds[currentGuild]!!))
+            Navigator(ChannelsScreen(genesisClient.guilds[currentGuild], lastGuild))
         }
     }
 }

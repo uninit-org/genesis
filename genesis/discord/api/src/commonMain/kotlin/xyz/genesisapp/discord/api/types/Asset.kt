@@ -16,6 +16,7 @@ enum class AssetType(val value: String) {
     Avatar("avatars"),
     Banner("banners"),
     Icon("icons"),
+    ChannelIcon("channel-icons"),
 }
 
 fun Asset.toUrl(

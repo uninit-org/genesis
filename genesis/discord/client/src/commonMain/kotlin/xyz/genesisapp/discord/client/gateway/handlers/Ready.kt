@@ -16,14 +16,12 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
     gateway.on<Ready>("READY") { ready ->
         Napier.d("Ready event received", null, "Gateway")
         genesisClient.userSettings = ready.userSettings
-        val guilds = ready.guilds.map { Guild.fromApiGuild(it, genesisClient) }
         genesisClient.guilds.clear()
-        guilds.forEach { genesisClient.guilds[it.id] = it }
-
         ready.guilds.forEach {
+            genesisClient.guilds[it.id.toLong()] = Guild.fromApiGuild(it, genesisClient)
             it.channels?.forEach { channel ->
                 genesisClient.channels[channel.id] =
-                    Channel.fromApiChannel(channel, it.id, genesisClient)
+                    Channel.fromApiChannel(channel, it.id.toLong(), genesisClient)
             }
         }
 
@@ -34,6 +32,25 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
             val user = genesisClient.rest.getUser(me.getOrNull()!!.id)
             if (user.isOk()) genesisClient.normalUser = user.getOrNull()!!
             else Napier.e("Error getting user: ${user.errorOrNull()}", null, "Gateway")
+            val dmsGuild = Guild(
+                id = 0L,
+                name = "Direct Messages",
+                premiumProgressBarEnabled = false,
+                genesisClient = genesisClient
+            )
+            val dms = genesisClient.rest.listDms()
+            if (dms.isOk()) {
+                val dmChannels = dms.getOrNull()!!
+                var position = 0
+                dmChannels.forEach { channel ->
+                    position++
+                    channel.position = position
+                    if (channel.name == null) channel.name =
+                        channel.recipients!!.joinToString(", ") { it.globalName ?: it.username }
+                    genesisClient.channels[channel.id] = Channel.fromApiChannel(channel, 0L, genesisClient)
+                }
+                genesisClient.guilds[0L] = dmsGuild
+            } else Napier.e("Error getting DMs: ${dms.errorOrNull()}", null, "Gateway")
             Napier.d("Gateway Ready", null, "Gateway")
             genesisClient.events.emit("READY", "")
         }

@@ -32,6 +32,7 @@ import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.discord.client.gateway.types.SuperProperties
 import xyz.genesisapp.discord.client.getSuperProperties
+import xyz.genesisapp.discord.entities.guild.ApiChannel
 import xyz.genesisapp.discord.entities.guild.ApiGuild
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -121,7 +122,8 @@ class RestClient(
     ): Result<DomainUserProfile, ApiError> =
         get("users/$userId/profile?with_mutual_guilds=$withMutualGuilds&with_mutual_friends_count=false")
 
-    suspend fun getGuild(guildId: Snowflake): Result<ApiGuild, ApiError> = get("guilds/$guildId")
+    suspend fun getGuild(guildId: Snowflake): Result<ApiGuild, ApiError> = get("guilds/@me")
+    suspend fun listDms(): Result<List<ApiChannel>, ApiError> = get("users/@me/channels")
     suspend fun getUserSettings(): Result<UserSettings, ApiError> = get("users/@me/settings")
 
     suspend fun getMessages(

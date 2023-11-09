@@ -3,6 +3,8 @@ package xyz.genesisapp.discord.entities.guild
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import xyz.genesisapp.discord.api.domain.user.User
+import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 
 @Serializable
@@ -64,12 +66,14 @@ class ApiChannel(
     val id: Snowflake,
     @SerialName("guild_id")
     val guildId: Snowflake? = null,
-    val position: Int? = null,
-    val name: String? = null,
+    var position: Int? = null,
+    var name: String? = null,
     val nsfw: Boolean? = null,
     @SerialName("parent_id")
     val parentId: Snowflake? = null,
     val type: ChannelType? = null,
+    val recipients: List<User>? = null,
+    val icon: Asset? = null,
 ) {
 
     @Transient

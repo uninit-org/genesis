@@ -54,6 +54,7 @@ import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Message
 import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.components.User.Avatar
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 
 @OptIn(ExperimentalResourceApi::class)
@@ -64,30 +65,7 @@ fun message(message: Message) {
             .height(48.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .width(32.dp)
-                .height(32.dp)
-                .clip(shape = CircleShape)
-        ) {
-            if (message.author.avatar != null) {
-                KamelImage(
-                    resource = asyncPainterResource(
-                        message.author.avatar!!.toUrl(
-                            AssetType.Avatar,
-                            message.author.id,
-                            128
-                        )
-                    ),
-                    contentDescription = "Avatar",
-                )
-            } else {
-                Image(
-                    painter = painterResource("images/default/default_avatar_${message.author.id % 5}.png"),
-                    contentDescription = "Avatar",
-                )
-            }
-        }
+        Avatar(message.author)
         Column {
             Text(message.author.username)
             Text(
@@ -101,7 +79,8 @@ fun message(message: Message) {
 // Should be replaced with indexing
 @Suppress()
 class ChatScreen(
-    private var channel: Channel
+    private var _channel: Channel?,
+    private var lastChannel: Snowflake
 ) : EventScreen() {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
@@ -111,6 +90,14 @@ class ChatScreen(
         val dataStore = koin.get<DataStore>()
         val navigator = LocalNavigator.currentOrThrow
         val scope = rememberCoroutineScope()
+
+        if (_channel == null) {
+            println("Invalid channel")
+            navigator.replace(ChatScreen(genesisClient.channels[lastChannel]!!, lastChannel))
+            return
+        }
+
+        val channel = _channel!!
 
 
         val listState = rememberLazyListState()
@@ -149,7 +136,7 @@ class ChatScreen(
         Events(
             dataStore.events.quietRegister<Snowflake>("CHANNEL_SELECT") {
                 navigator.push(
-                    ChatScreen(genesisClient.channels[it]!!)
+                    ChatScreen(genesisClient.channels[it], channel.id)
                 )
             },
             channel.quietRegister<Message>("MESSAGE_CREATE") { newMessage() },

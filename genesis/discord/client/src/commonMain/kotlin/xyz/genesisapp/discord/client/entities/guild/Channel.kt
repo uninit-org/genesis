@@ -10,6 +10,8 @@ import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.getTimeInMillis
 import xyz.genesisapp.discord.api.domain.ApiMessage
 import xyz.genesisapp.discord.api.domain.UtcDateTime
+import xyz.genesisapp.discord.api.domain.user.User
+import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.entities.guild.ApiChannel
@@ -25,7 +27,9 @@ class Channel(
     var parentId: Snowflake? = null,
     var type: ChannelType,
     var children: MutableList<Snowflake> = mutableListOf(),
-    var isCollapsed: MutableState<Boolean> = mutableStateOf(false)
+    var isCollapsed: MutableState<Boolean> = mutableStateOf(false),
+    val recipients: MutableList<User> = mutableListOf(),
+    val icon: Asset? = null,
 ) : EventEmitter() {
     val messages = mutableStateListOf<Message>()
 
@@ -121,7 +125,9 @@ class Channel(
             name = apiChannel.name!!,
             nsfw = apiChannel.nsfw ?: false,
             parentId = apiChannel.parentId,
-            type = apiChannel.type!!
+            type = apiChannel.type!!,
+            recipients = apiChannel.recipients?.toMutableList()?: mutableListOf(),
+            icon = apiChannel.icon
         )
     }
 }
