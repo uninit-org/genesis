@@ -49,6 +49,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           ./gradlew --no-daemon :appDesktop:createDistributable
+          ./gradlew --no-daemon :appDesktop:package
           cd appDesktop/build/compose/binaries/main/
           Compress-Archive -Path app -Destination genesis.zip
 
