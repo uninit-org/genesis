@@ -6,7 +6,7 @@ compose = "1.5.2"
 moko-resources = "0.23.0"
 koin = "3.5.0"
 koin-compose = "1.1.0"
-voyager = "1.0.0-rc05"
+voyager = "1.0.0-rc10"
 ktor = "2.3.5"
 napier = "2.6.1"
 

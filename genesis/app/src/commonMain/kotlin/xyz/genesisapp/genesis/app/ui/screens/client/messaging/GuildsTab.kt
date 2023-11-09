@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -43,19 +44,27 @@ import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
 
 enum class GuildIconType {
     DM, GUILD, FOLDER
 }
 
-object GuildsTab : Tab {
+internal object GuildsTab : Tab {
 
     override val options: TabOptions
         @Composable
-        get() = TabOptions(
-            index = 0u,
-            title = "Chat"
-        )
+        get() {
+            val icon = rememberVectorPainter(Icons.Empty)
+            return remember {
+                TabOptions(
+                    index = 0u,
+                    title = "Chat",
+                    icon = icon
+                )
+            }
+        }
 
     @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
     @Composable
@@ -69,6 +78,7 @@ object GuildsTab : Tab {
             "client.currentGuild",
             genesisClient.guilds.values.first()!!.id
         )
+        val useDiscordIcon by prefs.preference("ui.discordIcon", false)
         var lastGuild by remember { mutableStateOf(genesisClient.guilds.values.find { it?.id != 0L }!!.id) }
         val dataStore = koin.get<DataStore>()
 
@@ -123,7 +133,7 @@ object GuildsTab : Tab {
                                 }
                             ) {
                                 Image(
-                                    painter = painterResource("icons/genesis.png"),
+                                    painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
                                     contentDescription = "DMs",
                                     modifier = Modifier
                                         .size(24.dp)

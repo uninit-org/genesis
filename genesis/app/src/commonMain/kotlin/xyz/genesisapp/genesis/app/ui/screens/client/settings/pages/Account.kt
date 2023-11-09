@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -14,14 +16,22 @@ import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.genesis.app.ReloadClient
 import xyz.genesisapp.genesis.app.ui.components.User.Avatar
+import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
 
-object AccountSettings : Tab {
+internal object AccountSettings : Tab {
     override val options: TabOptions
         @Composable
-        get() = TabOptions(
-            index = 0u,
-            title = "Account"
-        )
+        get() {
+            val icon = rememberVectorPainter(Icons.Empty)
+            return remember {
+                TabOptions(
+                    index = 0u,
+                    title = "Account",
+                    icon = icon
+                )
+            }
+        }
 
     @Composable
     override fun Content() {

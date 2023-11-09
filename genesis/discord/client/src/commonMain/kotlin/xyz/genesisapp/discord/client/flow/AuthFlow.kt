@@ -1,15 +1,16 @@
 package xyz.genesisapp.discord.client.flow
 
-import io.ktor.client.*
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
-import org.koin.core.Koin
-import xyz.genesisapp.common.preferences.CommonMultiplatformPreferencesManager as PreferencesManager
 
-class AuthFlow(private val koin: Koin, private val http: HttpClient, coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
-    val preferences: PreferencesManager by koin.inject()
+class AuthFlow(
+    private val http: HttpClient,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+) {
+
     init {
 
         coroutineScope.launch {

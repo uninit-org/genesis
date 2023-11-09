@@ -17,24 +17,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.genesis.app.data.DataStore
+import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
 
-object DevSettings : Tab {
+internal object DevSettings : Tab {
     override val options: TabOptions
         @Composable
-        get() = TabOptions(
-            index = 0u,
-            title = "Developer"
-        )
+        get() {
+            val icon = rememberVectorPainter(Icons.Empty)
+            return remember {
+                TabOptions(
+                    index = 0u,
+                    title = "Developer",
+                    icon = icon
+                )
+            }
+        }
 
     @Composable
     override fun Content() {
@@ -42,8 +48,6 @@ object DevSettings : Tab {
         val prefs = koin.get<PreferencesManager>()
         val genesisClient = koin.get<GenesisClient>()
         var logLevel by prefs.preference("debug.logLevel", LogLevel.INFO.name)
-        val dataStore = koin.get<DataStore>()
-        val navigator = LocalNavigator.currentOrThrow
         LazyColumn {
 
             item {

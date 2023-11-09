@@ -30,15 +30,9 @@ class ClientRootScreen : Screen {
         val koin = getKoin()
         val dataStore = koin.get<DataStore>()
 
-        var lastTab = ClientTab.values().first().tab
-
-        TabNavigator(lastTab) { tabNavigator ->
+        TabNavigator(ClientTab.values().first().tab) { tabNavigator ->
             dataStore.events.on<Tab>("CLIENT_TAB_SELECT") {
-                lastTab = tabNavigator.current
                 tabNavigator.current = it
-            }
-            dataStore.events.on<Boolean>("CLIENT_TAB_BACK") {
-                tabNavigator.current = lastTab
             }
             Scaffold(
                 content = {

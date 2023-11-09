@@ -4,27 +4,34 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.genesis.app.ReloadClient
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.SettingPage
+import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
 
-object GenesisSettings : Tab {
+internal object GenesisSettings : Tab {
     override val options: TabOptions
         @Composable
-        get() = TabOptions(
-            index = 0u,
-            title = "Genesis"
-        )
+        get() {
+            val icon = rememberVectorPainter(Icons.Empty)
+            return remember {
+                TabOptions(
+                    index = 0u,
+                    title = "Genesis",
+                    icon = icon
+                )
+            }
+        }
 
     @Composable
     override fun Content() {
         val koin = getKoin()
-        val prefs = koin.get<PreferencesManager>()
         val navigator = LocalNavigator.currentOrThrow
         LazyColumn {
 

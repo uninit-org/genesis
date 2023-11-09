@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -39,11 +37,11 @@ allprojects {
 
     }
 
-    tasks.withType(KotlinCompile::class).all {
-        kotlinOptions {
-            freeCompilerArgs += "-Xexpect-actual-classes"
-        }
-    }
+//    tasks.withType(KotlinCompile::class).all {
+//        kotlinOptions {
+//            freeCompilerArgs += "-Xexpect-actual-classes"
+//        }
+//    }
 
     tasks.matching {
         name.contains("FrameworkIos")
