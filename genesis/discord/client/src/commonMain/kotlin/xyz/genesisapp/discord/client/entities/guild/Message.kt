@@ -14,6 +14,9 @@ class Message(
     var author: User,
     var isSent: Boolean = true,
     var nonce: Long = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000,
+
+    var embeds: List<Embed> = listOf(),
+    var attachments: List<Attachment> = listOf(),
 ) {
 
     companion object {
@@ -24,6 +27,9 @@ class Message(
             content = apiMessage.content ?: "",
             author = User.fromApiUser(apiMessage.author!!, genesisClient),
             nonce = apiMessage.nonce ?: (getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000),
+            embeds = apiMessage.embeds?.map { Embed.fromApiMessageEmbed(it) } ?: listOf(),
+            attachments = apiMessage.attachments?.map { Attachment.fromApiMessageAttachment(it) }
+                ?: listOf(),
         )
     }
 }
