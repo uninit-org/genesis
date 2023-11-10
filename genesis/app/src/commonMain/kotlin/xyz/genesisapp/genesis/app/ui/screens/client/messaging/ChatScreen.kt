@@ -7,14 +7,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -40,62 +36,16 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.aakira.napier.Napier
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.getKoin
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.guild.AttachmentType
 import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.entities.guild.EmbedType
 import xyz.genesisapp.discord.client.entities.guild.Message
 import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.User.Avatar
+import xyz.genesisapp.genesis.app.ui.components.guild.message
 import xyz.genesisapp.genesis.app.ui.screens.EventScreen
-
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun message(message: Message) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Avatar(message.author)
-        Column {
-            Text(message.author.displayName)
-            Text(
-                message.content,
-                color = if (message.isSent) MaterialTheme.colorScheme.onSurface else Color.Gray
-            )
-            message.attachments.forEach { attachment ->
-                if (attachment.type != AttachmentType.IMAGE) return@forEach
-                KamelImage(
-                    asyncPainterResource(attachment.proxyUrl),
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .height(attachment.height!!.dp)
-                        .width(attachment.width!!.dp),
-                    contentDescription = null
-                )
-            }
-            message.embeds.forEach { embed ->
-                if (embed.type != EmbedType.IMAGE) return@forEach
-                KamelImage(
-                    asyncPainterResource(embed.image!!.displayUrl),
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .height(embed.image!!.height?.dp ?: 100.dp)
-                        .width(embed.image!!.width?.dp ?: 100.dp),
-                    contentDescription = null
-                )
-            }
-        }
-    }
-}
 
 // Should be replaced with indexing
 @Suppress()
