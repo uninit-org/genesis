@@ -12,7 +12,6 @@ class DataStore {
     var currentGuild: Snowflake? = null
 
     var mobileUi by mutableStateOf(false)
-    var showGuilds by mutableStateOf(false)
     val shiggyEasterEgg by mutableStateOf(getTimeInMillis() % 10 == 0L)
 
     val events: EventEmitter = EventEmitter()
