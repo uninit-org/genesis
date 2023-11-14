@@ -59,7 +59,7 @@ jobs:
           path: genesis/genesisApi/build
           key: ${{ runner.os }}-genesis-genesisApi-${{ hashFiles('genesis/genesisApi/**') }}
 
-  
+
 
       - name: Setup Android SDK
         if: matrix.os == 'ubuntu-latest'
@@ -154,7 +154,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: github.event_name != 'release'
+        if: github.event_name == 'release'
         with:
           files: |
             appDesktop/build/compose/binaries/main/deb/*.deb
