@@ -1,6 +1,8 @@
 package xyz.genesisapp.genesis.app.ui.screens
 
 import io.github.aakira.napier.Napier
+import xyz.genesisapp.common.fytix.Err
+import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.enum.LogLevel
@@ -47,21 +49,27 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
     val token by prefs.preference("auth.token", "")
 
     if (token.isNotEmpty()) {
-        genesisClient.rest.token = token
-        val authResponse = genesisClient.rest.getDomainMe()
-        if (authResponse.isOk()) {
-            val authData = authResponse.getOrNull()!!
-            if (genesisClient.logLevel >= LogLevel.INFO) Napier.i(
-                "Logged in as ${authData.username}",
-                null,
-                "Initialization"
-            )
+        when (val result = genesisClient.tryTokenLogin(token)) {
+            is Ok -> {
+                Napier.d("Logged in as ${result.value.username}",
+                    null,
+                    "Client::LOGIN"
+                )
+                GatewayLoadScreen()
+            }
 
-            GatewayLoadScreen()
-        } else {
-            LoginScreen()
+            is Err -> {
+                Napier.w("Failed to login with token: ${result.error.message}",
+                    null,
+                    "Client::LOGIN"
+                )
+                LoginScreen()
+            }
         }
     } else {
+        Napier.d("No token found",
+            null,
+            "Client::LOGIN")
         LoginScreen()
     }
 })

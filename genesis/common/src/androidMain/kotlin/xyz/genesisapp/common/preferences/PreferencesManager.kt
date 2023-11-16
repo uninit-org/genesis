@@ -3,7 +3,7 @@ package xyz.genesisapp.common.preferences
 import android.content.SharedPreferences
 
 @Suppress("NAME_SHADOWING")
-actual class PreferencesManager(val prefs: SharedPreferences) : CommonMultiplatformPreferencesManager() {
+actual class PreferencesManager(val prefs: SharedPreferences) : PreferenceApi() {
     override fun preference(key: String, defaultValue: String): Preference<String> {
         return Preference(key, defaultValue, { key, defaultValue ->
             prefs.getString(key, defaultValue) ?: defaultValue

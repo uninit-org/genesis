@@ -60,4 +60,12 @@ sealed class Result<T, E> {
 class Ok<T, E>(val value: T) : Result<T, E>()
 class Err<T, E>(val error: E) : Result<T, E>()
 
+fun <T> result(block: () -> T): Result<T, Exception> {
+    return try {
+        Ok(block())
+    } catch (e: Exception) {
+        Err(e)
+    }
+}
+
 

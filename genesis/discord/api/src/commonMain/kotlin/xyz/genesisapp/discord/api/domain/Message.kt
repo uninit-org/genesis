@@ -34,7 +34,7 @@ data class ApiMessageEmbedImage(
 )
 
 @Serializable
-data class ApiMessage(
+data class DomainMessage(
     var id: Snowflake? = null,
 
     var content: String? = null,

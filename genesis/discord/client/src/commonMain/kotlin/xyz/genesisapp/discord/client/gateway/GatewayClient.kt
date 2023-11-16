@@ -1,25 +1,17 @@
 package xyz.genesisapp.discord.client.gateway
 
 import io.github.aakira.napier.Napier
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.HttpClientEngineFactory
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
-import io.ktor.client.plugins.websocket.WebSockets
-import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.http.HttpHeaders
-import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
-import io.ktor.websocket.Frame
-import io.ktor.websocket.close
-import io.ktor.websocket.readText
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import io.ktor.client.*
+import io.ktor.client.engine.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.*
+import io.ktor.websocket.*
+import kotlinx.coroutines.*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import xyz.genesisapp.common.fytix.EventBus
 import xyz.genesisapp.common.fytix.EventEmitter
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
@@ -28,14 +20,14 @@ import xyz.genesisapp.discord.client.gateway.handlers.initGatewayHandlers
 import xyz.genesisapp.discord.client.gateway.serializers.GatewaySerializer
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
-import xyz.genesisapp.discord.client.gateway.types.events.Ready
-import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayIdentify
-import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayRequestMessages
-import xyz.genesisapp.discord.client.gateway.types.events.opCode.GatewayResume
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayIdentify
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayRequestMessages
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayResume
 
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,
-    val genesisClient: GenesisClient
+    val parentClient: GenesisClient,
+    val eventBus: EventBus = parentClient,
 ) : EventEmitter() {
     private val http = HttpClient(engineFactory) {
         install(WebSockets) {
@@ -49,7 +41,7 @@ class GatewayClient(
             }
             level = io.ktor.client.plugins.logging.LogLevel.HEADERS
             filter {
-                genesisClient.logLevel >= LogLevel.NETWORK
+                parentClient.logLevel >= LogLevel.NETWORK
             }
             sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
@@ -62,7 +54,7 @@ class GatewayClient(
 
 
     @PublishedApi
-    internal val JsonClient = Json {
+    internal val json = Json {
         encodeDefaults = true
         ignoreUnknownKeys = true
     }
@@ -72,7 +64,7 @@ class GatewayClient(
             val text = if (data is String) {
                 data
             } else {
-                JsonClient.encodeToString(data)
+                json.encodeToString(data)
             }
             if (websocket?.isActive == true) {
                 val frame = Frame.Text(text)
@@ -80,14 +72,14 @@ class GatewayClient(
                     websocket!!.send(frame)
                 }
             } else {
-                if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                if (parentClient.logLevel >= LogLevel.ERROR) Napier.e(
                     "Websocket is not active",
                     null,
                     "Gateway"
                 )
             }
         } catch (e: Exception) {
-            if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+            if (parentClient.logLevel >= LogLevel.ERROR) Napier.e(
                 "Error sending data",
                 e,
                 "Gateway"
@@ -95,7 +87,7 @@ class GatewayClient(
         }
     }
 
-    fun parseMessage(message: String) = JsonClient.decodeFromString(GatewaySerializer, message)
+    fun parseMessage(message: String) = json.decodeFromString(GatewaySerializer, message)
 
     private var isDisconnecting = false
 
@@ -107,23 +99,23 @@ class GatewayClient(
         var gatewayUrl = "wss://gateway.discord.gg/?v=9&encoding=json"
         var seq: Int? = null
         var retries = 0
-        once<Ready>("READY") { ready ->
-            resumePacket = GatewayEvent(
-                6,
-                null,
-                null,
-                GatewayResume(
-                    token = token,
-                    sessionId = ready.sessionId,
-                    seq = seq!!
-                )
-            )
-            gatewayUrl = ready.resumeGatewayUrl
-        }
+//        once<Ready>("READY") { ready ->
+//            resumePacket = GatewayEvent(
+//                6,
+//                null,
+//                null,
+//                GatewayResume(
+//                    token = token,
+//                    sessionId = ready.sessionId,
+//                    seq = seq!!
+//                )
+//            )
+//            gatewayUrl = ready.resumeGatewayUrl
+//        }
         scope.launch {
             while (!isDisconnecting) {
                 if (retries > 10) {
-                    if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                    if (parentClient.logLevel >= LogLevel.ERROR) Napier.e(
                         "Gateway failed to connect",
                         null,
                         "Gateway"
@@ -142,7 +134,7 @@ class GatewayClient(
                             send(identifyPacket)
                         } else {
                             retries++
-                            if (genesisClient.logLevel >= LogLevel.DEBUG)
+                            if (parentClient.logLevel >= LogLevel.DEBUG)
                                 Napier.d("Resuming connection", null, "Gateway")
                             send(resumePacket)
                         }
@@ -157,7 +149,7 @@ class GatewayClient(
 
                                 val event = json.t ?: json.op.toString()
 
-                                if (genesisClient.logLevel >= LogLevel.NETWORK)
+                                if (parentClient.logLevel >= LogLevel.NETWORK)
                                     Napier.d("Received event $event", null, "Gateway")
 
                                 emit(event, json.d)
@@ -172,13 +164,13 @@ class GatewayClient(
                                 for (blacklisted in blacklist) {
                                     if (e.message?.contains(blacklisted) == true) {
                                         isBlacklisted = true
-                                        if (genesisClient.logLevel >= LogLevel.NETWORK)
+                                        if (parentClient.logLevel >= LogLevel.NETWORK)
                                             Napier.d("Error parsing message", e, "Gateway")
                                         break
                                     }
                                 }
                                 if (!isBlacklisted)
-                                    if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+                                    if (parentClient.logLevel >= LogLevel.ERROR) Napier.e(
                                         "Error parsing message",
                                         e,
                                         "Gateway"
@@ -195,7 +187,7 @@ class GatewayClient(
     }
 
     init {
-        initGatewayHandlers(genesisClient, this)
+        initGatewayHandlers(parentClient, this)
     }
 
     fun disconnect() {

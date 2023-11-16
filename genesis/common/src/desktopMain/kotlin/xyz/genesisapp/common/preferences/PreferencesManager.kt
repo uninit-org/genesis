@@ -2,7 +2,7 @@ package xyz.genesisapp.common.preferences
 
 import xyz.genesisapp.common.serialization.GsonAdapter
 
-actual class PreferencesManager(prefsFile: String) : CommonMultiplatformPreferencesManager() {
+actual class PreferencesManager(prefsFile: String) : PreferenceApi() {
     var prefs: GsonAdapter
     init {
         prefs = GsonAdapter(prefsFile)

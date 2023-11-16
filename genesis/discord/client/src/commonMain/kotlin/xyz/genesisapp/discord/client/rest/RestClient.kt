@@ -22,7 +22,7 @@ import xyz.genesisapp.common.fytix.Err
 import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.fytix.Result
 import xyz.genesisapp.discord.api.ApiError
-import xyz.genesisapp.discord.api.domain.ApiMessage
+import xyz.genesisapp.discord.api.domain.DomainMessage
 import xyz.genesisapp.discord.api.domain.user.ApiUser
 import xyz.genesisapp.discord.api.domain.user.DomainMe
 import xyz.genesisapp.discord.api.domain.user.DomainUserProfile
@@ -130,12 +130,12 @@ class RestClient(
         channelId: Snowflake,
         limit: Int = 50,
         after: Snowflake? = null
-    ): Result<List<ApiMessage>, ApiError> =
+    ): Result<List<DomainMessage>, ApiError> =
         get("channels/$channelId/messages?limit=$limit${if (after !== null) "&after=$after" else ""}")
 
     suspend fun sendMessage(
         channelId: Snowflake,
-        message: ApiMessage
-    ): Result<ApiMessage, ApiError> =
+        message: DomainMessage
+    ): Result<DomainMessage, ApiError> =
         post("channels/$channelId/messages", message)
 }

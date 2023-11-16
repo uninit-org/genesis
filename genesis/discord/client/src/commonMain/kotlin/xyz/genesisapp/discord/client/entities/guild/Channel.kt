@@ -9,7 +9,7 @@ import xyz.genesisapp.common.fytix.Err
 import xyz.genesisapp.common.fytix.EventEmitter
 import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.getTimeInMillis
-import xyz.genesisapp.discord.api.domain.ApiMessage
+import xyz.genesisapp.discord.api.domain.DomainMessage
 import xyz.genesisapp.discord.api.domain.UtcDateTime
 import xyz.genesisapp.discord.api.types.Asset
 import xyz.genesisapp.discord.api.types.Snowflake
@@ -44,8 +44,8 @@ class Channel(
         return message
     }
 
-    fun addApiMessages(apiMessages: List<ApiMessage>): List<Message> =
-        addMessages(apiMessages.map { Message.fromApiMessage(it, genesisClient) })
+    fun addApiMessages(domainMessages: List<DomainMessage>): List<Message> =
+        addMessages(domainMessages.map { Message.fromApiMessage(it, genesisClient) })
 
     fun addMessages(messages: List<Message>): List<Message> {
         val added = mutableListOf<Message>()
@@ -56,7 +56,7 @@ class Channel(
 
     fun deleteMessage(message: Message) = deleteMessage(message.id)
 
-    fun deleteMessage(apiMessage: ApiMessage) = deleteMessage(apiMessage.id!!)
+    fun deleteMessage(domainMessage: DomainMessage) = deleteMessage(domainMessage.id!!)
 
     fun deleteMessage(id: Snowflake) {
         val message = messages.find { it.id == id }
@@ -86,17 +86,17 @@ class Channel(
     }
 
     suspend fun sendMessage(content: String): Message? {
-        val apiMessage = ApiMessage(
+        val domainMessage = DomainMessage(
             content = content,
             channelId = id,
             nonce = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000
         )
-        var message = Message.fromApiMessage(apiMessage, genesisClient)
+        var message = Message.fromApiMessage(domainMessage, genesisClient)
         message.isSent = false
         message.author = genesisClient.normalUser
         addMessage(message)
         delay(3000L)
-        return when (val res = genesisClient.rest.sendMessage(id, apiMessage)) {
+        return when (val res = genesisClient.rest.sendMessage(id, domainMessage)) {
             is Ok -> {
                 messages.remove(message)
                 message = Message.fromApiMessage(res.value, genesisClient)
