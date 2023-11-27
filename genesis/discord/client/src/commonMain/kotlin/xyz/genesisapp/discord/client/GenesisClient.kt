@@ -24,6 +24,7 @@ import xyz.genesisapp.discord.entities.guild.GuildMember
 @OptIn(ExperimentalDiscordApi::class)
 class GenesisClient(
     httpClientEngineFactory: HttpClientEngineFactory<*>,
+    enableAssetCache: Boolean = false
 ) : EventBus("GenesisClient") {
     lateinit var user: DomainMe // ClientUser
     lateinit var normalUser: User
@@ -35,6 +36,7 @@ class GenesisClient(
 
     var guilds = mutableStateMapOf<Snowflake, Guild?>()
     var channels = mutableStateMapOf<Snowflake, Channel>()
+    var users = mutableStateMapOf<Snowflake, User>()
     var guildMembers = mutableStateMapOf<Snowflake, GuildMember>()
     var userSettings: UserSettings? = null
 

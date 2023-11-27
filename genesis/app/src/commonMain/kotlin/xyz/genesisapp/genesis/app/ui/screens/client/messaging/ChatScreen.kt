@@ -151,7 +151,7 @@ class ChatScreen(
                         AnimatedVisibility(visible = dataStore.mobileUi) {
                             Button(
                                 onClick = {
-                                    dataStore.events.emit("GUILDS_TOGGLE", true)
+                                    dataStore.toggleGuilds()
                                 },
                                 modifier = Modifier.align(alignment = Alignment.CenterVertically)
                             ) {

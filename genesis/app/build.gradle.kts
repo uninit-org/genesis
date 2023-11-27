@@ -49,7 +49,7 @@ kotlin {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-                implementation("media.kamel:kamel-image:0.8.2")
+                implementation(libs.kamel)
 
 
                 implementation(project(":genesis:common"))
@@ -67,15 +67,6 @@ kotlin {
                 api("androidx.core:core-ktx:1.12.0")
                 implementation(libs.ktor.client.okhttp)
             }
-        }
-        val iosArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
-
         }
         val desktopMain by getting {
             dependencies {

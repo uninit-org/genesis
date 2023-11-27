@@ -47,13 +47,18 @@ open class EventBus(val composableId: String = "") {
         if (!busses.containsKey(event)) return // TODO: Default ("UNKNOWN" event) event bus & "ALL" event
         CoroutineScope((Dispatchers.Default)).launch {
             val listeners = busses[event]!!
-            for (listener in listeners) {
+            val iterator = listeners.iterator()
+            while (iterator.hasNext()) {
+                val listener = iterator.next()
+
+
                 withContext(Dispatchers.Default) {
                     listener.onEvent(object : Event<A> {
                         override val type: String = event
                         override val data: A = data
                     })
                 }
+
             }
         }
     }

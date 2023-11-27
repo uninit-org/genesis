@@ -29,24 +29,4 @@ buildscript {
 //        classpath(libs.moko.resources.generator)
     }
 }
-allprojects {
-    val iosSpec = object : Spec<Task> {
-        override fun isSatisfiedBy(element: Task?): Boolean {
-            return System.getenv("GITHUB_ACTIONS") == "true" || System.getenv("ENABLE_IOS") == "true"
-        }
-
-    }
-
-//    tasks.withType(KotlinCompile::class).all {
-//        kotlinOptions {
-//            freeCompilerArgs += "-Xexpect-actual-classes"
-//        }
-//    }
-
-    tasks.matching {
-        name.contains("FrameworkIos")
-    }.forEach {
-        it.setOnlyIf(iosSpec)
-    }
-}
 true // Needed to make the Suppress annotation work for the plugins block

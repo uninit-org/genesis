@@ -11,25 +11,39 @@ class Message(
     var id: Snowflake,
     var channelId: Snowflake,
     var content: String = "",
-    var author: User,
     var isSent: Boolean = true,
     var nonce: Long = getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000,
-
+    var authorId: Snowflake,
     var embeds: List<Embed> = listOf(),
     var attachments: List<Attachment> = listOf(),
 ) {
 
+    val author: User
+        get() = genesisClient.users[authorId]!!
+
     companion object {
-        fun fromApiMessage(domainMessage: DomainMessage, genesisClient: GenesisClient) = Message(
-            genesisClient,
-            id = domainMessage.id ?: domainMessage.nonce!!,
-            channelId = domainMessage.channelId!!,
-            content = domainMessage.content ?: "",
-            author = User.fromApiUser(domainMessage.author!!, genesisClient),
-            nonce = domainMessage.nonce ?: (getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000),
-            embeds = domainMessage.embeds?.map { Embed.fromApiMessageEmbed(it) } ?: listOf(),
-            attachments = domainMessage.attachments?.map { Attachment.fromApiMessageAttachment(it) }
-                ?: listOf(),
-        )
+        fun fromApiMessage(domainMessage: DomainMessage, genesisClient: GenesisClient): Message {
+            domainMessage.author?.let {
+                if (!genesisClient.users.containsKey(it.id)) genesisClient.users[it.id] =
+                    User.fromApiUser(it, genesisClient)
+            }
+
+            return Message(
+                genesisClient,
+                id = domainMessage.id ?: domainMessage.nonce!!,
+                channelId = domainMessage.channelId!!,
+                content = domainMessage.content ?: "",
+                authorId = domainMessage.author!!.id,
+                nonce = domainMessage.nonce
+                    ?: (getTimeInMillis() + UtcDateTime.DISCORD_EPOCH * 1000000),
+                embeds = domainMessage.embeds?.map { Embed.fromApiMessageEmbed(it) } ?: listOf(),
+                attachments = domainMessage.attachments?.map {
+                    Attachment.fromApiMessageAttachment(
+                        it
+                    )
+                }
+                    ?: listOf(),
+            )
+        }
     }
 }

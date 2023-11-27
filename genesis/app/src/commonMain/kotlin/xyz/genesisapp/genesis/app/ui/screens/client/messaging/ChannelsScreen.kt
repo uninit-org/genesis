@@ -38,15 +38,12 @@ import io.github.aakira.napier.Napier
 import io.kamel.core.ExperimentalKamelApi
 import io.kamel.image.KamelImage
 import io.kamel.image.KamelImageBox
-import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.api.types.timestamp
-import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.entities.guild.Guild
@@ -89,12 +86,8 @@ fun Channel(channel: Channel, select: (Channel) -> Unit) {
             ) {
                 if (channel.icon != null) {
                     KamelImage(
-                        resource = asyncPainterResource(
-                            channel.icon!!.toUrl(
-                                AssetType.Avatar,
-                                channel.id,
-                                128
-                            )
+                        resource = channel.icon!!.render(
+                            128
                         ),
                         contentDescription = channel.name,
                     )
@@ -175,11 +168,10 @@ class ChannelsScreen(
             mutableStateOf(currentChannel)
         }
 
-        Events(
-            dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
-                navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
-            }
-        )
+        dataStore.compositionOnGuildSelect {
+            navigator.push(ChannelsScreen(genesisClient.guilds[it]!!, guild.id))
+        }
+
 
         Scaffold(
             modifier = Modifier
@@ -263,9 +255,7 @@ class ChannelsScreen(
                         .height(48.dp)
                     if (guild.banner != null) {
                         KamelImageBox(
-                            resource = asyncPainterResource(
-                                guild.banner!!.toUrl(AssetType.Banner, guild.id, 480),
-                            ),
+                            resource = guild.banner!!.render(480),
                             modifier = modifier,
                             onFailure = {
                                 Text(guild.name)

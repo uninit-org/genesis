@@ -31,12 +31,13 @@ import xyz.genesisapp.discord.client.gateway.handlers.initGatewayHandlers
 import xyz.genesisapp.discord.client.gateway.serializers.GatewaySerializer
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
+import xyz.genesisapp.discord.client.gateway.types.events.Ready
 
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,
     val parentClient: GenesisClient,
     val eventBus: EventBus = parentClient,
-) : EventBus() {
+) : EventBus("GatewayClient") {
     private val http = HttpClient(engineFactory) {
         install(WebSockets) {
             contentConverter = KotlinxWebsocketSerializationConverter(Json)
@@ -107,19 +108,19 @@ class GatewayClient(
         var gatewayUrl = "wss://gateway.discord.gg/?v=9&encoding=json"
         var seq: Int? = null
         var retries = 0
-//        once<Ready>("READY") { ready ->
-//            resumePacket = GatewayEvent(
-//                6,
-//                null,
-//                null,
-//                GatewayResume(
-//                    token = token,
-//                    sessionId = ready.sessionId,
-//                    seq = seq!!
-//                )
-//            )
-//            gatewayUrl = ready.resumeGatewayUrl
-//        }
+        once<Ready>("READY") { ready ->
+            resumePacket = GatewayEvent(
+                6,
+                null,
+                null,
+                GatewayResume(
+                    token = token,
+                    sessionId = ready.sessionId,
+                    seq = seq!!
+                )
+            )
+            gatewayUrl = ready.resumeGatewayUrl
+        }
         scope.launch {
             while (!isDisconnecting) {
                 if (retries > 10) {
@@ -161,7 +162,6 @@ class GatewayClient(
                                     Napier.d("Received event $event", null, "Gateway")
 
                                 emit(event, json.d)
-                                emit("${event}Raw", text)
                             } catch (e: Exception) {
                                 val blacklist = listOf(
                                     "Unknown opcode",
@@ -187,6 +187,7 @@ class GatewayClient(
                         }
                     }
                 } catch (_: Exception) {
+                    retries++
                 }
             }
             isDisconnecting = false

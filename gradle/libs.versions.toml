@@ -1,19 +1,22 @@
 [versions]
-kotlin = "1.9.10"
-serialization = "1.6.0"
+kotlin = "1.9.20"
+serialization = "1.6.1"
 android = "8.1.2"
-compose = "1.5.2"
+compose = "1.5.10"
 moko-resources = "0.23.0"
-koin = "3.5.0"
-koin-compose = "1.1.0"
+koin = "3.5.2-RC1"
+koin-compose = "1.1.1-RC1"
 voyager = "1.0.0-rc10"
-ktor = "2.3.5"
+ktor = "2.3.6"
 napier = "2.6.1"
+gson = "2.10.1"
+kprefs = "0.12.1"
+kamel = "0.8.2"
 
 [libraries]
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 serialization-protobuf = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-protobuf", version.ref = "serialization" }
-serialization-preferences = { group = "net.edwardday.serialization", name = "kprefs", version = "0.12.1" }
+serialization-preferences = { group = "net.edwardday.serialization", name = "kprefs", version.ref = "kprefs" }
 
 moko-resources-common = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko-resources" }
@@ -30,7 +33,7 @@ voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", vers
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-core = { module = "cafe.adriel.voyager:voyager-core", version.ref = "voyager" }
 
-jvm-gson = { group = "com.google.code.gson", name = "gson", version = "2.10.1" }
+jvm-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
@@ -41,6 +44,8 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 ktor-serialization-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
+
+kamel = { group = "media.kamel", name = "kamel-image", version.ref = "kamel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android" }

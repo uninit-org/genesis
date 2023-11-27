@@ -22,6 +22,15 @@ kotlin {
             dependencies {
                 implementation(libs.serialization.json)
                 compileOnly(compose.runtime)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                compileOnly(compose.components.resources)
+                compileOnly(compose.foundation)
+
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.negotiation)
+
+                compileOnly(libs.koin.core)
+                compileOnly(libs.koin.compose)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
@@ -31,21 +40,13 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-
-            }
-        }
-        val iosArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-
-            languageSettings {
-
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val desktopMain by getting {
             dependencies {
                 implementation(libs.jvm.gson)
+                implementation(libs.ktor.client.okhttp)
             }
         }
     }

@@ -37,9 +37,13 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
                 "Gateway"
             )
             val user = genesisClient.rest.getUser(me.getOrNull()!!.id)
-            if (user.isOk()) genesisClient.normalUser =
-                User.fromApiUser(user.getOrNull()!!, genesisClient)
-            else if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
+            if (user.isOk()) {
+                val userRes = User.fromApiUser(user.getOrNull()!!, genesisClient)
+                genesisClient.normalUser =
+                    userRes
+                genesisClient.users[userRes.id] = userRes
+
+            } else if (genesisClient.logLevel >= LogLevel.ERROR) Napier.e(
                 "Error getting user: ${user.errorOrNull()}",
                 null,
                 "Gateway"

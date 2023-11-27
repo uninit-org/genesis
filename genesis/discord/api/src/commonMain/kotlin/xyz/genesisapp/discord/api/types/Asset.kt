@@ -24,13 +24,19 @@ fun Asset.toUrl(
     parentId: Snowflake? = null,
     size: Int? = null
 ): String {
-    var url = "https://cdn.discordapp.com/${type.value}/"
-    if (parentId !== null) {
-        url += "$parentId/"
+    val builder = StringBuilder()
+        .append("https://cdn.discordapp.com/")
+        .append(type.value)
+        .append("/")
+    parentId?.let {
+        builder.append(it)
+            .append("/")
     }
-    url += extension
-    if (size !== null) {
-        url += "?size=$size"
+    builder.append(".")
+        .append(extension)
+    size?.let {
+        builder.append("?size=")
+            .append(it)
     }
-    return url
+    return builder.toString()
 }

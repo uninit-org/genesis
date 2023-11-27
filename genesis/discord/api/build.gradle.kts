@@ -35,11 +35,6 @@ kotlin {
 
             }
         }
-        val iosArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-        }
         val desktopMain by getting {
             dependencies {
 

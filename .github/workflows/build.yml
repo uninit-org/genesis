@@ -27,37 +27,37 @@ jobs:
         uses: actions/cache@v3
         with:
           path: appAndroid/build
-          key: ${{ runner.os }}-appAndroid-${{ hashFiles('appAndroid/**') }}
+          key: ${{ runner.os }}-appAndroid-${{ hashFiles('appAndroid/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache appDesktop
         uses: actions/cache@v3
         with:
           path: appDesktop/build
-          key: ${{ runner.os }}-appDesktop-${{ hashFiles('appDesktop/**') }}
+          key: ${{ runner.os }}-appDesktop-${{ hashFiles('appDesktop/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisApp
         uses: actions/cache@v3
         with:
           path: genesis/app/build
-          key: ${{ runner.os }}-genesis-app-${{ hashFiles('genesis/app/**') }}
+          key: ${{ runner.os }}-genesis-app-${{ hashFiles('genesis/app/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisCommon
         uses: actions/cache@v3
         with:
           path: genesis/common/build
-          key: ${{ runner.os }}-genesis-common-${{ hashFiles('genesis/common/**') }}
+          key: ${{ runner.os }}-genesis-common-${{ hashFiles('genesis/common/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisDiscordApi
         uses: actions/cache@v3
         with:
           path: genesis/discord/api/build
-          key: ${{ runner.os }}-genesis-discord-api-${{ hashFiles('genesis/discord/api/**') }}
+          key: ${{ runner.os }}-genesis-discord-api-${{ hashFiles('genesis/discord/api/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisDiscordClient
         uses: actions/cache@v3
         with:
           path: genesis/discord/client/build
-          key: ${{ runner.os }}-genesis-discord-client-${{ hashFiles('genesis/discord/client/**') }}
+          key: ${{ runner.os }}-genesis-discord-client-${{ hashFiles('genesis/discord/client/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisApi
         uses: actions/cache@v3
         with:
           path: genesis/genesisApi/build
-          key: ${{ runner.os }}-genesis-genesisApi-${{ hashFiles('genesis/genesisApi/**') }}
+          key: ${{ runner.os }}-genesis-genesisApi-${{ hashFiles('genesis/genesisApi/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
 
 
 

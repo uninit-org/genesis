@@ -12,9 +12,10 @@ import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.getTimeInMillis
 import xyz.genesisapp.discord.api.domain.DomainMessage
 import xyz.genesisapp.discord.api.domain.UtcDateTime
-import xyz.genesisapp.discord.api.types.Asset
+import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.entities.Asset
 import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.discord.entities.guild.ApiChannel
 import xyz.genesisapp.discord.entities.guild.ChannelType
@@ -147,7 +148,6 @@ class Channel(
         )
         var message = Message.fromApiMessage(domainMessage, genesisClient)
         message.isSent = false
-        message.author = genesisClient.normalUser
         addMessage(message)
         delay(3000L)
         return when (val res = genesisClient.rest.sendMessage(id, domainMessage)) {
@@ -185,7 +185,14 @@ class Channel(
             type = apiChannel.type!!,
             recipients = apiChannel.recipients?.map { User.fromApiUser(it, genesisClient) }
                 ?.toMutableList() ?: mutableListOf(),
-            icon = apiChannel.icon,
+            icon = apiChannel.icon?.let {
+                Asset(
+                    genesisClient,
+                    it,
+                    AssetType.Avatar,
+                    apiChannel.recipients?.get(0)!!.id
+                )
+            },
             lastMessageId = apiChannel.lastMessageId
         )
     }

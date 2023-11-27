@@ -26,6 +26,9 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.json)
                 compileOnly(compose.runtime)
+                compileOnly(compose.foundation)
+
+                compileOnly(libs.kamel)
 
                 implementation(libs.napier)
 
@@ -40,14 +43,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
-            }
-        }
-        val iosArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.darwin)
             }
         }
         val desktopMain by getting {

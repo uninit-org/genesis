@@ -35,31 +35,28 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.api.domain.user.GuildFolder
-import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.api.types.toUrl
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.entities.guild.ChannelType
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.icons.Icons
 import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
-import xyz.genesisapp.genesis.app.ui.screens.EventTab
 import kotlin.math.roundToInt
 
 enum class GuildIconType {
     DM, GUILD, FOLDER
 }
 
-internal object GuildsTab : EventTab() {
+internal object GuildsTab : Tab {
 
     override val options: TabOptions
         @Composable
@@ -96,14 +93,13 @@ internal object GuildsTab : EventTab() {
         val scope = rememberCoroutineScope()
         val swipeableState = rememberSwipeableState(0)
 
-        Events(
-            dataStore.events.quietRegister<Boolean>("GUILDS_TOGGLE") {
-                scope.launch {
-                    if (swipeableState.currentValue == 0) swipeableState.animateTo(1)
-                    else swipeableState.animateTo(0)
-                }
+        dataStore.compositionOnToggleGuilds {
+            scope.launch {
+                if (swipeableState.currentValue == 0) swipeableState.animateTo(1)
+                else swipeableState.animateTo(0)
             }
-        )
+        }
+
 
         fun chooseGuild(id: Snowflake) {
             lastGuild = currentGuild
@@ -118,160 +114,6 @@ internal object GuildsTab : EventTab() {
             )
         }
 
-
-        Row {
-            var rerenderBool by remember { mutableStateOf(true) }
-            fun rerender() {
-                rerenderBool = false
-            }
-            if (rerenderBool) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(64.dp)
-                ) {
-                    item(key = "DMS") {
-                        val modifier = Modifier
-                            .size(
-                                48.dp,
-                                48.dp
-                            )
-                            .clickable {
-                                chooseGuild(0L)
-                            }
-
-                        Box(
-                            modifier = if (currentGuild.toInt() == 0) {
-                                modifier.clip(RoundedCornerShape(2.dp))
-                            } else {
-                                modifier.clip(CircleShape)
-                            }
-                        ) {
-                            Image(
-                                painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
-                                contentDescription = "DMs",
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .align(Alignment.Center)
-                            )
-                        }
-                    }
-
-                    val notHitGuilds = genesisClient.guilds.keys.toMutableList()
-                    notHitGuilds.remove(0L)
-                    genesisClient.userSettings!!.guildFolders.forEach { folder ->
-                        folder.guildIds.forEach { guildId ->
-                            notHitGuilds.remove(guildId.toLong())
-                        }
-                    }
-
-                    if (notHitGuilds.size > 0) {
-                        genesisClient.userSettings!!.guildFolders.add(
-                            GuildFolder(
-                                id = null,
-                                name = "Other",
-                                color = null,
-                                guildIds = notHitGuilds.map { it.toString() },
-                                collapsed = false
-                            )
-                        )
-                    }
-
-
-
-                    items(
-                        items = genesisClient.userSettings!!.guildFolders,
-                        key = { it.id ?: it.guildIds.first() }
-                    ) { sortedFolder ->
-                        if (sortedFolder.guildIds.isEmpty()) return@items
-                        if (sortedFolder.guildIds.size == 1) {
-                            sortedFolder.collapsed = false
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .size(
-                                        48.dp,
-                                        48.dp
-                                    )
-                                    .clickable {
-                                        sortedFolder.collapsed = !sortedFolder.collapsed
-                                        rerender()
-                                    }
-                            ) {
-                                Image(
-                                    painter = painterResource("images/folder.png"),
-                                    contentDescription = sortedFolder.name,
-                                    colorFilter = ColorFilter.tint(
-                                        Color(
-                                            sortedFolder.color ?: 0x5865f2
-                                        ).copy(alpha = 0.5f)
-                                    ),
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
-
-                        }
-                        if (!sortedFolder.collapsed) {
-                            sortedFolder.guildIds.forEach forEach2@{ guildId ->
-                                val guild = genesisClient.guilds[guildId.toLong()]
-                                if (guild === null) return@forEach2
-                                val modifier = Modifier
-                                    .size(
-                                        48.dp,
-                                        48.dp
-                                    )
-                                    .clickable {
-                                        chooseGuild(guildId.toLong())
-                                    }
-
-                                Box(
-                                    modifier = if (currentGuild == guildId.toLong()) {
-                                        modifier.clip(RoundedCornerShape(2.dp))
-                                    } else {
-                                        modifier.clip(CircleShape)
-                                    }
-                                ) {
-                                    if (guild.icon !== null) KamelImage(
-                                        resource = asyncPainterResource(
-                                            guild.icon!!.toUrl(
-                                                AssetType.Icon, guild.id,
-                                                128
-                                            )
-                                        ),
-                                        contentDescription = guild.name
-                                    ) else {
-                                        var str = ""
-                                        guild.name.split(" ").forEach { word ->
-                                            str += word[0]
-                                        }
-
-                                        Text(str)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } else rerenderBool = true
-            Navigator(ChannelsScreen(genesisClient.guilds[currentGuild], lastGuild))
-        }
-        val guild = genesisClient.guilds[currentGuild]!!
-
-        val firstChannel = when (currentGuild) {
-            0L -> guild.channels.first().id
-            else -> guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id
-        }
-
-        var currentChannel by prefs.preference(
-            "client.currentChannel",
-            firstChannel
-        )
-
-        if (guild.channels.find { it.id == currentChannel } == null) currentChannel =
-            firstChannel
-
         val width = 500.dp
 
         Box(
@@ -282,6 +124,156 @@ internal object GuildsTab : EventTab() {
                 orientation = Orientation.Horizontal
             )
         ) {
+
+            Row {
+                var rerenderBool by remember { mutableStateOf(true) }
+                fun rerender() {
+                    rerenderBool = false
+                }
+                if (rerenderBool) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(64.dp)
+                    ) {
+                        item(key = "DMS") {
+                            val modifier = Modifier
+                                .size(
+                                    48.dp,
+                                    48.dp
+                                )
+                                .clickable {
+                                    chooseGuild(0L)
+                                }
+
+                            Box(
+                                modifier = if (currentGuild.toInt() == 0) {
+                                    modifier.clip(RoundedCornerShape(2.dp))
+                                } else {
+                                    modifier.clip(CircleShape)
+                                }
+                            ) {
+                                Image(
+                                    painterResource(if (useDiscordIcon) "images/img_logo.png" else "icons/genesis.png"),
+                                    contentDescription = "DMs",
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .align(Alignment.Center)
+                                )
+                            }
+                        }
+
+                        val notHitGuilds = genesisClient.guilds.keys.toMutableList()
+                        notHitGuilds.remove(0L)
+                        genesisClient.userSettings!!.guildFolders.forEach { folder ->
+                            folder.guildIds.forEach { guildId ->
+                                notHitGuilds.remove(guildId.toLong())
+                            }
+                        }
+
+                        if (notHitGuilds.size > 0) {
+                            genesisClient.userSettings!!.guildFolders.add(
+                                GuildFolder(
+                                    id = null,
+                                    name = "Other",
+                                    color = null,
+                                    guildIds = notHitGuilds.map { it.toString() },
+                                    collapsed = false
+                                )
+                            )
+                        }
+
+
+
+                        items(
+                            items = genesisClient.userSettings!!.guildFolders,
+                            key = { it.id ?: it.guildIds.first() }
+                        ) { sortedFolder ->
+                            if (sortedFolder.guildIds.isEmpty()) return@items
+                            if (sortedFolder.guildIds.size == 1) {
+                                sortedFolder.collapsed = false
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .size(
+                                            48.dp,
+                                            48.dp
+                                        )
+                                        .clickable {
+                                            sortedFolder.collapsed = !sortedFolder.collapsed
+                                            rerender()
+                                        }
+                                ) {
+                                    Image(
+                                        painter = painterResource("images/folder.png"),
+                                        contentDescription = sortedFolder.name,
+                                        colorFilter = ColorFilter.tint(
+                                            Color(
+                                                sortedFolder.color ?: 0x5865f2
+                                            ).copy(alpha = 0.5f)
+                                        ),
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .align(Alignment.Center)
+                                    )
+                                }
+
+                            }
+                            if (!sortedFolder.collapsed) {
+                                sortedFolder.guildIds.forEach forEach2@{ guildId ->
+                                    val guild = genesisClient.guilds[guildId.toLong()]
+                                    if (guild === null) return@forEach2
+                                    val modifier = Modifier
+                                        .size(
+                                            48.dp,
+                                            48.dp
+                                        )
+                                        .clickable {
+                                            chooseGuild(guildId.toLong())
+                                        }
+
+                                    Box(
+                                        modifier = if (currentGuild == guildId.toLong()) {
+                                            modifier.clip(RoundedCornerShape(2.dp))
+                                        } else {
+                                            modifier.clip(CircleShape)
+                                        }
+                                    ) {
+                                        if (guild.icon !== null) KamelImage(
+                                            resource = guild.icon!!.render(128),
+                                            contentDescription = guild.name
+                                        ) else {
+                                            var str = ""
+                                            guild.name.split(" ").forEach { word ->
+                                                str += word[0]
+                                            }
+
+                                            Text(str)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else rerenderBool = true
+                Navigator(ChannelsScreen(genesisClient.guilds[currentGuild], lastGuild))
+            }
+            val guild = genesisClient.guilds[currentGuild]!!
+
+            val firstChannel = when (currentGuild) {
+                0L -> guild.channels.first().id
+                else -> guild.channels.find { it.type == ChannelType.GUILD_TEXT }!!.id
+            }
+
+            var currentChannel by prefs.preference(
+                "client.currentChannel",
+                firstChannel
+            )
+
+            if (guild.channels.find { it.id == currentChannel } == null) currentChannel =
+                firstChannel
+
+
             Box(
                 modifier = Modifier.offset {
                     IntOffset(

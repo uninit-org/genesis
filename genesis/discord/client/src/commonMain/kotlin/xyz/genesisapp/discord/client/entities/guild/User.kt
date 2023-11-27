@@ -4,9 +4,10 @@ import kotlinx.serialization.json.JsonObject
 import xyz.genesisapp.discord.api.domain.user.ApiUser
 import xyz.genesisapp.discord.api.domain.user.PremiumType
 import xyz.genesisapp.discord.api.domain.user.UserFlags
-import xyz.genesisapp.discord.api.types.Asset
+import xyz.genesisapp.discord.api.types.AssetType
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
+import xyz.genesisapp.discord.client.entities.Asset
 
 class User(
     val accentColor: Int? = null,
@@ -49,9 +50,9 @@ class User(
             genesisClient: GenesisClient
         ): User = User(
             accentColor = apiUser.accentColor,
-            avatar = apiUser.avatar,
+            avatar = apiUser.avatar?.let { Asset(genesisClient, it, AssetType.Avatar, apiUser.id) },
             avatarDecorationData = apiUser.avatarDecorationData,
-            banner = apiUser.banner,
+            banner = apiUser.banner?.let { Asset(genesisClient, it, AssetType.Banner, apiUser.id) },
             bannerColor = apiUser.bannerColor,
             bio = apiUser.bio,
             discriminator = apiUser.discriminator,

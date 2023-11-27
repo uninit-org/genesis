@@ -69,4 +69,21 @@ class DataStore() : EventBus("DataStore") {
     fun compositionOnClientTabSelect(block: Event<ClientTab>.(ClientTab) -> Unit) =
         compositionLocalOn("CLIENT_TAB_SELECT", block)
 
+    /**
+     * Explicit typing for [emit] function, event is [Boolean]
+     */
+    fun toggleGuilds() = emit("GUILDS_TOGGLE", true)
+
+    /**
+     * Explicit typing for [on] function, event is [Boolean]
+     */
+    fun onToggleGuilds(block: Event<Boolean>.(Boolean) -> Unit) =
+        on("GUILDS_TOGGLE", block)
+
+    /**
+     * Explicit typing for [compositionLocalOn] function, event is [Boolean]
+     */
+    @Composable
+    fun compositionOnToggleGuilds(block: Event<Boolean>.(Boolean) -> Unit) =
+        compositionLocalOn("GUILDS_TOGGLE", block)
 }

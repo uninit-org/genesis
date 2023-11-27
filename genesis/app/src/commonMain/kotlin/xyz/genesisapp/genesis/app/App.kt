@@ -5,17 +5,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.aakira.napier.Antilog
-import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
+import xyz.genesisapp.common.compose.koin.uninitModule
 import xyz.genesisapp.common.preferences.PreferencesManager
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.enum.LogLevel
@@ -24,12 +25,12 @@ import xyz.genesisapp.genesis.app.di.dataStoreModule
 import xyz.genesisapp.genesis.app.di.genesisApiModule
 import xyz.genesisapp.genesis.app.di.genesisClientModule
 import xyz.genesisapp.genesis.app.di.httpModule
+import xyz.genesisapp.genesis.app.di.platformHttpEngineFactory
 import xyz.genesisapp.genesis.app.di.preferencesModule
 import xyz.genesisapp.genesis.app.theme.LocalContextColors
 import xyz.genesisapp.genesis.app.theme.ThemeProvider
 import xyz.genesisapp.genesis.app.ui.screens.RootScreen
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
     Napier.base(getAntiLog())
@@ -40,7 +41,9 @@ fun App() {
             httpModule(),
             genesisClientModule(),
             genesisApiModule(),
-            dataStoreModule()
+            dataStoreModule(),
+
+            uninitModule(httpFactory = platformHttpEngineFactory)
         )
     }) {
         val koin = getKoin()
