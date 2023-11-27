@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -14,6 +15,7 @@ open class EventBus(val composableId: String = "") {
         val uuid: Int
         fun onEvent(event: E)
     }
+
     interface Event<E> {
         val type: String
         val data: E
@@ -21,8 +23,10 @@ open class EventBus(val composableId: String = "") {
 
     @PublishedApi
     internal val busses: MutableMap<String, MutableList<EventListener<Event<*>>>> = mutableMapOf()
+
     @PublishedApi
     internal val byId: MutableMap<Int, EventListener<Event<*>>> = mutableMapOf()
+
     @PublishedApi
     internal var latestUuid: Int = 0
 
@@ -68,6 +72,17 @@ open class EventBus(val composableId: String = "") {
             busses[event] = mutableListOf(listener)
         }
         byId[listener.uuid] = listener
+    }
+
+    suspend fun <E : Any?> waitFor(event: String): E {
+        var result: E? = null
+        once(event) {
+            result = data
+        }
+        while (result == null) {
+            delay(1)
+        }
+        return result!!
     }
 
     @PublishedApi

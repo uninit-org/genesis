@@ -10,11 +10,11 @@ class GatewayLoadScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis
     val genesisClient = koin.get<GenesisClient>()
 
     val token by prefs.preference("auth.token", "")
-    
+
     genesisClient.gateway.token = token
     genesisClient.gateway.connect()
 
-    genesisClient.events.suspendOnce<String>("READY")
+    genesisClient.waitFor<Boolean>("READY")
 
 
 

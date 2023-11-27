@@ -13,7 +13,7 @@ fun gatewayMessageCreateHandler(genesisClient: GenesisClient, gateway: GatewayCl
         val message = Message.fromApiMessage(msg, genesisClient)
         channel.messages.add(message)
         channel.sort()
-        genesisClient.events.emit("MESSAGE_CREATE", message)
+        genesisClient.emit("MESSAGE_CREATE", message)
         channel.emit("MESSAGE_CREATE", message)
     }
 }

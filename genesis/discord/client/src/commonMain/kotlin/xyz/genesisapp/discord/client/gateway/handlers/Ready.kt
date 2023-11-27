@@ -70,7 +70,7 @@ fun gatewayReadyHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
             )
             if (genesisClient.logLevel >= LogLevel.DEBUG)
                 Napier.d("Gateway Ready", null, "Gateway")
-            genesisClient.events.emit("READY", "")
+            genesisClient.emit("READY", "")
         }
     }
 }

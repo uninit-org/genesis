@@ -16,6 +16,7 @@ import kotlin.reflect.KProperty
 class GsonAdapter(val filepath: String) {
 
     val elem: JsonElement
+
     init {
         val f = File(filepath)
         if (!f.exists()) {
@@ -29,6 +30,7 @@ class GsonAdapter(val filepath: String) {
             }
         }
         elem = JsonParser.parseString(f.readText().ifEmpty { "{}" })
+
 
     }
 
@@ -49,13 +51,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.addProperty(key, value)
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.addProperty(targetName, value)
+
                 save()
             }
 
         }
     }
+
     fun value(key: String, defaultValue: Int): IDynValue<Int> {
         return object : IDynValue<Int> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Int {
@@ -67,13 +84,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.addProperty(key, value)
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.addProperty(targetName, value)
+
                 save()
             }
 
         }
     }
+
     fun value(key: String, defaultValue: Long): IDynValue<Long> {
         return object : IDynValue<Long> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Long {
@@ -85,13 +117,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.addProperty(key, value)
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.addProperty(targetName, value)
+
                 save()
             }
 
         }
     }
+
     fun value(key: String, defaultValue: Float): IDynValue<Float> {
         return object : IDynValue<Float> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Float {
@@ -103,13 +150,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.addProperty(key, value)
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.addProperty(targetName, value)
+
                 save()
             }
 
         }
     }
+
     fun value(key: String, defaultValue: Boolean): IDynValue<Boolean> {
         return object : IDynValue<Boolean> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Boolean {
@@ -121,13 +183,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.addProperty(key, value)
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.addProperty(targetName, value)
+
                 save()
             }
 
         }
     }
+
     fun value(key: String, defaultValue: Set<String>): IDynValue<Set<String>> {
         return object : IDynValue<Set<String>> {
             override fun getValue(thisRef: Any?, property: KProperty<*>): Set<String> {
@@ -139,13 +216,28 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: Set<String>) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.add(key, JsonParser.parseString(value.toString()))
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.add(targetName, JsonParser.parseString(value.toString()))
+
                 save()
             }
 
         }
     }
+
     @OptIn(InternalSerializationApi::class)
     fun <T : Any> value(key: String, defaultValue: T, klass: KClass<T>): IDynValue<T> {
         return object : IDynValue<T> {
@@ -158,8 +250,25 @@ class GsonAdapter(val filepath: String) {
             }
 
             override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-                elem.asJsonObject.remove(key)
-                elem.asJsonObject.add(key, JsonParser.parseString(Json.encodeToString(klass.serializer(), value)))
+                var el = elem
+                val targetName = key.split(".").last()
+                for (k in key.split(".")) {
+                    if (k == targetName) {
+                        break
+                    }
+                    el = if (el.asJsonObject[k] != null) {
+                        el.asJsonObject[k]
+                    } else {
+                        el.asJsonObject.add(k, JsonParser.parseString("{}"))
+                        el.asJsonObject[k]
+                    }
+                }
+                el.asJsonObject.remove(targetName)
+                el.asJsonObject.add(
+                    targetName,
+                    JsonParser.parseString(Json.encodeToString(klass.serializer(), value))
+                )
+
                 save()
             }
         }
