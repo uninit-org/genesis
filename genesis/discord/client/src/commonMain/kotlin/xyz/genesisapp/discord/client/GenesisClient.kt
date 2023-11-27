@@ -66,14 +66,21 @@ class GenesisClient(
     fun onceReady(block: Event<Ready>.(Ready) -> Unit) = once("READY", block)
 
     /**
+     * Explicit typing for [waitFor] function, event is [Ready]
+     */
+    suspend fun waitForReady() = waitFor<Ready>("READY")
+
+    /**
      * Explicit typing for [on] function, event is [DomainMessage]
      */
-    fun onMessageCreate(block: Event<DomainMessage>.(DomainMessage) -> Unit) = on("MESSAGE_CREATE", block)
+    fun onMessageCreate(block: Event<DomainMessage>.(DomainMessage) -> Unit) =
+        on("MESSAGE_CREATE", block)
 
     /**
      * Explicit typing for [once] function, event is [DomainMessage]
      */
-    fun onceMessageCreate(block: Event<DomainMessage>.(DomainMessage) -> Unit) = once("MESSAGE_CREATE", block)
+    fun onceMessageCreate(block: Event<DomainMessage>.(DomainMessage) -> Unit) =
+        once("MESSAGE_CREATE", block)
 
     init {
         onMessageCreate {

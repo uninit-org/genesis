@@ -1,34 +1,42 @@
 package xyz.genesisapp.discord.client.gateway
 
 import io.github.aakira.napier.Napier
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.plugins.websocket.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.*
-import io.ktor.websocket.*
-import kotlinx.coroutines.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngineFactory
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
+import io.ktor.websocket.Frame
+import io.ktor.websocket.close
+import io.ktor.websocket.readText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import xyz.genesisapp.common.fytix.EventBus
-import xyz.genesisapp.common.fytix.EventEmitter
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
 import xyz.genesisapp.discord.client.enum.LogLevel
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayIdentify
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayRequestMessages
+import xyz.genesisapp.discord.client.gateway.entities.events.GatewayResume
 import xyz.genesisapp.discord.client.gateway.handlers.initGatewayHandlers
 import xyz.genesisapp.discord.client.gateway.serializers.GatewaySerializer
 import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
 import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayIdentify
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayRequestMessages
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayResume
 
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,
     val parentClient: GenesisClient,
     val eventBus: EventBus = parentClient,
-) : EventEmitter() {
+) : EventBus() {
     private val http = HttpClient(engineFactory) {
         install(WebSockets) {
             contentConverter = KotlinxWebsocketSerializationConverter(Json)
@@ -208,7 +216,7 @@ class GatewayClient(
         send(packet)
 
         while (true) {
-            val msg = suspendOnce<LastMessages>("LAST_MESSAGES")
+            val msg = waitFor<LastMessages>("LAST_MESSAGES")
             if (msg.guildId == channel.guildId) {
                 channel.addApiMessages(msg.messages)
                 break

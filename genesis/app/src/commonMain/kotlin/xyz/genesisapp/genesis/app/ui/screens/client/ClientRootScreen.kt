@@ -31,8 +31,8 @@ class ClientRootScreen : Screen {
         val dataStore = koin.get<DataStore>()
 
         TabNavigator(ClientTab.values().first().tab) { tabNavigator ->
-            dataStore.events.on<Tab>("CLIENT_TAB_SELECT") {
-                tabNavigator.current = it
+            dataStore.onClientTabSelect {
+                tabNavigator.current = it.tab
             }
             Scaffold(
                 content = {

@@ -33,6 +33,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.aakira.napier.Napier
@@ -41,18 +42,16 @@ import org.koin.compose.getKoin
 import xyz.genesisapp.discord.api.types.Snowflake
 import xyz.genesisapp.discord.client.GenesisClient
 import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.entities.guild.Message
 import xyz.genesisapp.discord.client.enum.LogLevel
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.guild.message
-import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 
 // Should be replaced with indexing
 @Suppress()
 class ChatScreen(
     private var _channel: Channel?,
     private var lastChannel: Snowflake
-) : EventScreen() {
+) : Screen {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
@@ -107,15 +106,15 @@ class ChatScreen(
             }
         }
 
-        Events(
-            dataStore.events.quietRegister<Snowflake>("CHANNEL_SELECT") {
-                navigator.push(
-                    ChatScreen(genesisClient.channels[it], channel.id)
-                )
-            },
-            channel.quietRegister<Message>("MESSAGE_CREATE") { newMessage() },
-            channel.quietRegister<List<Message>>("MESSAGE_CREATE_BULK") { newMessage(true) }
-        )
+        dataStore.compositionOnChannelSelect {
+            navigator.push(
+                ChatScreen(genesisClient.channels[it], channel.id)
+            )
+        }
+        channel.compositionOnMessageCreate { newMessage() }
+        channel.compositionOnMessageCreateBulk { newMessage(true) }
+
+
         var writtenMessage by remember { mutableStateOf("") }
         fun send() {
             val message = writtenMessage

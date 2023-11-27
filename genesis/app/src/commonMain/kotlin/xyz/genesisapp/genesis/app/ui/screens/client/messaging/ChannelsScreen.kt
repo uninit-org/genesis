@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -56,7 +57,6 @@ import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.User.Avatar
 import xyz.genesisapp.genesis.app.ui.components.icons.Icons
 import xyz.genesisapp.genesis.app.ui.components.icons.icons.Textchannel
-import xyz.genesisapp.genesis.app.ui.screens.EventScreen
 import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
 
 @OptIn(ExperimentalResourceApi::class)
@@ -137,7 +137,7 @@ fun Category(
 class ChannelsScreen(
     private var _guild: Guild?,
     private val lastGuild: Snowflake
-) : EventScreen() {
+) : Screen {
     @OptIn(ExperimentalResourceApi::class, ExperimentalKamelApi::class)
     @Composable
     override fun Content() {
@@ -176,11 +176,9 @@ class ChannelsScreen(
             mutableStateOf(currentChannel)
         }
 
-        Events(
-            dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
-                navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
-            }
-        )
+        dataStore.compositionOnGuildSelect {
+            navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
+        }
 
         Row(
             modifier = Modifier
@@ -216,10 +214,7 @@ class ChannelsScreen(
                                 )
                                 Button(
                                     onClick = {
-                                        dataStore.events.emit(
-                                            "CLIENT_TAB_SELECT",
-                                            ClientTab.SETTINGS.tab
-                                        )
+                                        dataStore.selectClientTab(ClientTab.SETTINGS)
 
                                     }
                                 ) {
@@ -295,7 +290,7 @@ class ChannelsScreen(
                                 Category(null, sortedUncategorized) {
                                     lastChannel = currentChannel
                                     currentChannel = it.id
-                                    dataStore.events.emit("CHANNEL_SELECT", it.id)
+                                    dataStore.selectChannel(it.id)
                                 }
                             }
 
@@ -309,7 +304,7 @@ class ChannelsScreen(
                             Category(category, children) {
                                 lastChannel = currentChannel
                                 currentChannel = it.id
-                                dataStore.events.emit("CHANNEL_SELECT", it.id)
+                                dataStore.selectChannel(it.id)
                             }
                         }
 

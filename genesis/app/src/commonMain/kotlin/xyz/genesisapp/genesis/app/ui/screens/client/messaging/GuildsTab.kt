@@ -85,13 +85,9 @@ internal object GuildsTab : Tab {
         fun chooseGuild(id: Snowflake) {
             lastGuild = currentGuild
             currentGuild = id
-            dataStore.events.emit(
-                "GUILD_SELECT",
-                id
-            )
+            dataStore.selectGuild(id)
             val guild = genesisClient.guilds[id]!!
-            dataStore.events.emit(
-                "CHANNEL_SELECT",
+            dataStore.selectChannel(
                 when (id) {
                     0L -> guild.channels.first().id
                     else -> guild.channels.first { it.type == ChannelType.GUILD_TEXT }.id

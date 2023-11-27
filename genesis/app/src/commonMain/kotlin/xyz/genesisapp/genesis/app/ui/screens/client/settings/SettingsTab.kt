@@ -31,6 +31,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
 import xyz.genesisapp.genesis.app.data.DataStore
 import xyz.genesisapp.genesis.app.ui.components.BackArrow
+import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
 import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.AccountSettings
 import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.AppearanceSettings
 import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.DevSettings
@@ -70,7 +71,7 @@ internal object SettingsTab : Tab {
                     if (dataStore.mobileUi) {
                         isSettingOpen = false
                     } else {
-                        navigator.parent!!.pop()
+                        dataStore.selectClientTab(ClientTab.GUILDS)
                     }
                 })
             }

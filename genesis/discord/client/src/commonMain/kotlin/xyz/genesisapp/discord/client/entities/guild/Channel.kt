@@ -1,12 +1,13 @@
 package xyz.genesisapp.discord.client.entities.guild
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.EventEmitter
+import xyz.genesisapp.common.fytix.EventBus
 import xyz.genesisapp.common.fytix.Ok
 import xyz.genesisapp.common.getTimeInMillis
 import xyz.genesisapp.discord.api.domain.DomainMessage
@@ -32,14 +33,67 @@ class Channel(
     val recipients: MutableList<User> = mutableListOf(),
     val icon: Asset? = null,
     val lastMessageId: Snowflake? = null,
-) : EventEmitter() {
+) : EventBus("Channel$id") {
     val messages = mutableStateListOf<Message>()
+
+    /**
+     * Explicit typing for [emit] function, event is [Message]
+     */
+    fun emitMessageCreate(message: Message) = emit("MESSAGE_CREATE", message)
+
+    /**
+     * Explicit typing for [on] function, event is [Message]
+     */
+    fun onMessageCreate(block: Event<Message>.(Message) -> Unit) = on("MESSAGE_CREATE", block)
+
+    /**
+     * Explicit typing for [compositionLocalOn] function, event is [Message]
+     */
+    @Composable
+    fun compositionOnMessageCreate(block: Event<Message>.(Message) -> Unit) =
+        compositionLocalOn("MESSAGE_CREATE", block)
+
+    /**
+     * Explicit typing for [emit] function, event is [List<Message>]
+     */
+    fun emitMessageCreateBulk(messages: List<Message>) = emit("MESSAGE_CREATE_BULK", messages)
+
+    /**
+     * Explicit typing for [on] function, event is [List<Message>]
+     */
+    fun onMessageCreateBulk(block: Event<List<Message>>.(List<Message>) -> Unit) =
+        on("MESSAGE_CREATE_BULK", block)
+
+    /**
+     * Explicit typing for [compositionLocalOn] function, event is [List<Message>]
+     */
+    @Composable
+    fun compositionOnMessageCreateBulk(block: Event<List<Message>>.(List<Message>) -> Unit) =
+        compositionLocalOn("MESSAGE_CREATE_BULK", block)
+
+    /**
+     * Explicit typing for [emit] function, event is [Snowflake]
+     */
+    fun emitMessageDelete(messageId: Snowflake) = emit("MESSAGE_DELETE", messageId)
+
+    /**
+     * Explicit typing for [on] function, event is [Snowflake]
+     */
+    fun onMessageDelete(block: Event<Snowflake>.(Snowflake) -> Unit) = on("MESSAGE_DELETE", block)
+
+    /**
+     * Explicit typing for [compositionLocalOn] function, event is [Snowflake]
+     */
+    @Composable
+    fun compositionOnMessageDelete(block: Event<Snowflake>.(Snowflake) -> Unit) =
+        compositionLocalOn("MESSAGE_DELETE", block)
+
 
     private fun addMessage(message: Message, isBulk: Boolean = false): Message {
         if (messages.find { it.id == message.id } == null) {
             messages.add(message)
             sort()
-            if (!isBulk) emit("MESSAGE_CREATE", message)
+            if (!isBulk) emitMessageCreate(message)
         }
         return message
     }
@@ -50,7 +104,7 @@ class Channel(
     fun addMessages(messages: List<Message>): List<Message> {
         val added = mutableListOf<Message>()
         messages.forEach { added.add(addMessage(it, true)) }
-        emit("MESSAGE_CREATE_BULK", added)
+        emitMessageCreateBulk(added)
         return added
     }
 
@@ -62,7 +116,7 @@ class Channel(
         val message = messages.find { it.id == id }
         if (message != null) {
             messages.remove(message)
-            emit("MESSAGE_DELETE", message.id)
+            emitMessageDelete(id)
         }
     }
 
