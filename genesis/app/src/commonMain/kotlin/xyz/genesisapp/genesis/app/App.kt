@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -31,7 +32,7 @@ import xyz.genesisapp.genesis.app.ui.screens.RootScreen
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    Napier.base(DebugAntilog())
+    Napier.base(getAntiLog())
     val preferencesModule = preferencesModule()
     KoinApplication(application = {
         modules(
@@ -91,3 +92,5 @@ fun App() {
 }
 
 expect fun getPlatformName(): String
+
+expect fun getAntiLog(): Antilog

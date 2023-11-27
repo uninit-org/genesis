@@ -33,7 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.aakira.napier.Napier
 import io.kamel.core.ExperimentalKamelApi
@@ -176,143 +175,134 @@ class ChannelsScreen(
             mutableStateOf(currentChannel)
         }
 
-        dataStore.compositionOnGuildSelect {
-            navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
-        }
+        Events(
+            dataStore.events.quietRegister<Snowflake>("GUILD_SELECT") {
+                navigator.push(ChannelsScreen(genesisClient.guilds[it], guild.id))
+            }
+        )
 
-        Row(
+        Scaffold(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-        ) {
-            AnimatedVisibility(visible = dataStore.showGuilds || !dataStore.mobileUi) {
-
-                Scaffold(
-                    modifier = Modifier
-                        .width(
-                            200.dp
-                        ),
-                    bottomBar = {
-                        AnimatedVisibility(
-                            visible = !dataStore.mobileUi,
-                            // slide in from bottom
-                            enter = slideInVertically(initialOffsetY = { it }),
-                            exit = slideOutVertically(targetOffsetY = { it })
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(48.dp)
-                                    .background(color = MaterialTheme.colorScheme.primary)
-                            ) {
-                                val modifier = Modifier.align(Alignment.CenterVertically)
-                                Avatar(genesisClient.normalUser, modifier = modifier)
-                                Text(
-                                    genesisClient.normalUser.displayName,
-                                    modifier = modifier.width(100.dp),
-                                    fontSize = MaterialTheme.typography.labelMedium.fontSize
-                                )
-                                Button(
-                                    onClick = {
-                                        dataStore.selectClientTab(ClientTab.SETTINGS)
-
-                                    }
-                                ) {
-                                    Text("Settings")
-                                }
-                            }
-                        }
-                    }
+                .width(
+                    200.dp
+                ),
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = !dataStore.mobileUi,
+                    // slide in from bottom
+                    enter = slideInVertically(initialOffsetY = { it }),
+                    exit = slideOutVertically(targetOffsetY = { it })
                 ) {
-                    LazyColumn(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(bottom = 48.dp)
+                            .height(48.dp)
+                            .background(color = MaterialTheme.colorScheme.primary)
                     ) {
+                        val modifier = Modifier.align(Alignment.CenterVertically)
+                        Avatar(genesisClient.normalUser, modifier = modifier)
+                        Text(
+                            genesisClient.normalUser.displayName,
+                            modifier = modifier.width(100.dp),
+                            fontSize = MaterialTheme.typography.labelMedium.fontSize
+                        )
+                        Button(
+                            onClick = {
+                                dataStore.selectClientTab(ClientTab.SETTINGS)
 
-                        val uncategorized = mutableMapOf<Snowflake, Channel>()
-                        val categories = mutableMapOf<Snowflake, Channel>()
-
-                        guild.channels.forEach {
-                            if (it.type == ChannelType.GUILD_CATEGORY) {
-                                categories[it.id] = it
                             }
+                        ) {
+                            Text("Settings")
                         }
-                        guild.channels.forEach {
-                            if (it.type != ChannelType.GUILD_CATEGORY) {
-                                if (it.parentId != null) {
-                                    if (categories[it.parentId!!]?.children?.contains(it.id) == true) {
-                                        return@forEach
-                                    }
-                                    categories[it.parentId!!]!!.children.add(it.id)
-                                } else {
-                                    uncategorized[it.id] = it
-                                }
-                            }
-                        }
-
-                        val sortedCategories = categories.values.sortedBy { it.position }
-                        val sortedUncategorized = uncategorized.values.sortedBy { it.position }
-                        val iterator = sortedCategories.iterator()
-                        while (iterator.hasNext()) {
-                            val category = iterator.next()
-                            category.children =
-                                category.children.sortedBy { guild.channels.find { it2 -> it2.id == it }!!.position }
-                                    .toMutableList()
-                        }
-
-
-                        item {
-                            val modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                            if (guild.banner != null) {
-                                KamelImageBox(
-                                    resource = asyncPainterResource(
-                                        guild.banner!!.toUrl(AssetType.Banner, guild.id, 480),
-                                    ),
-                                    modifier = modifier,
-                                    onFailure = {
-                                        Text(guild.name)
-                                    }
-                                )
-                                {
-                                    Text(guild.name)
-                                }
-                            }
-                        }
-
-
-
-                        if (sortedUncategorized.isNotEmpty())
-                            item {
-                                Category(null, sortedUncategorized) {
-                                    lastChannel = currentChannel
-                                    currentChannel = it.id
-                                    dataStore.selectChannel(it.id)
-                                }
-                            }
-
-                        items(
-                            items = sortedCategories,
-                            key = { it.id }
-                        ) { category ->
-                            val children = category.children.map { channelId ->
-                                guild.channels.find { it2 -> it2.id == channelId }!!
-                            }
-                            Category(category, children) {
-                                lastChannel = currentChannel
-                                currentChannel = it.id
-                                dataStore.selectChannel(it.id)
-                            }
-                        }
-
                     }
                 }
             }
-            Navigator(ChatScreen(genesisClient.channels[currentChannel], lastChannel))
-        }
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(bottom = 48.dp)
+            ) {
 
+                val uncategorized = mutableMapOf<Snowflake, Channel>()
+                val categories = mutableMapOf<Snowflake, Channel>()
+
+                guild.channels.forEach {
+                    if (it.type == ChannelType.GUILD_CATEGORY) {
+                        categories[it.id] = it
+                    }
+                }
+                guild.channels.forEach {
+                    if (it.type != ChannelType.GUILD_CATEGORY) {
+                        if (it.parentId != null) {
+                            if (categories[it.parentId!!]?.children?.contains(it.id) == true) {
+                                return@forEach
+                            }
+                            categories[it.parentId!!]!!.children.add(it.id)
+                        } else {
+                            uncategorized[it.id] = it
+                        }
+                    }
+                }
+
+                val sortedCategories = categories.values.sortedBy { it.position }
+                val sortedUncategorized = uncategorized.values.sortedBy { it.position }
+                val iterator = sortedCategories.iterator()
+                while (iterator.hasNext()) {
+                    val category = iterator.next()
+                    category.children =
+                        category.children.sortedBy { guild.channels.find { it2 -> it2.id == it }!!.position }
+                            .toMutableList()
+                }
+
+
+                item {
+                    val modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                    if (guild.banner != null) {
+                        KamelImageBox(
+                            resource = asyncPainterResource(
+                                guild.banner!!.toUrl(AssetType.Banner, guild.id, 480),
+                            ),
+                            modifier = modifier,
+                            onFailure = {
+                                Text(guild.name)
+                            }
+                        )
+                        {
+                            Text(guild.name)
+                        }
+                    }
+                }
+
+
+
+                if (sortedUncategorized.isNotEmpty())
+                    item {
+                        Category(null, sortedUncategorized) {
+                            lastChannel = currentChannel
+                            currentChannel = it.id
+                            dataStore.selectChannel(it.id)
+                        }
+                    }
+
+                items(
+                    items = sortedCategories,
+                    key = { it.id }
+                ) { category ->
+                    val children = category.children.map { channelId ->
+                        guild.channels.find { it2 -> it2.id == channelId }!!
+                    }
+                    Category(category, children) {
+                        lastChannel = currentChannel
+                        currentChannel = it.id
+                        dataStore.selectChannel(it.id)
+                    }
+                }
+
+            }
+        }
     }
 }

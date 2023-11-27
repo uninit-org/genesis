@@ -12,7 +12,6 @@ import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
 class DataStore() : EventBus("DataStore") {
 
     var mobileUi by mutableStateOf(false)
-    var showGuilds by mutableStateOf(false)
     val shiggyEasterEgg by mutableStateOf(getTimeInMillis() % 10 == 0L)
 
 
