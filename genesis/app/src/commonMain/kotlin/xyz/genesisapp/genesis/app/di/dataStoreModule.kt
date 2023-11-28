@@ -1,7 +1,7 @@
-package xyz.genesisapp.genesis.app.di
+package uninit.genesis.app.di
 
 import org.koin.dsl.module
-import xyz.genesisapp.genesis.app.data.DataStore
+import uninit.genesis.app.data.DataStore
 
 
 fun dataStoreModule() = module {

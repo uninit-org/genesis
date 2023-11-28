@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.domain.user
+package uninit.genesis.discord.api.domain.user
 
 data class DomainUserProfileConnectedAccount(
     val type: String,

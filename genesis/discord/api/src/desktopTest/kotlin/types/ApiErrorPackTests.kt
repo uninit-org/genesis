@@ -1,7 +1,7 @@
-package xyz.genesisapp.discord.api.domain
+package uninit.genesis.discord.api.domain
 
 import kotlinx.serialization.json.Json
-import xyz.genesisapp.discord.api.ApiErrorPack
+import uninit.genesis.discord.api.ApiErrorPack
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

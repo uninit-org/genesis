@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.icons.icons
+package uninit.genesis.app.ui.components.icons.icons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.EvenOdd
@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import xyz.genesisapp.genesis.app.ui.components.icons.Icons
+import uninit.genesis.app.ui.components.icons.Icons
 
 public val Icons.Textchannel: ImageVector
     get() {

@@ -13,7 +13,7 @@ kotlin {
 
     iosArm64().binaries.framework {
         baseName = "genesisCommon"
-//            binaryOption("bundleId", "xyz.genesisapp.common")
+//            binaryOption("bundleId", "uninit.genesis.common")
 //            isStatic = true
     }
 
@@ -54,7 +54,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "xyz.genesisapp.common"
+    namespace = "uninit.genesis.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")

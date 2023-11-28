@@ -1,5 +1,5 @@
-package xyz.genesisapp.discord.client
+package uninit.genesis.discord.client
 
-import xyz.genesisapp.discord.client.gateway.types.SuperProperties
+import uninit.genesis.discord.client.gateway.types.SuperProperties
 
 expect fun getSuperProperties(): SuperProperties

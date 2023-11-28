@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.rest
+package uninit.genesis.discord.client.rest
 
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -18,22 +18,22 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.json.Json
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.fytix.Result
-import xyz.genesisapp.discord.api.ApiError
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.api.domain.user.ApiUser
-import xyz.genesisapp.discord.api.domain.user.DomainMe
-import xyz.genesisapp.discord.api.domain.user.DomainUserProfile
-import xyz.genesisapp.discord.api.domain.user.UserSettings
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.client.gateway.types.SuperProperties
-import xyz.genesisapp.discord.client.getSuperProperties
-import xyz.genesisapp.discord.entities.guild.ApiChannel
-import xyz.genesisapp.discord.entities.guild.ApiGuild
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.fytix.Result
+import uninit.genesis.discord.api.ApiError
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.api.domain.user.ApiUser
+import uninit.genesis.discord.api.domain.user.DomainMe
+import uninit.genesis.discord.api.domain.user.DomainUserProfile
+import uninit.genesis.discord.api.domain.user.UserSettings
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.client.gateway.types.SuperProperties
+import uninit.genesis.discord.client.getSuperProperties
+import uninit.genesis.discord.entities.guild.ApiChannel
+import uninit.genesis.discord.entities.guild.ApiGuild
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import io.ktor.client.plugins.logging.LogLevel as KtorLogLevel

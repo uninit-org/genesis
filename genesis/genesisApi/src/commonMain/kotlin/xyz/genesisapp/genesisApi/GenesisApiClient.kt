@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesisApi
+package uninit.genesisApi
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,12 +13,12 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.fytix.Result
-import xyz.genesisapp.genesisApi.types.Error
-import xyz.genesisapp.genesisApi.types.update.UpdateRequest
-import xyz.genesisapp.genesisApi.types.update.UpdateResponse
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.fytix.Result
+import uninit.genesisApi.types.Error
+import uninit.genesisApi.types.update.UpdateRequest
+import uninit.genesisApi.types.update.UpdateResponse
 
 class GenesisApiClient(
     engineFactory: HttpClientEngineFactory<*>,

@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.client.gateway.handlers
+package uninit.genesis.discord.client.gateway.handlers
 
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.guild.Message
-import xyz.genesisapp.discord.client.gateway.GatewayClient
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.guild.Message
+import uninit.genesis.discord.client.gateway.GatewayClient
 
 fun gatewayMessageCreateHandler(genesisClient: GenesisClient, gateway: GatewayClient) {
     gateway.on<DomainMessage>("MESSAGE_CREATE") { msg ->

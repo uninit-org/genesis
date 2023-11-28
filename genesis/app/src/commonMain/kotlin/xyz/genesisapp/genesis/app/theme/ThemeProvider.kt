@@ -1,11 +1,11 @@
-package xyz.genesisapp.genesis.app.theme
+package uninit.genesis.app.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import xyz.genesisapp.genesis.app.theme.builtin.AllThemes
-import xyz.genesisapp.genesis.app.theme.builtin.Catppuccin
+import uninit.genesis.app.theme.builtin.AllThemes
+import uninit.genesis.app.theme.builtin.Catppuccin
 
 @Composable
 fun ThemeProvider(

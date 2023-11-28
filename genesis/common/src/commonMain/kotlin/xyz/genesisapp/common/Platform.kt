@@ -1,6 +1,6 @@
-package xyz.genesisapp.common
+package uninit.genesis.common
 
-import xyz.genesisapp.common.platform.OsFamily
+import uninit.genesis.common.platform.OsFamily
 
 expect object Platform {
 

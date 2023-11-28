@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.entities.guild
+package uninit.genesis.discord.entities.guild
 
 class WelcomeScreen {
 }

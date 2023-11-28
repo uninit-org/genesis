@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens
+package uninit.genesis.app.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -15,9 +15,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import org.koin.core.Koin
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.Centered
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.components.Centered
 
 open class GenericLoadingScreen(
     val loadingText: String,

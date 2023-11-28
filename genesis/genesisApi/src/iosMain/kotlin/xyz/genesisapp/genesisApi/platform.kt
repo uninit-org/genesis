@@ -1,1 +1,1 @@
-package xyz.genesisapp.genesisApi.platform
+package uninit.genesisApi.platform

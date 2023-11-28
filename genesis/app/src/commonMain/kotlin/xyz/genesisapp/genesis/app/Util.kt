@@ -1,13 +1,13 @@
-package xyz.genesisapp.genesis.app
+package uninit.genesis.app
 
 import cafe.adriel.voyager.navigator.Navigator
 import org.koin.core.Koin
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.di.dataStoreModule
-import xyz.genesisapp.genesis.app.di.genesisApiModule
-import xyz.genesisapp.genesis.app.di.genesisClientModule
-import xyz.genesisapp.genesis.app.ui.screens.RootScreen
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.di.dataStoreModule
+import uninit.genesis.app.di.genesisApiModule
+import uninit.genesis.app.di.genesisClientModule
+import uninit.genesis.app.ui.screens.RootScreen
 
 fun ReloadClient(koin: Koin, nav: Navigator) {
     var parent: Navigator = nav.parent!!

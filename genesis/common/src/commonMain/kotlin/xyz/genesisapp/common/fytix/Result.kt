@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.fytix
+package uninit.genesis.common.fytix
 
 sealed class Result<T, E> {
     fun <R> map(transform: (T) -> R): Result<R, E> {

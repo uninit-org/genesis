@@ -1,6 +1,6 @@
-package xyz.genesisapp.common.preferences
+package uninit.genesis.common.preferences
 
-import xyz.genesisapp.common.interfaces.IDynValue
+import uninit.genesis.common.interfaces.IDynValue
 
 fun <T> IDynValue<T>.toPreference(key: String, defaultValue: T): Preference<T> {
     var t by this

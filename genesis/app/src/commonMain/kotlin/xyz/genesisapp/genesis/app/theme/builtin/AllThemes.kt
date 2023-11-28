@@ -1,4 +1,4 @@
- package xyz.genesisapp.genesis.app.theme.builtin
+ package uninit.genesis.app.theme.builtin
 
 // catppuccin.mocha.* is a theme
 val AllThemes = listOf(

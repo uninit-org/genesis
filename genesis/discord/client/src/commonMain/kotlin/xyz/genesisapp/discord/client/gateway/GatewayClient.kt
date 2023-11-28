@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.gateway
+package uninit.genesis.discord.client.gateway
 
 import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
@@ -20,18 +20,18 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import xyz.genesisapp.common.fytix.EventBus
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayIdentify
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayRequestMessages
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayResume
-import xyz.genesisapp.discord.client.gateway.handlers.initGatewayHandlers
-import xyz.genesisapp.discord.client.gateway.serializers.GatewaySerializer
-import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
-import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
-import xyz.genesisapp.discord.client.gateway.types.events.Ready
+import uninit.genesis.common.fytix.EventBus
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.guild.Channel
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.client.gateway.entities.events.GatewayIdentify
+import uninit.genesis.discord.client.gateway.entities.events.GatewayRequestMessages
+import uninit.genesis.discord.client.gateway.entities.events.GatewayResume
+import uninit.genesis.discord.client.gateway.handlers.initGatewayHandlers
+import uninit.genesis.discord.client.gateway.serializers.GatewaySerializer
+import uninit.genesis.discord.client.gateway.types.GatewayEvent
+import uninit.genesis.discord.client.gateway.types.events.LastMessages
+import uninit.genesis.discord.client.gateway.types.events.Ready
 
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,

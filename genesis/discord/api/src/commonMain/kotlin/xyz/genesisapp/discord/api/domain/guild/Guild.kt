@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.entities.guild
+package uninit.genesis.discord.entities.guild
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.types.Asset
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.types.Asset
+import uninit.genesis.discord.api.types.Snowflake
 
 //name	string	guild name
 //region	?string	guild voice region id (deprecated)

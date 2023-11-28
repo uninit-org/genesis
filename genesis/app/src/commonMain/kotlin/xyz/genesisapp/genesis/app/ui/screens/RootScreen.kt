@@ -1,15 +1,15 @@
-package xyz.genesisapp.genesis.app.ui.screens
+package uninit.genesis.app.ui.screens
 
 import io.github.aakira.napier.Napier
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.genesis.app.ui.screens.auth.LoginScreen
-import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
-import xyz.genesisapp.genesisApi.GenesisApiClient
-import xyz.genesisapp.genesisApi.types.update.UpdateRequest
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.app.ui.screens.auth.LoginScreen
+import uninit.genesis.app.ui.screens.client.GatewayLoadScreen
+import uninit.genesisApi.GenesisApiClient
+import uninit.genesisApi.types.update.UpdateRequest
 
 
 class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { koin ->

@@ -1,13 +1,13 @@
-package xyz.genesisapp.genesis.app.data
+package uninit.genesis.app.data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import xyz.genesisapp.common.fytix.EventBus
-import xyz.genesisapp.common.getTimeInMillis
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
+import uninit.genesis.common.fytix.EventBus
+import uninit.genesis.common.getTimeInMillis
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.app.ui.screens.client.ClientTab
 
 class DataStore() : EventBus("DataStore") {
 

@@ -1,6 +1,6 @@
-package xyz.genesisapp.common
+package uninit.genesis.common
 
-import xyz.genesisapp.common.platform.OsFamily
+import uninit.genesis.common.platform.OsFamily
 
 actual object Platform {
     actual val osFamily: OsFamily

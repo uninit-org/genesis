@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.preferences
+package uninit.genesis.common.preferences
 
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json

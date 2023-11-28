@@ -1,13 +1,13 @@
-package xyz.genesisapp.discord.client.entities.guild
+package uninit.genesis.discord.client.entities.guild
 
 import kotlinx.serialization.json.JsonObject
-import xyz.genesisapp.discord.api.domain.user.ApiUser
-import xyz.genesisapp.discord.api.domain.user.PremiumType
-import xyz.genesisapp.discord.api.domain.user.UserFlags
-import xyz.genesisapp.discord.api.types.AssetType
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.Asset
+import uninit.genesis.discord.api.domain.user.ApiUser
+import uninit.genesis.discord.api.domain.user.PremiumType
+import uninit.genesis.discord.api.domain.user.UserFlags
+import uninit.genesis.discord.api.types.AssetType
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.Asset
 
 class User(
     val accentColor: Int? = null,

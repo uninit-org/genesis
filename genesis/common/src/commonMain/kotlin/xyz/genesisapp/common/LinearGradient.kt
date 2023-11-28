@@ -1,4 +1,4 @@
-package xyz.genesisapp.common
+package uninit.genesis.common
 
 
 

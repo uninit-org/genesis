@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.client.gateway.types.events
+package uninit.genesis.discord.client.gateway.types.events
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.api.types.Snowflake
 
 @Serializable
 data class LastMessages(

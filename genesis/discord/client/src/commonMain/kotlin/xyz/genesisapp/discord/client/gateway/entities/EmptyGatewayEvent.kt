@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.gateway.entities
+package uninit.genesis.discord.client.gateway.entities
 
 import kotlinx.serialization.Serializable
 

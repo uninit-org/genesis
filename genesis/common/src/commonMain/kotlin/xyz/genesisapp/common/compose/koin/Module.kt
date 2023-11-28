@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.compose.koin
+package uninit.genesis.common.compose.koin
 
 import io.ktor.client.engine.HttpClientEngineFactory
 import org.koin.dsl.module

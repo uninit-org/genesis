@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.enum
+package uninit.genesis.discord.client.enum
 
 enum class LogLevel(val level: Int, val str: String) {
     NONE(0, "NONE"),

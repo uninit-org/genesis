@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.form
+package uninit.genesis.app.ui.components.form
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button

@@ -1,8 +1,8 @@
-package xyz.genesisapp.common.preferences
+package uninit.genesis.common.preferences
 
-import xyz.genesisapp.common.Platform
-import xyz.genesisapp.common.platform.OsFamily
-import xyz.genesisapp.common.serialization.GsonAdapter
+import uninit.genesis.common.Platform
+import uninit.genesis.common.platform.OsFamily
+import uninit.genesis.common.serialization.GsonAdapter
 import kotlin.reflect.KClass
 
 /**

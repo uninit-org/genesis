@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components
+package uninit.genesis.app.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

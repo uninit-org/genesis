@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app
+package uninit.genesis.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,20 +16,20 @@ import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.Napier
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.compose.koin.uninitModule
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.di.dataStoreModule
-import xyz.genesisapp.genesis.app.di.genesisApiModule
-import xyz.genesisapp.genesis.app.di.genesisClientModule
-import xyz.genesisapp.genesis.app.di.httpModule
-import xyz.genesisapp.genesis.app.di.platformHttpEngineFactory
-import xyz.genesisapp.genesis.app.di.preferencesModule
-import xyz.genesisapp.genesis.app.theme.LocalContextColors
-import xyz.genesisapp.genesis.app.theme.ThemeProvider
-import xyz.genesisapp.genesis.app.ui.screens.RootScreen
+import uninit.genesis.common.compose.koin.uninitModule
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.di.dataStoreModule
+import uninit.genesis.app.di.genesisApiModule
+import uninit.genesis.app.di.genesisClientModule
+import uninit.genesis.app.di.httpModule
+import uninit.genesis.app.di.platformHttpEngineFactory
+import uninit.genesis.app.di.preferencesModule
+import uninit.genesis.app.theme.LocalContextColors
+import uninit.genesis.app.theme.ThemeProvider
+import uninit.genesis.app.ui.screens.RootScreen
 
 @Composable
 fun App() {

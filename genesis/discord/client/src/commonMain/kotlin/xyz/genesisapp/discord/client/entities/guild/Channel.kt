@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.entities.guild
+package uninit.genesis.discord.client.entities.guild
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -6,19 +6,19 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.EventBus
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.getTimeInMillis
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.api.domain.UtcDateTime
-import xyz.genesisapp.discord.api.types.AssetType
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.Asset
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.entities.guild.ApiChannel
-import xyz.genesisapp.discord.entities.guild.ChannelType
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.EventBus
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.getTimeInMillis
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.api.domain.UtcDateTime
+import uninit.genesis.discord.api.types.AssetType
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.Asset
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.entities.guild.ApiChannel
+import uninit.genesis.discord.entities.guild.ChannelType
 
 class Channel(
     val genesisClient: GenesisClient,

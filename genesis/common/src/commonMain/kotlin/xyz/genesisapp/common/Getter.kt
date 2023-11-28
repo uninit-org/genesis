@@ -1,4 +1,4 @@
-package xyz.genesisapp.common
+package uninit.genesis.common
 
 class Getter<T>(val get: () -> T) {
     operator fun getValue(thisRef: Any?, property: Any?): T {

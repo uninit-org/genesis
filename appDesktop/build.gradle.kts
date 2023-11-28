@@ -20,7 +20,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "xyz.genesisapp.genesis.Application"
+        mainClass = "uninit.genesis.Application"
 
         nativeDistributions {
             targetFormats(
@@ -34,7 +34,7 @@ compose.desktop {
 
             val iconsRoot = project.file("../genesis/app/src/commonMain/resources/icons")
             macOS {
-                bundleID = "xyz.genesisapp.genesis"
+                bundleID = "uninit.genesis"
                 iconFile.set(iconsRoot.resolve("genesis.icns"))
             }
             windows {

@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.client.gateway.types.events
+package uninit.genesis.discord.client.gateway.types.events
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.domain.user.ClientStatus
-import xyz.genesisapp.discord.api.domain.user.Status
+import uninit.genesis.discord.api.domain.user.ClientStatus
+import uninit.genesis.discord.api.domain.user.Status
 
 @Serializable
 data class PresenceUpdate(

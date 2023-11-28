@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesisApi.types
+package uninit.genesisApi.types
 
 import kotlinx.serialization.Serializable
 

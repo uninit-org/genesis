@@ -1,7 +1,7 @@
-package xyz.genesisapp.genesis.app.di
+package uninit.genesis.app.di
 
 import org.koin.dsl.module
-import xyz.genesisapp.discord.client.GenesisClient
+import uninit.genesis.discord.client.GenesisClient
 
 
 fun genesisClientModule() = module {

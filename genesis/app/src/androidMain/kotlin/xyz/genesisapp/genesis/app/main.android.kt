@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app
+package uninit.genesis.app
 
 import androidx.compose.runtime.Composable
 import io.github.aakira.napier.Antilog

@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.auth
+package uninit.genesis.discord.api.auth
 
 import kotlinx.serialization.Serializable
 

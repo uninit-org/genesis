@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.serialization
+package uninit.genesis.common.serialization
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
-import xyz.genesisapp.common.interfaces.IDynValue
+import uninit.genesis.common.interfaces.IDynValue
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty

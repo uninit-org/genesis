@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.gateway.entities.events
+package uninit.genesis.discord.client.gateway.entities.events
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

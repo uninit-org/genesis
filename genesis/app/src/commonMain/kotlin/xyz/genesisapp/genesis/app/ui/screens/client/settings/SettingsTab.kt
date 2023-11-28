@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client.settings
+package uninit.genesis.app.ui.screens.client.settings
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -29,13 +29,13 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.BackArrow
-import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.AccountSettings
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.AppearanceSettings
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.DevSettings
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.pages.GenesisSettings
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.components.BackArrow
+import uninit.genesis.app.ui.screens.client.ClientTab
+import uninit.genesis.app.ui.screens.client.settings.pages.AccountSettings
+import uninit.genesis.app.ui.screens.client.settings.pages.AppearanceSettings
+import uninit.genesis.app.ui.screens.client.settings.pages.DevSettings
+import uninit.genesis.app.ui.screens.client.settings.pages.GenesisSettings
 
 enum class SettingPage(val tab: Tab) {
     ACCOUNT(AccountSettings),

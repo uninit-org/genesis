@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.form
+package uninit.genesis.app.ui.components.form
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import xyz.genesisapp.common.inverse
+import uninit.genesis.common.inverse
 
 interface FormItem<T> {
     val id: String

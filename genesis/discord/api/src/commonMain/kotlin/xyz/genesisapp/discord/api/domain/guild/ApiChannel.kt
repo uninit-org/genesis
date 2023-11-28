@@ -1,11 +1,11 @@
-package xyz.genesisapp.discord.entities.guild
+package uninit.genesis.discord.entities.guild
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import xyz.genesisapp.discord.api.domain.user.ApiUser
-import xyz.genesisapp.discord.api.types.Asset
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.domain.user.ApiUser
+import uninit.genesis.discord.api.types.Asset
+import uninit.genesis.discord.api.types.Snowflake
 
 @Serializable
 enum class ChannelType {

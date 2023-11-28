@@ -1,1 +1,1 @@
-package xyz.genesisapp.discord.api
+package uninit.genesis.discord.api

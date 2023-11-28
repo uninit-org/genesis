@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.gateway
+package uninit.genesis.discord.client.gateway
 
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
@@ -10,16 +10,16 @@ import io.ktor.serialization.kotlinx.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.fytix.result
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.client.gateway.entities.EmptyGatewayEvent
-import xyz.genesisapp.discord.client.gateway.entities.GatewayEvent
-import xyz.genesisapp.discord.client.gateway.entities.GenericGatewayEvent
-import xyz.genesisapp.discord.client.gateway.entities.Packet
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayResume
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.fytix.result
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.client.gateway.entities.EmptyGatewayEvent
+import uninit.genesis.discord.client.gateway.entities.GatewayEvent
+import uninit.genesis.discord.client.gateway.entities.GenericGatewayEvent
+import uninit.genesis.discord.client.gateway.entities.Packet
+import uninit.genesis.discord.client.gateway.entities.events.GatewayResume
 
 class Gateway(
     val parent: GenesisClient,

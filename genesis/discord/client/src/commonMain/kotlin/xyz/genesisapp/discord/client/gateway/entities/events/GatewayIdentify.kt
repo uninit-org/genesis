@@ -1,8 +1,8 @@
-package xyz.genesisapp.discord.client.gateway.entities.events
+package uninit.genesis.discord.client.gateway.entities.events
 
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.client.gateway.types.SuperProperties
-import xyz.genesisapp.discord.client.getSuperProperties
+import uninit.genesis.discord.client.gateway.types.SuperProperties
+import uninit.genesis.discord.client.getSuperProperties
 
 /**
  * GatewayIdentify is the payload sent to the gateway to identify the client.

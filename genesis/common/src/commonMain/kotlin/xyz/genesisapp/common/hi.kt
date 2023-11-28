@@ -1,3 +1,3 @@
-package xyz.genesisapp.common
+package uninit.genesis.common
 
 class hi {}

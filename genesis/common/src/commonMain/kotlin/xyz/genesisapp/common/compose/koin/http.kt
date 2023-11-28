@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.compose.koin
+package uninit.genesis.common.compose.koin
 
 import androidx.compose.runtime.Composable
 import io.ktor.client.HttpClient

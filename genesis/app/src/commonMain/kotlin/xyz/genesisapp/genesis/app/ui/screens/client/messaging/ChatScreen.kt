@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client.messaging
+package uninit.genesis.app.ui.screens.client.messaging
 
 
 import androidx.compose.animation.AnimatedVisibility
@@ -39,12 +39,12 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import org.koin.compose.getKoin
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.guild.message
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.guild.Channel
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.components.guild.message
 
 // Should be replaced with indexing
 @Suppress()

@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.api.auth
+package uninit.genesis.discord.api.auth
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.ApiCaptchaRequirement
-import xyz.genesisapp.discord.api.ApiErrorPack
+import uninit.genesis.discord.api.ApiCaptchaRequirement
+import uninit.genesis.discord.api.ApiErrorPack
 
 /**
  * ### The payload for the initial login request.

@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.client.gateway.handlers
+package uninit.genesis.discord.client.gateway.handlers
 
 import io.github.aakira.napier.Napier
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.client.gateway.GatewayClient
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.client.gateway.GatewayClient
 
 fun initGatewayHandlers(genesisClient: GenesisClient, gateway: GatewayClient) {
     if (genesisClient.logLevel >= LogLevel.VERBOSE) Napier.v("initGatewayHandlers")

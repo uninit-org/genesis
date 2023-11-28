@@ -1,12 +1,12 @@
-package xyz.genesisapp.discord.client.entities.guild
+package uninit.genesis.discord.client.entities.guild
 
-import xyz.genesisapp.discord.api.types.AssetType
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.Asset
-import xyz.genesisapp.discord.entities.guild.ApiGuild
-import xyz.genesisapp.discord.entities.guild.ApiRole
-import xyz.genesisapp.discord.entities.guild.GuildMember
+import uninit.genesis.discord.api.types.AssetType
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.Asset
+import uninit.genesis.discord.entities.guild.ApiGuild
+import uninit.genesis.discord.entities.guild.ApiRole
+import uninit.genesis.discord.entities.guild.GuildMember
 
 class Guild(
     val id: Snowflake,

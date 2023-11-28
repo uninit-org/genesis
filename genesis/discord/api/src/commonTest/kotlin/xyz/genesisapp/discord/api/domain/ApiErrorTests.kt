@@ -1,2 +1,2 @@
-package xyz.genesisapp.discord.api.domain
+package uninit.genesis.discord.api.domain
 

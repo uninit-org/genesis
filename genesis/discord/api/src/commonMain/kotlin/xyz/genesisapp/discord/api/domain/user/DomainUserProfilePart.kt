@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.api.domain.user
+package uninit.genesis.discord.api.domain.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-import xyz.genesisapp.discord.api.types.Asset
+import uninit.genesis.discord.api.types.Asset
 
 @Serializable
 data class DomainUserProfilePart(

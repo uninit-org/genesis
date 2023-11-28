@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.fytix
+package uninit.genesis.common.fytix
 
 import androidx.compose.runtime.Composable
 

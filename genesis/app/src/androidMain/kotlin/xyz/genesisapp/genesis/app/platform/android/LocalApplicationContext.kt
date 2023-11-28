@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.platform.android
+package uninit.genesis.app.platform.android
 
 import androidx.compose.runtime.compositionLocalOf
 

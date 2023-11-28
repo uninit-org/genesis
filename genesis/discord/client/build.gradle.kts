@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     alias(libs.plugins.kotlinx.serialization)
+    `maven-publish`
 }
 
 kotlin {
@@ -12,7 +13,7 @@ kotlin {
 
     iosArm64().binaries.framework {
         baseName = "genesisDiscordClient"
-        binaryOption("bundleId", "xyz.genesisapp.discord.client")
+        binaryOption("bundleId", "uninit.genesis.discord.client")
         isStatic = true
     }
 
@@ -55,7 +56,7 @@ kotlin {
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
-    namespace = "xyz.genesisapp.discord.client"
+    namespace = "uninit.genesis.discord.client"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -71,4 +72,36 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+}
+
+version = "0.0.1"
+
+publishing {
+    var versionStr = project.version.toString()
+    val ci = System.getenv("CI") != null && System.getenv("GITHUB_EVENT_NAME") != "release"
+    var repo = "releases"
+    if (ci) {
+        val commitHash = System.getenv("GITHUB_SHA").slice(0..6)
+        versionStr += "-#$commitHash"
+        repo = "snapshots"
+    }
+    repositories {
+        maven {
+            name = "uninit"
+            url = uri("https://repo.uninit.dev/$repo")
+            credentials {
+                username = "admin"
+                password = System.getenv("REPOSILITE_PASSWORD")
+            }
+        }
+
+    }
+    publications {
+        create<MavenPublication>("uninit.genesis-discord-client") {
+            groupId = "uninit"
+            artifactId = "genesis-discord-client"
+            version = versionStr
+        }
+    }
+
 }

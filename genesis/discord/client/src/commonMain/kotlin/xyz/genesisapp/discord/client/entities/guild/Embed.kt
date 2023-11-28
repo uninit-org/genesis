@@ -1,8 +1,8 @@
-package xyz.genesisapp.discord.client.entities.guild
+package uninit.genesis.discord.client.entities.guild
 
-import xyz.genesisapp.discord.api.domain.ApiMessageEmbed
-import xyz.genesisapp.discord.api.domain.ApiMessageEmbedImage
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.domain.ApiMessageEmbed
+import uninit.genesis.discord.api.domain.ApiMessageEmbedImage
+import uninit.genesis.discord.api.types.Snowflake
 
 
 class EmbedImage(

@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.auth
+package uninit.genesis.app.ui.screens.auth
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -11,12 +11,12 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.genesis.app.ui.components.Centered
-import xyz.genesisapp.genesis.app.ui.components.form.composeForm
-import xyz.genesisapp.genesis.app.ui.screens.client.GatewayLoadScreen
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.app.ui.components.Centered
+import uninit.genesis.app.ui.components.form.composeForm
+import uninit.genesis.app.ui.screens.client.GatewayLoadScreen
 
 class LoginScreen(
 

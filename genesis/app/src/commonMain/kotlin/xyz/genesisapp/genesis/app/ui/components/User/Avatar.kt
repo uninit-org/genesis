@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.User
+package uninit.genesis.app.ui.components.User
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,7 @@ import io.github.aakira.napier.Napier
 import io.kamel.image.KamelImage
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import xyz.genesisapp.discord.client.entities.guild.User
+import uninit.genesis.discord.client.entities.guild.User
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable

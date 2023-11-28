@@ -1,17 +1,17 @@
-package xyz.genesisapp.discord.client.gateway.serializers
+package uninit.genesis.discord.client.gateway.serializers
 
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.client.gateway.types.EmptyGatewayEvent
-import xyz.genesisapp.discord.client.gateway.types.GatewayEvent
-import xyz.genesisapp.discord.client.gateway.types.events.LastMessages
-import xyz.genesisapp.discord.client.gateway.types.events.Ready
-import xyz.genesisapp.discord.client.gateway.entities.events.GatewayHello
-import xyz.genesisapp.discord.client.gateway.types.iGatewayEvent
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.client.gateway.types.EmptyGatewayEvent
+import uninit.genesis.discord.client.gateway.types.GatewayEvent
+import uninit.genesis.discord.client.gateway.types.events.LastMessages
+import uninit.genesis.discord.client.gateway.types.events.Ready
+import uninit.genesis.discord.client.gateway.entities.events.GatewayHello
+import uninit.genesis.discord.client.gateway.types.iGatewayEvent
 
 object GatewaySerializer : JsonContentPolymorphicSerializer<iGatewayEvent>(iGatewayEvent::class) {
     override fun selectDeserializer(element: JsonElement) =

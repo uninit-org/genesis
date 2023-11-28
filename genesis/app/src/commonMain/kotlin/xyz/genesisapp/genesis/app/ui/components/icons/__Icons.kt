@@ -1,9 +1,9 @@
-package xyz.genesisapp.genesis.app.ui.components.icons
+package uninit.genesis.app.ui.components.icons
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Textchannel
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Thread
+import uninit.genesis.app.ui.components.icons.icons.Empty
+import uninit.genesis.app.ui.components.icons.icons.Textchannel
+import uninit.genesis.app.ui.components.icons.icons.Thread
 import kotlin.collections.List as ____KtList
 
 public object Icons

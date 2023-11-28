@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client.messaging
+package uninit.genesis.app.ui.screens.client.messaging
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -42,14 +42,14 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.api.domain.user.GuildFolder
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.entities.guild.ChannelType
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.icons.Icons
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.api.domain.user.GuildFolder
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.entities.guild.ChannelType
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.components.icons.Icons
+import uninit.genesis.app.ui.components.icons.icons.Empty
 import kotlin.math.roundToInt
 
 enum class GuildIconType {

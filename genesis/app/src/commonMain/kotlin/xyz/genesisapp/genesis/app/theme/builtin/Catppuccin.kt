@@ -1,13 +1,13 @@
-package xyz.genesisapp.genesis.app.theme.builtin
+package uninit.genesis.app.theme.builtin
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import xyz.genesisapp.common.LinearGradient
-import xyz.genesisapp.common.color
-import xyz.genesisapp.common.linearGradient
-import xyz.genesisapp.genesis.app.theme.Theme
+import uninit.genesis.common.LinearGradient
+import uninit.genesis.common.color
+import uninit.genesis.common.linearGradient
+import uninit.genesis.app.theme.Theme
 
 object Catppuccin {
     internal fun flavorToTheme(

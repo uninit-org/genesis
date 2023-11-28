@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.domain.user
+package uninit.genesis.discord.api.domain.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.JsonArray

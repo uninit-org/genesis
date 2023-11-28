@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.types
+package uninit.genesis.discord.api.types
 
 sealed class PrivilegedValue<T>(val scope: String) {
     class NotPrivileged<T>(scope: String) : PrivilegedValue<T>(scope)

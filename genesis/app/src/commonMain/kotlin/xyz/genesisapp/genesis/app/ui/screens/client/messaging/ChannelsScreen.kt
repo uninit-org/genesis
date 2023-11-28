@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client.messaging
+package uninit.genesis.app.ui.screens.client.messaging
 
 
 import androidx.compose.animation.AnimatedVisibility
@@ -41,19 +41,19 @@ import io.kamel.image.KamelImageBox
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.api.types.timestamp
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.entities.guild.Guild
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.entities.guild.ChannelType
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.components.User.Avatar
-import xyz.genesisapp.genesis.app.ui.components.icons.Icons
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Textchannel
-import xyz.genesisapp.genesis.app.ui.screens.client.ClientTab
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.api.types.timestamp
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.entities.guild.Channel
+import uninit.genesis.discord.client.entities.guild.Guild
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.entities.guild.ChannelType
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.components.User.Avatar
+import uninit.genesis.app.ui.components.icons.Icons
+import uninit.genesis.app.ui.components.icons.icons.Textchannel
+import uninit.genesis.app.ui.screens.client.ClientTab
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable

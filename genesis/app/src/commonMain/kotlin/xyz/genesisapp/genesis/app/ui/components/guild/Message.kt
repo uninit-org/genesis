@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.guild
+package uninit.genesis.app.ui.components.guild
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +17,12 @@ import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import xyz.genesisapp.discord.client.entities.guild.Attachment
-import xyz.genesisapp.discord.client.entities.guild.AttachmentType
-import xyz.genesisapp.discord.client.entities.guild.Embed
-import xyz.genesisapp.discord.client.entities.guild.EmbedType
-import xyz.genesisapp.discord.client.entities.guild.Message
-import xyz.genesisapp.genesis.app.ui.components.User.Avatar
+import uninit.genesis.discord.client.entities.guild.Attachment
+import uninit.genesis.discord.client.entities.guild.AttachmentType
+import uninit.genesis.discord.client.entities.guild.Embed
+import uninit.genesis.discord.client.entities.guild.EmbedType
+import uninit.genesis.discord.client.entities.guild.Message
+import uninit.genesis.app.ui.components.User.Avatar
 
 @Composable
 fun messageEmbed(embed: Embed) {

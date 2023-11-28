@@ -1,14 +1,14 @@
-package xyz.genesisapp.discord.client.entities
+package uninit.genesis.discord.client.entities
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import io.kamel.core.Resource
 import io.kamel.core.isSuccess
 import io.kamel.image.asyncPainterResource
-import xyz.genesisapp.discord.api.types.Asset
-import xyz.genesisapp.discord.api.types.AssetType
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.GenesisClient
+import uninit.genesis.discord.api.types.Asset
+import uninit.genesis.discord.api.types.AssetType
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.GenesisClient
 
 class Asset(
     val genesisClient: GenesisClient,

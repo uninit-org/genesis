@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.serialization
+package uninit.genesis.common.serialization
 
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*

@@ -1,6 +1,6 @@
-package xyz.genesisapp.discord.api.types
+package uninit.genesis.discord.api.types
 
-import xyz.genesisapp.discord.api.domain.UtcDateTime
+import uninit.genesis.discord.api.domain.UtcDateTime
 
 typealias Snowflake = Long
 

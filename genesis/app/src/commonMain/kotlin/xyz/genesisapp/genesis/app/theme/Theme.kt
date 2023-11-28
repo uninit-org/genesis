@@ -1,11 +1,11 @@
-package xyz.genesisapp.genesis.app.theme
+package uninit.genesis.app.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import xyz.genesisapp.genesis.app.theme.loader.ColorSchemeSerializable
+import uninit.genesis.app.theme.loader.ColorSchemeSerializable
 
 abstract class Theme(public val name: String) {
     @Composable

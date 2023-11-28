@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.platform
+package uninit.genesis.common.platform
 
 enum class OsFamily {
     MACOS,

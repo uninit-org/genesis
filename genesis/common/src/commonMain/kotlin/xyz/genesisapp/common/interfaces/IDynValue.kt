@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.interfaces
+package uninit.genesis.common.interfaces
 
 import kotlin.reflect.KProperty
 

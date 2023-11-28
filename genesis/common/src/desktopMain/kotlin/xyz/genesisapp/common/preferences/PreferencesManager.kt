@@ -1,6 +1,6 @@
-package xyz.genesisapp.common.preferences
+package uninit.genesis.common.preferences
 
-import xyz.genesisapp.common.serialization.GsonAdapter
+import uninit.genesis.common.serialization.GsonAdapter
 
 actual class PreferencesManager(prefsFile: String) : PreferenceApi() {
     var prefs: GsonAdapter

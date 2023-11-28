@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.preferences
+package uninit.genesis.common.preferences
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

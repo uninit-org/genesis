@@ -1,11 +1,11 @@
-package xyz.genesisapp.genesis
+package uninit.genesis
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import xyz.genesisapp.genesis.app.MainView
+import uninit.genesis.app.MainView
 
 
 class Application {

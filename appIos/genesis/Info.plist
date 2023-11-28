@@ -24,7 +24,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>xyz.genesisapp.genesis</string>
+			<string>uninit.genesis</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>genesis</string>

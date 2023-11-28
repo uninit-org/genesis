@@ -1,11 +1,11 @@
-package xyz.genesisapp.genesis
+package uninit.genesis
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
-import xyz.genesisapp.genesis.app.MainView
-import xyz.genesisapp.genesis.app.platform.android.LocalApplicationContext
+import uninit.genesis.app.MainView
+import uninit.genesis.app.platform.android.LocalApplicationContext
 
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

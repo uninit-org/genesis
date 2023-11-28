@@ -1,1 +1,1 @@
-package xyz.genesisapp.discord.client.gateway.types
+package uninit.genesis.discord.client.gateway.types

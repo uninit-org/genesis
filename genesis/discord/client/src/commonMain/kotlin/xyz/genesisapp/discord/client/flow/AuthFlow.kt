@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.client.flow
+package uninit.genesis.discord.client.flow
 
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope

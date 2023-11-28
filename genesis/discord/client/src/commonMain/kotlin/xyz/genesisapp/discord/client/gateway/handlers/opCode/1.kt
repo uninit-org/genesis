@@ -1,8 +1,8 @@
-package xyz.genesisapp.discord.client.gateway.handlers
+package uninit.genesis.discord.client.gateway.handlers
 
-import xyz.genesisapp.discord.client.gateway.GatewayClient
-import xyz.genesisapp.discord.client.gateway.types.EmptyGatewayEvent
-import xyz.genesisapp.discord.client.gateway.types.events.Ready
+import uninit.genesis.discord.client.gateway.GatewayClient
+import uninit.genesis.discord.client.gateway.types.EmptyGatewayEvent
+import uninit.genesis.discord.client.gateway.types.events.Ready
 
 fun gatewayOp1Handler(gateway: GatewayClient) {
     gateway.on<Ready>("1") {

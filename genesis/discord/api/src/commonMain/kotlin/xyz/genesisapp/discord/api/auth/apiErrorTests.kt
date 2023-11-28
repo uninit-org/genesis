@@ -1,7 +1,7 @@
-package xyz.genesisapp.discord.api.auth
+package uninit.genesis.discord.api.auth
 
-import xyz.genesisapp.discord.api.ApiError
-import xyz.genesisapp.discord.api.ApiErrorPack
+import uninit.genesis.discord.api.ApiError
+import uninit.genesis.discord.api.ApiErrorPack
 
 
 fun ApiErrorPack.isNewLocation(): Boolean = errors["login"]?.let {

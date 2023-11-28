@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.client.gateway
+package uninit.genesis.discord.client.gateway
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
-import xyz.genesisapp.discord.client.gateway.entities.GenericGatewayEvent
+import uninit.genesis.discord.client.gateway.entities.GenericGatewayEvent
 
 object GatewaySerializer : JsonContentPolymorphicSerializer<GenericGatewayEvent>(GenericGatewayEvent::class) {
     /**

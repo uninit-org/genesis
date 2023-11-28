@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.types
+package uninit.genesis.discord.api.types
 
 typealias Asset = String
 

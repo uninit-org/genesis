@@ -1,25 +1,25 @@
-package xyz.genesisapp.discord.client
+package uninit.genesis.discord.client
 
 import androidx.compose.runtime.mutableStateMapOf
 import io.ktor.client.engine.*
-import xyz.genesisapp.common.fytix.Err
-import xyz.genesisapp.common.fytix.EventBus
-import xyz.genesisapp.common.fytix.Ok
-import xyz.genesisapp.common.fytix.Result
-import xyz.genesisapp.discord.api.ApiError
-import xyz.genesisapp.discord.api.annotations.ExperimentalDiscordApi
-import xyz.genesisapp.discord.api.domain.DomainMessage
-import xyz.genesisapp.discord.api.domain.user.DomainMe
-import xyz.genesisapp.discord.api.domain.user.UserSettings
-import xyz.genesisapp.discord.api.types.Snowflake
-import xyz.genesisapp.discord.client.entities.guild.Channel
-import xyz.genesisapp.discord.client.entities.guild.Guild
-import xyz.genesisapp.discord.client.entities.guild.User
-import xyz.genesisapp.discord.client.enum.LogLevel
-import xyz.genesisapp.discord.client.gateway.GatewayClient
-import xyz.genesisapp.discord.client.gateway.types.events.Ready
-import xyz.genesisapp.discord.client.rest.RestClient
-import xyz.genesisapp.discord.entities.guild.GuildMember
+import uninit.genesis.common.fytix.Err
+import uninit.genesis.common.fytix.EventBus
+import uninit.genesis.common.fytix.Ok
+import uninit.genesis.common.fytix.Result
+import uninit.genesis.discord.api.ApiError
+import uninit.genesis.discord.api.annotations.ExperimentalDiscordApi
+import uninit.genesis.discord.api.domain.DomainMessage
+import uninit.genesis.discord.api.domain.user.DomainMe
+import uninit.genesis.discord.api.domain.user.UserSettings
+import uninit.genesis.discord.api.types.Snowflake
+import uninit.genesis.discord.client.entities.guild.Channel
+import uninit.genesis.discord.client.entities.guild.Guild
+import uninit.genesis.discord.client.entities.guild.User
+import uninit.genesis.discord.client.enum.LogLevel
+import uninit.genesis.discord.client.gateway.GatewayClient
+import uninit.genesis.discord.client.gateway.types.events.Ready
+import uninit.genesis.discord.client.rest.RestClient
+import uninit.genesis.discord.entities.guild.GuildMember
 
 @OptIn(ExperimentalDiscordApi::class)
 class GenesisClient(

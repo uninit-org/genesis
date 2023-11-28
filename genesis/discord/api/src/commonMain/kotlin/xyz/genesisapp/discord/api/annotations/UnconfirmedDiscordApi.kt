@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api.annotations
+package uninit.genesis.discord.api.annotations
 
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)

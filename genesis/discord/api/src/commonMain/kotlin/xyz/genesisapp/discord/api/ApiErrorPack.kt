@@ -1,4 +1,4 @@
-package xyz.genesisapp.discord.api
+package uninit.genesis.discord.api
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer

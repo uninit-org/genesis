@@ -1,9 +1,9 @@
-package xyz.genesisapp.genesis.app.ui.screens.client
+package uninit.genesis.app.ui.screens.client
 
 
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.discord.client.GenesisClient
-import xyz.genesisapp.genesis.app.ui.screens.GenericLoadingScreen
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.app.ui.screens.GenericLoadingScreen
 
 class GatewayLoadScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { koin ->
     val prefs = koin.get<PreferencesManager>()

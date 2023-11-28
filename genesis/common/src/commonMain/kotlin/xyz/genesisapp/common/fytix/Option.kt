@@ -1,4 +1,4 @@
-package xyz.genesisapp.common.fytix
+package uninit.genesis.common.fytix
 
 sealed class Option<T> {
     fun <R> map(transform: (T) -> R): Option<R> {

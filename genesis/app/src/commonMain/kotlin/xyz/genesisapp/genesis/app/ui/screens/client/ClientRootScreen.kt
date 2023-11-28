@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client
+package uninit.genesis.app.ui.screens.client
 
 
 import androidx.compose.animation.AnimatedVisibility
@@ -15,9 +15,9 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import org.koin.compose.getKoin
-import xyz.genesisapp.genesis.app.data.DataStore
-import xyz.genesisapp.genesis.app.ui.screens.client.messaging.GuildsTab
-import xyz.genesisapp.genesis.app.ui.screens.client.settings.SettingsTab
+import uninit.genesis.app.data.DataStore
+import uninit.genesis.app.ui.screens.client.messaging.GuildsTab
+import uninit.genesis.app.ui.screens.client.settings.SettingsTab
 
 enum class ClientTab(val tab: Tab) {
     GUILDS(GuildsTab),

@@ -1,11 +1,11 @@
-package xyz.genesisapp.discord.api.domain.user
+package uninit.genesis.discord.api.domain.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
-import xyz.genesisapp.discord.api.types.Asset
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.types.Asset
+import uninit.genesis.discord.api.types.Snowflake
 
 @Serializable
 data class DomainMe(

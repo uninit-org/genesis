@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.screens.client.settings.pages
+package uninit.genesis.app.ui.screens.client.settings.pages
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,9 +10,9 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import xyz.genesisapp.common.preferences.PreferencesManager
-import xyz.genesisapp.genesis.app.ui.components.icons.Icons
-import xyz.genesisapp.genesis.app.ui.components.icons.icons.Empty
+import uninit.genesis.common.preferences.PreferencesManager
+import uninit.genesis.app.ui.components.icons.Icons
+import uninit.genesis.app.ui.components.icons.icons.Empty
 
 internal object AppearanceSettings : Tab {
     override val options: TabOptions

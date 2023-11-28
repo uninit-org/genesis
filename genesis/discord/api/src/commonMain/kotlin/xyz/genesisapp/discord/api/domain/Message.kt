@@ -1,9 +1,9 @@
-package xyz.genesisapp.discord.api.domain
+package uninit.genesis.discord.api.domain
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.genesisapp.discord.api.domain.user.ApiUser
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.domain.user.ApiUser
+import uninit.genesis.discord.api.types.Snowflake
 
 @Serializable
 data class ApiMessageAttachment(

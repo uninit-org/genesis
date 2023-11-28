@@ -1,6 +1,6 @@
-package xyz.genesisapp.discord.client.entities.guild
+package uninit.genesis.discord.client.entities.guild
 
-import xyz.genesisapp.discord.api.types.Snowflake
+import uninit.genesis.discord.api.types.Snowflake
 
 enum class AttachmentType(val value: Int) {
     IMAGE(0),
@@ -24,7 +24,7 @@ class Attachment(
         }
 
     companion object {
-        fun fromApiMessageAttachment(apiMessageAttachment: xyz.genesisapp.discord.api.domain.ApiMessageAttachment) =
+        fun fromApiMessageAttachment(apiMessageAttachment: uninit.genesis.discord.api.domain.ApiMessageAttachment) =
             Attachment(
                 contentType = apiMessageAttachment.contentType,
                 filename = apiMessageAttachment.filename,

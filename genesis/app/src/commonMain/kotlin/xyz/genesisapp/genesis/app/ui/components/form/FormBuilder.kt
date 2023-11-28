@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.ui.components.form
+package uninit.genesis.app.ui.components.form
 
 import androidx.compose.runtime.Composable
 

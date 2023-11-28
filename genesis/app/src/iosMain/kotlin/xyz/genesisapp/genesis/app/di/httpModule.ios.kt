@@ -1,4 +1,4 @@
-package xyz.genesisapp.genesis.app.di
+package uninit.genesis.app.di
 
 import io.ktor.client.engine.*
 import io.ktor.client.engine.darwin.*
