@@ -27,7 +27,8 @@ kotlin {
                 compileOnly(compose.runtime)
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation(project(":genesis:common"))
+                implementation(libs.uninit.common)
+                implementation(libs.uninit.common.compose)
 
             }
 

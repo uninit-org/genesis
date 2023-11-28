@@ -13,9 +13,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.fytix.Result
+import uninit.common.fytix.Err
+import uninit.common.fytix.Ok
+import uninit.common.fytix.Result
 import uninit.genesisApi.types.Error
 import uninit.genesisApi.types.update.UpdateRequest
 import uninit.genesisApi.types.update.UpdateResponse

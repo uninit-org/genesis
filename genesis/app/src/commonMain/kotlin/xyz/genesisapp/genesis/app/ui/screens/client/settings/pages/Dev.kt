@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import uninit.genesis.common.preferences.PreferencesManager
+import uninit.common.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.app.ui.components.icons.Icons

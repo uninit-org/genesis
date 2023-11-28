@@ -1,9 +1,9 @@
 package uninit.genesis.app.ui.screens
 
 import io.github.aakira.napier.Napier
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.preferences.PreferencesManager
+import uninit.common.fytix.Err
+import uninit.common.fytix.Ok
+import uninit.common.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.app.ui.screens.auth.LoginScreen

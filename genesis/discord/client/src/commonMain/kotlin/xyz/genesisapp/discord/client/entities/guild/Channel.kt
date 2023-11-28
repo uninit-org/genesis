@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.EventBus
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.getTimeInMillis
+import uninit.common.fytix.Err
+import uninit.common.fytix.EventBus
+import uninit.common.fytix.Ok
+import uninit.common.getTimeInMillis
 import uninit.genesis.discord.api.domain.DomainMessage
 import uninit.genesis.discord.api.domain.UtcDateTime
 import uninit.genesis.discord.api.types.AssetType

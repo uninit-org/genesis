@@ -4,9 +4,9 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import uninit.genesis.common.LinearGradient
-import uninit.genesis.common.color
-import uninit.genesis.common.linearGradient
+import uninit.common.LinearGradient
+import uninit.common.color
+import uninit.common.linearGradient
 import uninit.genesis.app.theme.Theme
 
 object Catppuccin {

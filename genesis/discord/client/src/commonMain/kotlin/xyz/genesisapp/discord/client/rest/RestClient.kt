@@ -18,9 +18,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.json.Json
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.fytix.Result
+import uninit.common.fytix.Err
+import uninit.common.fytix.Ok
+import uninit.common.fytix.Result
 import uninit.genesis.discord.api.ApiError
 import uninit.genesis.discord.api.domain.DomainMessage
 import uninit.genesis.discord.api.domain.user.ApiUser

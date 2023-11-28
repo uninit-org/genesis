@@ -16,8 +16,8 @@ import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.Napier
 import org.koin.compose.KoinApplication
 import org.koin.compose.getKoin
-import uninit.genesis.common.compose.koin.uninitModule
-import uninit.genesis.common.preferences.PreferencesManager
+import uninit.common.compose.koin.uninitModule
+import uninit.common.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.app.data.DataStore

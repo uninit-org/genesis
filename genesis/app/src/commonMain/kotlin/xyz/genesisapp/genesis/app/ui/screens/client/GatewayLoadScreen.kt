@@ -1,7 +1,7 @@
 package uninit.genesis.app.ui.screens.client
 
 
-import uninit.genesis.common.preferences.PreferencesManager
+import uninit.common.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.app.ui.screens.GenericLoadingScreen
 

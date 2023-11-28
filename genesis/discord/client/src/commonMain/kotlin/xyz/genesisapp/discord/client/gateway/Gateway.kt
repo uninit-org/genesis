@@ -10,9 +10,9 @@ import io.ktor.serialization.kotlinx.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.fytix.result
+import uninit.common.fytix.Err
+import uninit.common.fytix.Ok
+import uninit.common.fytix.result
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.discord.client.gateway.entities.EmptyGatewayEvent

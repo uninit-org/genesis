@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
-import uninit.genesis.common.preferences.PreferencesManager
+import uninit.common.preferences.PreferencesManager
 import uninit.genesis.discord.api.domain.user.GuildFolder
 import uninit.genesis.discord.api.types.Snowflake
 import uninit.genesis.discord.client.GenesisClient

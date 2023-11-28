@@ -52,7 +52,8 @@ kotlin {
                 implementation(libs.kamel)
 
 
-                implementation(project(":genesis:common"))
+                implementation(libs.uninit.common)
+                implementation(libs.uninit.common.compose)
                 implementation(project(":genesis:discord:api"))
                 implementation(project(":genesis:discord:client"))
                 implementation(project(":genesis:genesisApi"))

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import uninit.genesis.common.fytix.EventBus
-import uninit.genesis.common.getTimeInMillis
+import uninit.common.fytix.EventBus
+import uninit.common.getTimeInMillis
 import uninit.genesis.discord.api.types.Snowflake
 import uninit.genesis.app.ui.screens.client.ClientTab
 

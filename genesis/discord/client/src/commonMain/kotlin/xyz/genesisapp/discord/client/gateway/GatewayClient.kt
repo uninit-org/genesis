@@ -20,7 +20,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import uninit.genesis.common.fytix.EventBus
+import uninit.common.fytix.EventBus
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.entities.guild.Channel
 import uninit.genesis.discord.client.enum.LogLevel

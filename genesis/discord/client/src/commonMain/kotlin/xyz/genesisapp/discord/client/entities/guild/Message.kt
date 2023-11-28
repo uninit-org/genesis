@@ -1,6 +1,6 @@
 package uninit.genesis.discord.client.entities.guild
 
-import uninit.genesis.common.getTimeInMillis
+import uninit.common.getTimeInMillis
 import uninit.genesis.discord.api.domain.DomainMessage
 import uninit.genesis.discord.api.domain.UtcDateTime
 import uninit.genesis.discord.api.types.Snowflake

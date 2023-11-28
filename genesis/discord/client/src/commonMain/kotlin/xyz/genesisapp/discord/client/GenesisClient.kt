@@ -2,10 +2,10 @@ package uninit.genesis.discord.client
 
 import androidx.compose.runtime.mutableStateMapOf
 import io.ktor.client.engine.*
-import uninit.genesis.common.fytix.Err
-import uninit.genesis.common.fytix.EventBus
-import uninit.genesis.common.fytix.Ok
-import uninit.genesis.common.fytix.Result
+import uninit.common.fytix.Err
+import uninit.common.fytix.EventBus
+import uninit.common.fytix.Ok
+import uninit.common.fytix.Result
 import uninit.genesis.discord.api.ApiError
 import uninit.genesis.discord.api.annotations.ExperimentalDiscordApi
 import uninit.genesis.discord.api.domain.DomainMessage
