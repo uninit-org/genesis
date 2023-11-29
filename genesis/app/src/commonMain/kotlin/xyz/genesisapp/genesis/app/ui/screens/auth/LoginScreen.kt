@@ -11,7 +11,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 import org.koin.compose.getKoin
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.app.ui.components.Centered

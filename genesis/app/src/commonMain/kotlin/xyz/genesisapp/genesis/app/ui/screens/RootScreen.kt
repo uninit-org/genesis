@@ -3,7 +3,7 @@ package uninit.genesis.app.ui.screens
 import io.github.aakira.napier.Napier
 import uninit.common.fytix.Err
 import uninit.common.fytix.Ok
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.enum.LogLevel
 import uninit.genesis.app.ui.screens.auth.LoginScreen
@@ -51,7 +51,8 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
     if (token.isNotEmpty()) {
         when (val result = genesisClient.tryTokenLogin(token)) {
             is Ok -> {
-                Napier.d("Logged in as ${result.value.username}",
+                Napier.d(
+                    "Logged in as ${result.value.username}",
                     null,
                     "Client::LOGIN"
                 )
@@ -59,7 +60,8 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
             }
 
             is Err -> {
-                Napier.w("Failed to login with token: ${result.error.message}",
+                Napier.w(
+                    "Failed to login with token: ${result.error.message}",
                     null,
                     "Client::LOGIN"
                 )
@@ -67,9 +69,11 @@ class RootScreen : GenericLoadingScreen(loadingText = "Welcome to Genesis", { ko
             }
         }
     } else {
-        Napier.d("No token found",
+        Napier.d(
+            "No token found",
             null,
-            "Client::LOGIN")
+            "Client::LOGIN"
+        )
         LoginScreen()
     }
 })

@@ -3,7 +3,7 @@ package uninit.genesis.app.di
 import androidx.compose.runtime.Composable
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.app.platform.android.LocalApplicationContext
 
 @Composable

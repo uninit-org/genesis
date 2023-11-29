@@ -15,7 +15,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
 import org.koin.core.Koin
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.app.data.DataStore
 import uninit.genesis.app.ui.components.Centered
 

@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import uninit.common.fytix.EventBus
+import uninit.common.compose.fytix.ComposableEventBus
 import uninit.common.getTimeInMillis
-import uninit.genesis.discord.api.types.Snowflake
 import uninit.genesis.app.ui.screens.client.ClientTab
+import uninit.genesis.discord.api.types.Snowflake
 
-class DataStore() : EventBus("DataStore") {
+class DataStore() : ComposableEventBus("DataStore") {
 
     var mobileUi by mutableStateOf(false)
     val shiggyEasterEgg by mutableStateOf(getTimeInMillis() % 10 == 0L)

@@ -2,8 +2,8 @@ package uninit.genesis.discord.client
 
 import androidx.compose.runtime.mutableStateMapOf
 import io.ktor.client.engine.*
+import uninit.common.compose.fytix.ComposableEventBus
 import uninit.common.fytix.Err
-import uninit.common.fytix.EventBus
 import uninit.common.fytix.Ok
 import uninit.common.fytix.Result
 import uninit.genesis.discord.api.ApiError
@@ -25,7 +25,7 @@ import uninit.genesis.discord.entities.guild.GuildMember
 class GenesisClient(
     httpClientEngineFactory: HttpClientEngineFactory<*>,
     enableAssetCache: Boolean = false
-) : EventBus("GenesisClient") {
+) : ComposableEventBus("GenesisClient") {
     lateinit var user: DomainMe // ClientUser
     lateinit var normalUser: User
     internal var loggedIn: Boolean = false

@@ -20,7 +20,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import uninit.common.fytix.EventBus
+import uninit.common.compose.fytix.ComposableEventBus
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.discord.client.entities.guild.Channel
 import uninit.genesis.discord.client.enum.LogLevel
@@ -36,8 +36,8 @@ import uninit.genesis.discord.client.gateway.types.events.Ready
 class GatewayClient(
     engineFactory: HttpClientEngineFactory<*>,
     val parentClient: GenesisClient,
-    val eventBus: EventBus = parentClient,
-) : EventBus("GatewayClient") {
+    val eventBus: ComposableEventBus = parentClient,
+) : ComposableEventBus("GatewayClient") {
     private val http = HttpClient(engineFactory) {
         install(WebSockets) {
             contentConverter = KotlinxWebsocketSerializationConverter(Json)

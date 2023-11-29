@@ -12,7 +12,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.discord.client.GenesisClient
 import uninit.genesis.app.ReloadClient
 import uninit.genesis.app.ui.components.User.Avatar

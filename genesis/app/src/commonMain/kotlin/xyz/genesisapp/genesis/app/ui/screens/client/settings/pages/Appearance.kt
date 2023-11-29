@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.app.ui.components.icons.Icons
 import uninit.genesis.app.ui.components.icons.icons.Empty
 

@@ -41,7 +41,7 @@ import io.kamel.image.KamelImageBox
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.getKoin
-import uninit.common.preferences.PreferencesManager
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.discord.api.types.Snowflake
 import uninit.genesis.discord.api.types.timestamp
 import uninit.genesis.discord.client.GenesisClient

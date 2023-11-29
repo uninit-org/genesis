@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import org.koin.compose.getKoin
-import uninit.common.preferences.PreferencesManager
-import uninit.genesis.discord.client.GenesisClient
-import uninit.genesis.discord.client.enum.LogLevel
+import uninit.common.compose.preferences.PreferencesManager
 import uninit.genesis.app.ui.components.icons.Icons
 import uninit.genesis.app.ui.components.icons.icons.Empty
+import uninit.genesis.discord.client.GenesisClient
+import uninit.genesis.discord.client.enum.LogLevel
 
 internal object DevSettings : Tab {
     override val options: TabOptions

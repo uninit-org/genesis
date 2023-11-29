@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
+import uninit.common.compose.fytix.ComposableEventBus
 import uninit.common.fytix.Err
-import uninit.common.fytix.EventBus
 import uninit.common.fytix.Ok
 import uninit.common.getTimeInMillis
 import uninit.genesis.discord.api.domain.DomainMessage
@@ -34,7 +34,7 @@ class Channel(
     val recipients: MutableList<User> = mutableListOf(),
     val icon: Asset? = null,
     val lastMessageId: Snowflake? = null,
-) : EventBus("Channel$id") {
+) : ComposableEventBus("Channel$id") {
     val messages = mutableStateListOf<Message>()
 
     /**
