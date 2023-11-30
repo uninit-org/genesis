@@ -22,8 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
@@ -62,7 +60,6 @@ internal object SettingsTab : Tab {
     override fun Content() {
         val koin = getKoin()
         val dataStore = koin.get<DataStore>()
-        val navigator = LocalNavigator.currentOrThrow
 
         var isSettingOpen by remember { mutableStateOf(false) }
         Box {

@@ -24,7 +24,6 @@ import uninit.genesis.discord.entities.guild.GuildMember
 @OptIn(ExperimentalDiscordApi::class)
 class GenesisClient(
     httpClientEngineFactory: HttpClientEngineFactory<*>,
-    enableAssetCache: Boolean = false
 ) : ComposableEventBus("GenesisClient") {
     lateinit var user: DomainMe // ClientUser
     lateinit var normalUser: User

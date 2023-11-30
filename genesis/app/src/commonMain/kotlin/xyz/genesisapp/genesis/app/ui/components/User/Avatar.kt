@@ -19,7 +19,6 @@ import uninit.genesis.discord.client.entities.guild.User
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun Avatar(author: User, modifier: Modifier = Modifier) {
-    val scope = rememberCoroutineScope()
     Box(
         modifier = modifier
             .width(32.dp)

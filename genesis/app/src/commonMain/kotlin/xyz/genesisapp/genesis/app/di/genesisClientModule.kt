@@ -5,5 +5,5 @@ import uninit.genesis.discord.client.GenesisClient
 
 
 fun genesisClientModule() = module {
-    single { GenesisClient(get(), enableAssetCache = true) }
+    single { GenesisClient(get()) }
 }
