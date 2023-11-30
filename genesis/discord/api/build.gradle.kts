@@ -68,31 +68,15 @@ android {
 version = "0.0.1"
 
 publishing {
-    var versionStr = project.version.toString()
-    val ci = System.getenv("CI") != null && System.getenv("GITHUB_EVENT_NAME") != "release"
-    var repo = "releases"
-    if (ci) {
-        val commitHash = System.getenv("GITHUB_SHA").slice(0..6)
-        versionStr += "-#$commitHash"
-        repo = "snapshots"
-    }
-    repositories {
-        maven {
-            name = "uninit"
-            url = uri("https://repo.uninit.dev/$repo")
-            credentials {
-                username = "admin"
-                password = System.getenv("REPOSILITE_PASSWORD")
-            }
-        }
+    @Suppress("UNCHECKED_CAST")
+    (extra["maven-repository"] as (PublishingExtension.() -> Unit)?)?.invoke(this)
 
-    }
     publications {
         create<MavenPublication>("uninit.genesis-discord-api") {
             groupId = "uninit"
             artifactId = "genesis-discord-api"
-            version = versionStr
+            version = project.version.toString()
+            from(components["kotlin"])
         }
     }
-
 }

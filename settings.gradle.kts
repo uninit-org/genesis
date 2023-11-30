@@ -14,6 +14,8 @@ dependencyResolutionManagement {
         google()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://repo.uninit.dev/snapshots")
+        maven("https://repo.uninit.dev/releases")
+        maven("https://repo.uninit.dev/local")
 
     }
 }
