@@ -2,7 +2,6 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     alias(libs.plugins.kotlinx.serialization)
-    `maven-publish`
 }
 
 kotlin {
@@ -61,22 +60,5 @@ android {
     }
     kotlin {
         jvmToolchain(17)
-    }
-}
-
-
-version = "0.0.1"
-
-publishing {
-    @Suppress("UNCHECKED_CAST")
-    (extra["maven-repository"] as (PublishingExtension.() -> Unit)?)?.invoke(this)
-
-    publications {
-        create<MavenPublication>("uninit.genesis-discord-api") {
-            groupId = "uninit"
-            artifactId = "genesis-discord-api"
-            version = project.version.toString()
-            from(components["kotlin"])
-        }
     }
 }

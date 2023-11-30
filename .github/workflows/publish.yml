@@ -20,11 +20,6 @@ jobs:
           distribution: "temurin"
           cache: "gradle"
 
-      - name: Cache genesisDiscordApi
-        uses: actions/cache@v3
-        with:
-          path: genesis/discord/api/build
-          key: ${{ runner.os }}-genesis-discord-api-${{ hashFiles('genesis/discord/api/**', 'build.gradle.kts', 'gradle.properties', 'gradle/libs.versions.toml') }}
       - name: Cache genesisDiscordClient
         uses: actions/cache@v3
         with:
