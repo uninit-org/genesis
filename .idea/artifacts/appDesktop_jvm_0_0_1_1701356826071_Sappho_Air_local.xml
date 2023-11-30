@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="appDesktop-jvm-0.0.1-1701356826071#Sappho-Air.local">
+    <output-path>$PROJECT_DIR$/appDesktop/build/libs</output-path>
+    <root id="archive" name="appDesktop-jvm-0.0.1-1701356826071#Sappho-Air.local.jar">
+      <element id="module-output" name="uninit.appDesktop.jvmMain" />
+    </root>
+  </artifact>
+</component>

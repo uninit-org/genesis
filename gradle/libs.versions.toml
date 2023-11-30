@@ -1,5 +1,5 @@
 [versions]
-uninit = "0.0.1-20231130-7f7835b"
+uninit = "0.0.1-20231130-7d823d9"
 kotlin = "1.9.20"
 serialization = "1.6.1"
 android = "8.1.2"
